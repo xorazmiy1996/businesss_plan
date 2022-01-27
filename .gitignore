@@ -1,0 +1,6 @@
+#Ignored folders
+.idea
+staticfiles
+media
+venv
+
