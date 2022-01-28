@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from time import time
 from django.shortcuts import reverse
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
 PROVINCE_CHOICES = [
     ("Andijon viloyati", "Andijon viloyati"),
@@ -68,12 +69,16 @@ class BusinessPlan(Base):
 
 
 # SystemUser
-class User(Base):
+class User(Base, AbstractUser):
     # fields of the model
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     role = models.CharField(choices=ROLE_CHOOSE)
     percentage = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
 
     def __str__(self):
         return self.user.full_name
