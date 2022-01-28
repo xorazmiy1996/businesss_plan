@@ -99,6 +99,8 @@ class Application(Base):
     working_phone = models.CharField(max_length=15)
     viewed = models.BooleanField()
 
+    # ?????
+
 
 # BusinessPlan
 class BusinessPlan(Base):
