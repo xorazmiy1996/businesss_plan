@@ -53,21 +53,6 @@ class Base(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# BusinessPlan
-class BusinessPlan(Base):
-    # fields of the model
-    image = models.ImageField()
-    name_business = models.CharField(max_length=70)
-    money_min = models.IntegerField()
-    profit_year = models.IntegerField()
-    profit_month = models.IntegerField()
-    cost = models.IntegerField()
-    text_min = models.TextField(max_length=100)
-
-    def __str__(self):
-        return self.name_business
-
-
 # SystemUser
 class User(Base, AbstractUser):
     # fields of the model
@@ -81,7 +66,7 @@ class User(Base, AbstractUser):
         verbose_name_plural = 'users'
 
     def __str__(self):
-        return self.user.full_name
+        return self.first_name
 
 
 # Order
@@ -97,22 +82,34 @@ class Order(Base):
     operator = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='operator')
     user = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='user')
 
-    def get_absolute_url(self):
-        return reverse('order_detail_url', kwargs={'slug': self.slug})
-
     def __str__(self):
-        return self.first_name
+        return self.price
 
 
 # Phone
 class Phone(Base):
-
+    phone = models.ForeignKey(User, on_delete=models.CASCADE, related_name='phone')
     number = models.CharField(max_length=15)
 
-    id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='phone')
+    def __str__(self):
+        return self.number
 
-    def get_absolute_url(self):
-        return reverse('contact_detail_url', kwargs={'slug': self.slug})
+
+class Application(Base):
+    working_phone = models.CharField(max_length=15)
+    viewed = models.BooleanField()
+
+
+# BusinessPlan
+class BusinessPlan(Base):
+    # fields of the model
+    image = models.ImageField()
+    name_business = models.CharField(max_length=70)
+    money_min = models.IntegerField()
+    profit_year = models.IntegerField()
+    profit_month = models.IntegerField()
+    cost = models.IntegerField()
+    text_min = models.TextField(max_length=100)
 
     def __str__(self):
-        return self.phone_number
+        return self.name_business
