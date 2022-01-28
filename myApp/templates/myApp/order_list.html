@@ -1,0 +1,37 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+
+    <div class="card">
+       <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Add phone</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">province</th>
+            <th scope="col">Types of business</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <th scope="row">{{ object.id }}</th>
+                <td>{{ object.additional_telephone }}</td>
+                <td>{{ object.first_name }}</td>
+                <td>{{ object.last_name }}</td>
+                <td>{{ object.province }}</td>
+                <td>{{ object.types_of_business }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+
+{% endblock %}

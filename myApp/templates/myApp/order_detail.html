@@ -1,0 +1,59 @@
+{% extends 'base_admin.html' %}
+{% block title %}  {% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">Order</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    <tr>
+                        <td>First name:</td>
+                        <td>{{ object.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Last name:</td>
+                        <td>{{ object.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Types of business:</td>
+                        <td>{{ object.types_of_business }}</td>
+                    </tr>
+                    <tr>
+                        <td>Province:</td>
+                        <td>{{ object.province }}</td>
+                    </tr>
+                    <tr>
+                        <td>Additional telephone:</td>
+                        <td>{{ object.additional_telephone }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

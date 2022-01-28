@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import OrderModel, ContactModel, SystemUserModel, BusinessPlanModel
+from .models import Order, Contact, User, BusinessPlan
 
-admin.site.register(BusinessPlanModel)
-admin.site.register(ContactModel)
-admin.site.register(OrderModel)
-admin.site.register(SystemUserModel)
+admin.site.register(BusinessPlan)
+admin.site.register(Contact)
+admin.site.register(Order)
+admin.site.register(User)

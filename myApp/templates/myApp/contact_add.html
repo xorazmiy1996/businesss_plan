@@ -12,7 +12,9 @@
             <div class="row pt-45">
                 <div class="card" style="width: 900px;margin-left: 130px ">
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data">
+
+                        <div class="case-article">
+                             <form method="POST" enctype="multipart/form-data">
 
                             <!-- Security token -->
                             {% csrf_token %}
@@ -22,6 +24,8 @@
 
                             <input type="submit" value="Submit">
                         </form>
+                        </div>
+
                     </div>
                 </div>
 

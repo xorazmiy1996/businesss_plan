@@ -1,8 +1,12 @@
 {% extends 'base_admin.html' %}
 
+{% block title %}{% endblock %}
+
 {% block content %}
 
-     <form method="POST" enctype="multipart/form-data">
+    <div class="card">
+         <div style="margin: 40px;">
+       <form method="POST" enctype="multipart/form-data">
 
                             <!-- Security token -->
                             {% csrf_token %}
@@ -12,5 +16,11 @@
 
                             <input type="submit" value="Submit">
                         </form>
+    </div>
+    </div>
+    
+
+
+
 
 {% endblock %}

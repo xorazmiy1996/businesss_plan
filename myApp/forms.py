@@ -1,11 +1,11 @@
 from django import forms
-from .models import ContactModel, OrderModel
+from .models import Contact, Order
 
 
 # USER FORMS model
 class ContactForms(forms.ModelForm):
     class Meta:
-        model = ContactModel
+        model = Contact
         fields = ['phone_number']
 
         widgets = {
@@ -16,5 +16,5 @@ class ContactForms(forms.ModelForm):
 
 class OrderForms(forms.ModelForm):
     class Meta:
-        model = OrderModel
-        fields = ['first_name', 'last_name', 'province', 'region', 'additional_telephone']
+        model = Order
+        fields = ['first_name', 'last_name', 'province', 'region', 'additional_telephone', 'types_of_business']

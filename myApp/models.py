@@ -21,6 +21,14 @@ PROVINCE_CHOICES = [
 
 ]
 
+ROLE_CHOOSE = [
+    ("admin", "admin"),
+    ("Operator", "Operator"),
+    ("Worker", "Worker"),
+    ("user", "user"),
+
+]
+
 PLANNING_CHOICES = [
     ("BUSINESS_1", "BUSINESS_1"),
     ("BUSINESS_2", "BUSINESS_2"),
@@ -38,15 +46,14 @@ POSITION_CHOICES = [
 ]
 
 
-class BaseModel(models.Model):
+class Base(models.Model):
     # fields of the model
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 # BusinessPlan
-class BusinessPlanModel(BaseModel):
-
+class BusinessPlan(Base):
     # fields of the model
     image = models.ImageField()
     name_business = models.CharField(max_length=70)
@@ -61,10 +68,12 @@ class BusinessPlanModel(BaseModel):
 
 
 # SystemUser
-class SystemUserModel(BaseModel):
+class User(Base):
     # fields of the model
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="system_user")
-    position = models.CharField(max_length=50, choices=POSITION_CHOICES)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    role = models.CharField(choices=ROLE_CHOOSE)
+    percentage = models.IntegerField()
 
     def __str__(self):
         return self.user.full_name
@@ -72,32 +81,33 @@ class SystemUserModel(BaseModel):
 
 # Order
 
-class OrderModel(BaseModel):
-    # fields of the model
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+class Order(Base):
     province = models.CharField(max_length=50, choices=PROVINCE_CHOICES)
     region = models.CharField(max_length=50)
-    additional_telephone = models.CharField(max_length=50)
+    business_name = models.CharField(max_length=50)
+    business_type = models.CharField(max_length=50, choices=PLANNING_CHOICES)
+    price = models.IntegerField()
 
+    worker = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='worker')
+    operator = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='operator')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='user')
 
-    types_of_business = models.CharField(max_length=50, choices=PLANNING_CHOICES)
-    order_id = models.ForeignKey(SystemUserModel, null=True, on_delete=models.CASCADE, related_name='orders')
+    def get_absolute_url(self):
+        return reverse('order_detail_url', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.first_name
 
-    class Meta:
-        verbose_name = 'order'
-        verbose_name_plural = 'orders'
 
+# Phone
+class Phone(Base):
 
-# Contact
-class ContactModel(BaseModel):
-    # fields of the model
-    phone_number = models.CharField(max_length=15)
-    order_information = models.OneToOneField(OrderModel, null=True, on_delete=models.CASCADE, related_name='contact')
-    contact_id = models.ForeignKey(SystemUserModel, null=True, on_delete=models.CASCADE)
+    number = models.CharField(max_length=15)
+
+    id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='phone')
+
+    def get_absolute_url(self):
+        return reverse('contact_detail_url', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.phone_number
