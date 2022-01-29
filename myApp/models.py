@@ -48,25 +48,22 @@ POSITION_CHOICES = [
 
 
 class Base(models.Model):
-    # fields of the model
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# SystemUser
-class User(Base, AbstractUser):
-    # fields of the model
+class User(AbstractUser, Base):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    role = models.CharField(choices=ROLE_CHOOSE)
-    percentage = models.IntegerField()
+    role = models.CharField(max_length=100,choices=ROLE_CHOOSE)
+    percentage = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
     def __str__(self):
-        return self.first_name
+        return self.get_username()
 
 
 # Order
@@ -74,21 +71,21 @@ class User(Base, AbstractUser):
 class Order(Base):
     province = models.CharField(max_length=50, choices=PROVINCE_CHOICES)
     region = models.CharField(max_length=50)
-    business_name = models.CharField(max_length=50)
+    business_name = models.CharField(max_length=100)
     business_type = models.CharField(max_length=50, choices=PLANNING_CHOICES)
     price = models.IntegerField()
 
-    worker = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='worker')
-    operator = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='operator')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, releted_name='user')
+    worker_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='worker_orders')
+    operator_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='operator_orders')
+    user_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_orders')
 
     def __str__(self):
-        return self.price
+        return self.business_name
 
 
 # Phone
 class Phone(Base):
-    phone = models.ForeignKey(User, on_delete=models.CASCADE, related_name='phone')
+    operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='operator_name')
     number = models.CharField(max_length=15)
 
     def __str__(self):
@@ -100,13 +97,11 @@ class Application(Base):
     viewed = models.BooleanField()
 
 
-
-
 # BusinessPlan
 class BusinessPlan(Base):
     # fields of the model
     image = models.ImageField()
-    name_business = models.CharField(max_length=70)
+    name_business = models.CharField(max_length=100)
     money_min = models.IntegerField()
     profit_year = models.IntegerField()
     profit_month = models.IntegerField()
