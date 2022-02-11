@@ -4,26 +4,29 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    # path('', BusinessPlanList.as_view(), name='business_plan_list_url'),
-    #
-    #
-    #
-    # path('business/', BusinessPlanAdd.as_view(), name='business_plan_add_url'),
-    # path('contact/', ContactAdd.as_view(), name='contact_add_url'),
-    # path('order/', OrderAdd.as_view(), name='order_add_url'),
-    #
-    #
-    # path('contact_list/', ContactList.as_view(), name='contact_list_url'),
-    # path('order_list/', OrderList.as_view(), name='order_list_url'),
-    #
-    #
-    # path('contact/<pk>/', ContactDetailsView.as_view(), name='contact_detail_url'),
-    # path('order/<pk>/', OrderDetailView.as_view(), name='order_detail_url'),
-    #
 
+    path('answer/', answer, name='answer_url'),
 
+    path('about/', about, name='about_url'),
 
+    path('contact/', contact, name='contact_url'),
+    path('payme/', payme, name='payme_url'),
 
+    path('register/', RegisterPage.as_view(), name='register_url'),
 
+    path('petition/', PetitiontAdd.as_view(), name='petition_add_url'),
+
+    path('order_list/', OrderList.as_view(), name='order_list_url'),
+
+    path('worker_order_list/', WorkerOrderList.as_view(), name='worker_order_list_url'),
+
+    path('operator_list/', OperatorList.as_view(), name='operator_list_url'),
+
+    path('worker_list/', WorkerList.as_view(), name='worker_list_url'),
+
+    path('order/<pk>/', OrderDetailView.as_view(), name='order_detail_url'),
+
+    path('order/<pk>/update/', OrderUpdate.as_view(), name='order_update_url'),
+    path('worker/<pk>/update/', WorkerUpdate.as_view(), name='worker_update_url'),
 
 ]

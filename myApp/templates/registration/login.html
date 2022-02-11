@@ -1,0 +1,66 @@
+{% extends 'base_registrations.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Saytga kirish{% endblock title %}
+
+{% block content %}
+    <h2>Saytga kirish</h2>
+    <form method="post" action="{% url 'login' %}">{% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success ml-2" type="submit">Kirish</button>
+        <a class="btn btn-outline-danger" href="{% url 'password_reset'  %}" role="button">Kalit so'zni tiklash</a>
+    </form>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#{% extends 'base_registrations.html' %}#}
+{#{% load crispy_forms_tags %}#}
+{#{% block title %}  {% endblock %}#}
+{##}
+{##}
+{#{% block content %}#}
+{##}
+{#    <br>#}
+{#    <br>#}
+{#    <br>#}
+{#    <br>#}
+{#    <br>#}
+{#    <br>#}
+{#    <br>#}
+{#    <form method="post" action="{% url 'login' %}">#}
+{#        {% csrf_token %}#}
+{#        {{ form | crispy }}#}
+{#        <br>#}
+{#        <button class="btn btn-primary" type="submit"/>Login</button>#}
+{#    </form>#}
+{##}
+{##}
+{#      <p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#{% endblock %}#}

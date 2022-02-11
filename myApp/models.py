@@ -1,9 +1,9 @@
 from django.db import models
-from django.utils.text import slugify
-from time import time
-from django.shortcuts import reverse
-from django.conf import settings
+from django.contrib.auth.models import UserManager
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import pre_save
+from django.db.models import signals
+from django.dispatch import receiver
 
 PROVINCE_CHOICES = [
     ("Andijon viloyati", "Andijon viloyati"),
@@ -46,6 +46,13 @@ POSITION_CHOICES = [
 
 ]
 
+BOOLEAN_CHOOSE = [
+    ("100% to'langan", "100% to'langan"),
+    ("50% to'langan", "50% to'langan"),
+    ("25% to'langan", "25% to'langan"),
+    ("to'lanmagan", "to'lanmagan"),
+]
+
 
 class Base(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -55,12 +62,15 @@ class Base(models.Model):
 class User(AbstractUser, Base):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    role = models.CharField(max_length=100,choices=ROLE_CHOOSE)
+    role = models.CharField(max_length=100, choices=ROLE_CHOOSE)
     percentage = models.IntegerField(null=True, blank=True)
 
-    class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+    objects = UserManager()
+
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
+        verbose_name = 'user1'
+        verbose_name_plural = 'users1'
 
     def __str__(self):
         return self.get_username()
@@ -69,18 +79,31 @@ class User(AbstractUser, Base):
 # Order
 
 class Order(Base):
-    province = models.CharField(max_length=50, choices=PROVINCE_CHOICES)
-    region = models.CharField(max_length=50)
-    business_name = models.CharField(max_length=100)
-    business_type = models.CharField(max_length=50, choices=PLANNING_CHOICES)
-    price = models.IntegerField()
+    phone_number = models.CharField(max_length=15)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    province = models.CharField(max_length=50, choices=PROVINCE_CHOICES, blank=True)
+    region = models.CharField(max_length=50, blank=True)
+    business_name = models.CharField(max_length=100, blank=True)
+    business_type = models.CharField(max_length=50, choices=PLANNING_CHOICES, blank=True)
+    payme = models.CharField(max_length=50, choices=BOOLEAN_CHOOSE, null=True, blank=True)
 
-    worker_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='worker_orders')
-    operator_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='operator_orders')
-    user_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_orders')
+    # price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(default=0)
+
+    worker_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='worker_orders', blank=True,
+                                     null=True)
+    operator_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='operator_orders', blank=True,
+                                       null=True)
+    user_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_orders', blank=True, null=True)
 
     def __str__(self):
-        return self.business_name
+        return self.phone_number
+
+    @property
+    def operator_income(self):
+        if self.payme:
+            return int(self.price) * 0.15
 
 
 # Phone
@@ -92,21 +115,15 @@ class Phone(Base):
         return self.number
 
 
-class Application(Base):
-    working_phone = models.CharField(max_length=15)
-    viewed = models.BooleanField()
-
-
-# BusinessPlan
-class BusinessPlan(Base):
-    # fields of the model
-    image = models.ImageField()
-    name_business = models.CharField(max_length=100)
-    money_min = models.IntegerField()
-    profit_year = models.IntegerField()
-    profit_month = models.IntegerField()
-    cost = models.IntegerField()
-    text_min = models.TextField(max_length=100)
+class Petition(Base):
+    working_phone = models.CharField(max_length=15, blank=True)
+    viewed = models.BooleanField(null=True)
 
     def __str__(self):
-        return self.name_business
+        return self.working_phone
+
+
+@receiver(signals.post_save, sender=Petition)
+def order_create(sender, instance, **kwargs):
+    phone_number = Order.objects.create(phone_number=Petition.objects.last())
+    instance.phone_number = phone_number

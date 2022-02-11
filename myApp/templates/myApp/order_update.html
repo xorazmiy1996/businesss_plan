@@ -2,6 +2,8 @@
 
 {% block title %}{% endblock %}
 
+
+
 {% block sidebar %}
     <li class="nav-item">
         <a class="nav-link " href="{% url 'order_list_url' %}">
@@ -30,20 +32,16 @@
 {% block content %}
 
     <div class="card">
-         <div style="margin: 40px;">
-       <form method="POST" enctype="multipart/form-data">
+        <div style="margin: 40px;">
 
-                            <!-- Security token -->
-                            {% csrf_token %}
-
-                            <!-- Using the formset -->
-                            {{ form.as_p }}
-
-                            <input type="submit" value="Submit">
-                        </form>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
     </div>
-    </div>
-    
+
 
 
 
