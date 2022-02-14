@@ -4,6 +4,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('answer/', answer, name='answer_url'),
+
 
     path('answer/', answer, name='answer_url'),
 

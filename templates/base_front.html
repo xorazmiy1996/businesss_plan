@@ -29,8 +29,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
 
     <link rel="icon" type="image/png" href="{% static 'assets/images/favicon.png' %}">
-{#    <--CSS file-->#}
-     <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+    {#    <--CSS file-->#}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <title>{% block title %} Biju - Technology Services HTML Template {% endblock %}</title>
 
@@ -51,8 +51,8 @@
             <div class="col-lg-7 col-md-6">
                 <div class="top-head-left">
                     <div class="top-contact">
-{#                        +99 (893) 090-1008#}
-                        <h3>Biz bilan aloqa : <a href="tel:+1(212)-255-5511">+99 (893) 090-1007  </a></h3>
+                        {#                        +99 (893) 090-1008#}
+                        <h3>Biz bilan aloqa : <a href="tel:+1(212)-255-5511">+99 (893) 090-10-07 </a></h3>
                     </div>
                 </div>
             </div>
@@ -80,6 +80,44 @@
                                     <i class='bx bxl-instagram'></i>
                                 </a>
                             </li>
+
+
+                            <li>
+
+                                {% if user.is_authenticated %}
+                                    {% if user.role == 'Operator' %}
+                                        <a class="nav-link dropdown-toggle" href="order_list/"
+                                                role="button"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                {{ user.role | title }}
+                                     </a>
+                                    {% endif %}
+
+                                    {% if user.role == 'Worker' %}
+                                         <a class="nav-link dropdown-toggle" href="worker_list/"
+                                               id="navbarDropdown" role="button" data-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                {{ user.role | title }}
+                                         </a>
+                                     {% endif %}
+                                    {% if user.role == 'admin' %}
+                                         <a class="nav-link dropdown-toggle" href="register/"
+                                               id="navbarDropdown" role="button" data-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                {{ user.role | title }}
+                                          </a>
+
+                                     {% endif %}
+
+
+
+
+                                {% endif %}
+
+
+                            </li>
+
+
                         </ul>
                     </div>
                 </div>
@@ -222,8 +260,8 @@
                             auct.Aenean, lorem quis bibendum auct. Aenean sollicitudin lorem.
                         </p>
                         <div class="footer-call-content">
-                            <h3>Talk to Our Support</h3>
-                            <span><a href="tel:+1002-123-4567">+1 002-123-4567</a></span>
+                            <h3>Bizga murojat qiling</h3>
+                            <span><a href="tel:+1002-123-4567">+99 (893) 090-10-07</a></span>
                             <i class='bx bx-headphone'></i>
                         </div>
                     </div>
@@ -278,38 +316,38 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
-{#                    <div class="footer-widget pl-5">#}
-{#                        <h3>Our Blog</h3>#}
-{#                        <ul class="footer-blog">#}
-{#                            <li>#}
-{#                                <a href="blog-details.html">#}
-{#                                    <img src="{% static 'assets/images/blog/blog-img-footer.jpg' %}" alt="Images">#}
-{#                                </a>#}
-{#                                <div class="content">#}
-{#                                    <h3><a href="blog-details.html">Product Idea Solution For New Generation</a></h3>#}
-{#                                    <span>04 Dec 2020</span>#}
-{#                                </div>#}
-{#                            </li>#}
-{#                            <li>#}
-{#                                <a href="blog-details.html">#}
-{#                                    <img src="{% static 'assets/images/blog/blog-img-footer2.jpg' %}" alt="Images">#}
-{#                                </a>#}
-{#                                <div class="content">#}
-{#                                    <h3><a href="blog-details.html">New Device Invention for Digital Platform</a></h3>#}
-{#                                    <span>07 Dec 2020</span>#}
-{#                                </div>#}
-{#                            </li>#}
-{#                            <li>#}
-{#                                <a href="blog-details.html">#}
-{#                                    <img src="{% static 'assets/images/blog/blog-img-footer3.jpg' %}" alt="Images">#}
-{#                                </a>#}
-{#                                <div class="content">#}
-{#                                    <h3><a href="blog-details.html">Business Strategy Make His Goal Acheive</a></h3>#}
-{#                                    <span>10 Dec 2020</span>#}
-{#                                </div>#}
-{#                            </li>#}
-{#                        </ul>#}
-{#                    </div>#}
+                    {#                    <div class="footer-widget pl-5">#}
+                    {#                        <h3>Our Blog</h3>#}
+                    {#                        <ul class="footer-blog">#}
+                    {#                            <li>#}
+                    {#                                <a href="blog-details.html">#}
+                    {#                                    <img src="{% static 'assets/images/blog/blog-img-footer.jpg' %}" alt="Images">#}
+                    {#                                </a>#}
+                    {#                                <div class="content">#}
+                    {#                                    <h3><a href="blog-details.html">Product Idea Solution For New Generation</a></h3>#}
+                    {#                                    <span>04 Dec 2020</span>#}
+                    {#                                </div>#}
+                    {#                            </li>#}
+                    {#                            <li>#}
+                    {#                                <a href="blog-details.html">#}
+                    {#                                    <img src="{% static 'assets/images/blog/blog-img-footer2.jpg' %}" alt="Images">#}
+                    {#                                </a>#}
+                    {#                                <div class="content">#}
+                    {#                                    <h3><a href="blog-details.html">New Device Invention for Digital Platform</a></h3>#}
+                    {#                                    <span>07 Dec 2020</span>#}
+                    {#                                </div>#}
+                    {#                            </li>#}
+                    {#                            <li>#}
+                    {#                                <a href="blog-details.html">#}
+                    {#                                    <img src="{% static 'assets/images/blog/blog-img-footer3.jpg' %}" alt="Images">#}
+                    {#                                </a>#}
+                    {#                                <div class="content">#}
+                    {#                                    <h3><a href="blog-details.html">Business Strategy Make His Goal Acheive</a></h3>#}
+                    {#                                    <span>10 Dec 2020</span>#}
+                    {#                                </div>#}
+                    {#                            </li>#}
+                    {#                        </ul>#}
+                    {#                    </div>#}
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="footer-widget">

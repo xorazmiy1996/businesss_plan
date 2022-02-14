@@ -9,6 +9,8 @@ from django.contrib.auth.views import LoginView
 from .forms import AdminUserCreationForm, OrderForm, PetitionForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 
 
 def answer(request):

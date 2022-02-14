@@ -16,10 +16,10 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #F4B41A;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
     <a class="navbar-brand" href="">
-        <img src="/static/assets/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        SariqDEV Blog
+        <img src="{% static '/assets/images/logos/footer-logo.png' %}"  class="d-inline-block align-top" alt="">
+
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -54,7 +54,11 @@
         {% endif %}
     </div>
 </nav>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 <main>
     <div class="container">
         {% block content %}
