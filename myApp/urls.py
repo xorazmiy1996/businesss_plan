@@ -14,11 +14,14 @@ urlpatterns = [
     path('contact/', contact, name='contact_url'),
     path('payme/', payme, name='payme_url'),
 
+    path('grant/', GrantProjectsAdd.as_view(), name='grant_url'),
+
     path('register/', RegisterPage.as_view(), name='register_url'),
 
     path('petition/', PetitiontAdd.as_view(), name='petition_add_url'),
 
     path('order_list/', OrderList.as_view(), name='order_list_url'),
+    path('user_list/', UserList.as_view(), name='user_list_url'),
 
     path('worker_order_list/', WorkerOrderList.as_view(), name='worker_order_list_url'),
 

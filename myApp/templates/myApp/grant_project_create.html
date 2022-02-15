@@ -1,0 +1,52 @@
+{% extends 'base_admin.html' %}
+
+
+{% block title %}{% endblock %}
+
+{% block sidebar %}
+    <li class="nav-item">
+        <a class="nav-link " href="#">
+            <i class="bi bi-grid"></i>
+            <span>Grantlar</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'register_url' %}">
+            <i class="bi bi-person"></i>
+            <span>User yaratish</span>
+        </a>
+    </li><!-- End Profile Page Nav -->
+
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+        </a>
+    </li><!-- End Login Page Nav -->
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+         <div style="margin: 40px;">
+       <form method="POST" enctype="multipart/form-data">
+
+                            <!-- Security token -->
+                            {% csrf_token %}
+
+                            <!-- Using the formset -->
+                            {{ form.as_p }}
+
+                            <input type="submit" value="Submit">
+                        </form>
+    </div>
+    </div>
+
+
+
+
+
+{% endblock %}

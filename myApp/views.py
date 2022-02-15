@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.views import LoginView
-from .forms import AdminUserCreationForm, OrderForm, PetitionForm
+from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -154,3 +154,17 @@ class WorkerOrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         queryset = super().get_queryset()
         return queryset.filter(
             Q(operator_field__isnull=False) and Q(payme__isnull=False) and Q(worker_field__isnull=False))
+
+
+# Grant  Projects
+class GrantProjectsAdd(CreateView):
+    model = GrantProject
+    form_class = GrantForm
+    template_name = 'myApp/grant_project_create.html'
+    # success_url = reverse_lazy('answer_url')
+
+
+# User List
+class UserList(ListView):
+    model = User
+    template_name = 'myApp/user_list.html'

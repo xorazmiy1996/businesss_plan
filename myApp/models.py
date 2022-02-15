@@ -31,11 +31,10 @@ ROLE_CHOOSE = [
 ]
 
 PLANNING_CHOICES = [
-    ("BUSINESS_1", "BUSINESS_1"),
-    ("BUSINESS_2", "BUSINESS_2"),
-    ("BUSINESS_3", "BUSINESS_3"),
-    ("BUSINESS GRANTS 1", "BUSINESS GRANTS 1"),
-    ("BUSINESS GRANTS 2", "BUSINESS GRANTS 2"),
+    ("Biznes Reja", "Biznes Reja"),
+    ("TEO", "TEO"),
+    ("Grand", "Grand"),
+
 
 ]
 
@@ -127,3 +126,14 @@ class Petition(Base):
 def order_create(sender, instance, **kwargs):
     phone_number = Order.objects.create(phone_number=Petition.objects.last())
     instance.phone_number = phone_number
+
+
+class GrantProject(Base):
+    organization = models.CharField(max_length=150)
+    project_name = models.CharField(max_length=150)
+    price = models.IntegerField(default=0)
+    end_time = models.DateTimeField()
+    link = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.project_name

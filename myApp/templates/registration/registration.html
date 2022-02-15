@@ -1,20 +1,55 @@
-
-{% extends 'base_registrations.html' %}
+{% extends 'base_admin.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %} {% endblock %}
+
+
+{% block title %}{% endblock %}
+
+{% block sidebar %}
+    <li class="nav-item">
+        <a class="nav-link " href="{% url 'grant_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>Grantlar yaratish</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+            <i class="bi bi-person"></i>
+            <span>Mening buyurtmalarim</span>
+        </a>
+    </li><!-- End Profile Page Nav -->
+
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+        </a>
+    </li><!-- End Login Page Nav -->
+
+{% endblock %}
+
 
 
 {% block content %}
 
+    <h1>Ro'yhatdan o'tish</h1>
+    <form action="" method="post"> {% csrf_token %}
+        {{ form | crispy }}
 
-<h1>Ro'yhatdaan o'tish</h1>
-<form action="" method="post"> {% csrf_token %}
-    {{ form | crispy }}
+        <button class="btn btn-primary" type="submit">Saqlash</button>
 
-    <button class="btn btn-primary" type="submit">Saqlash</button>
+        Have an account already? <a href="{% url 'login' %}"> Login Nov</a>
 
-    Have an account already? <a href="{% url 'login' %}"> Login Nov</a>
+    </form>
 
-</form>
+
+
 {% endblock %}
+
+
+
+
+
+
