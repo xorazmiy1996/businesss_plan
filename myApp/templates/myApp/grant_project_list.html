@@ -1,0 +1,88 @@
+{% extends 'base_admin.html' %}
+
+
+
+
+
+{% block sidebar %}
+
+    <li class="nav-item">
+        <a class="nav-link " href="{% url 'grant_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>Grantlar</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link " href="{% url 'user_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>User</span>
+        </a>
+    </li>
+
+     <li class="nav-item">
+        <a class="nav-link " href="{% url 'order_admin_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>Order</span>
+        </a>
+    </li>
+
+
+
+
+
+
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+        </a>
+    </li><!-- End Login Page Nav -->
+
+{% endblock %}
+
+
+{% block content %}
+
+    <a href="{% url 'grant_add_url' %}"> Grant yaratish</a>
+
+    <div class="card">
+        <table class="table  table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">organization</th>
+                <th scope="col">project_name</th>
+                <th scope="col">price</th>
+                <th scope="col">end_time</th>
+                <th scope="col">link</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ object.id }}</th>
+                    <td>{{ object.organization }}</td>
+                    <td>{{ object.project_name }}</td>
+                    <td>{{ object.price }}</td>
+                    <td>{{ object.end_time }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ object.link }}">Ko'rish</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" href="{% url 'grant_delete_url' pk=object.pk %}">Delete</a>
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+{% endblock %}

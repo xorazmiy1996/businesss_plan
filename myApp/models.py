@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import pre_save
-from django.db.models import signals
+from django.db.models import signals, Q
 from django.dispatch import receiver
 
 PROVINCE_CHOICES = [
@@ -31,10 +31,10 @@ ROLE_CHOOSE = [
 ]
 
 PLANNING_CHOICES = [
-    ("Biznes Reja", "Biznes Reja"),
-    ("TEO", "TEO"),
-    ("Grand", "Grand"),
-
+    ("business", "Biznes Reja"),
+    ("teo", "TEO"),
+    ("grand", "Grand"),
+    ("boshqa", "Boshqa"),
 
 ]
 
@@ -47,9 +47,11 @@ POSITION_CHOICES = [
 
 BOOLEAN_CHOOSE = [
     ("100% to'langan", "100% to'langan"),
+    ("75% to'langan", "75% to'langan"),
     ("50% to'langan", "50% to'langan"),
     ("25% to'langan", "25% to'langan"),
     ("to'lanmagan", "to'lanmagan"),
+    ("qiziqish yo'q", "qiziqish yo'q"),
 ]
 
 
@@ -68,11 +70,32 @@ class User(AbstractUser, Base):
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
-        verbose_name = 'user1'
-        verbose_name_plural = 'users1'
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
 
     def __str__(self):
         return self.get_username()
+
+    def order_count(self):
+        return self.operator_orders.all().count()
+
+    @property
+    def grant_count(self):  # worker_field_id=self.id  <=> worker_field=self
+        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='grant').count()
+
+    @property
+    def business_count(self):
+        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
+            business_type='business').count()
+
+    @property
+    def teo_count(self):
+        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='teo').count()
+
+    @property
+    def boshqa_count(self):
+        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
+            business_type='boshqa').count()
 
 
 # Order

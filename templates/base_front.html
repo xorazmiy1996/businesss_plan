@@ -80,43 +80,34 @@
                                     <i class='bx bxl-instagram'></i>
                                 </a>
                             </li>
-
-
                             <li>
-
                                 {% if user.is_authenticated %}
-                                    {% if user.role == 'Operator' %}
-                                        <a class="nav-link dropdown-toggle" href="order_list/"
-                                                role="button"
+                                    <div class="d-flex justify-content-center">
+                                        {% if user.role == 'Operator' %}
+                                            <a class="nav-link dropdown-toggle" href="{% url 'order_list_url' %}"
+                                               role="button"
                                                aria-haspopup="true" aria-expanded="false">
                                                 {{ user.role | title }}
-                                     </a>
-                                    {% endif %}
-
-                                    {% if user.role == 'Worker' %}
-                                         <a class="nav-link dropdown-toggle" href="worker_list/"
+                                            </a>
+                                        {% endif %}
+                                        {% if user.role == 'Worker' %}
+                                            <a class="nav-link dropdown-toggle" href="{% url 'worker_list_url' %}"
                                                id="navbarDropdown" role="button" data-toggle="dropdown"
                                                aria-haspopup="true" aria-expanded="false">
                                                 {{ user.role | title }}
-                                         </a>
-                                     {% endif %}
-                                    {% if user.role == 'admin' %}
-                                         <a class="nav-link dropdown-toggle" href="register/"
+                                            </a>
+                                        {% endif %}
+                                        {% if user.role == 'admin' %}
+                                            <a class="nav-link dropdown-toggle" href="{% url 'user_list_url' %}"
                                                id="navbarDropdown" role="button" data-toggle="dropdown"
                                                aria-haspopup="true" aria-expanded="false">
                                                 {{ user.role | title }}
-                                          </a>
+                                            </a>
 
-                                     {% endif %}
-
-
-
-
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
-
-
                             </li>
-
 
                         </ul>
                     </div>
@@ -155,9 +146,17 @@
                             </a>
                         </li>
 
+{#                        <li class="nav-item">#}
+{#                            <a href="{% url 'payme_url' %}" class="nav-link">#}
+{#                                Payme#}
+{##}
+{#                            </a>#}
+{##}
+{#                        </li>#}
+
                         <li class="nav-item">
-                            <a href="{% url 'payme_url' %}" class="nav-link">
-                                Payme
+                            <a href="{% url 'grant_operator_list_url' %}" class="nav-link">
+                                Grantlar
 
                             </a>
 
@@ -249,7 +248,7 @@
         <div class="footer-top pt-100 pb-70">
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
-                    <div class="footer-widget">
+                    <div class="footer-widget">loyihalar
                         <div class="footer-logo">
                             <a href="index.html">
                                 <img src="{% static 'assets/images/logos/footer-logo.png' %}" alt="Images">

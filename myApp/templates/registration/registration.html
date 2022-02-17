@@ -7,18 +7,26 @@
 
 {% block sidebar %}
     <li class="nav-item">
-        <a class="nav-link " href="{% url 'grant_url' %}">
+        <a class="nav-link " href="{% url 'grant_list_url' %}">
             <i class="bi bi-grid"></i>
             <span>Grantlar yaratish</span>
         </a>
     </li>
 
+
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-            <i class="bi bi-person"></i>
-            <span>Mening buyurtmalarim</span>
+        <a class="nav-link " href="{% url 'user_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>User</span>
         </a>
-    </li><!-- End Profile Page Nav -->
+    </li>
+
+     <li class="nav-item">
+        <a class="nav-link " href="{% url 'order_admin_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>Order</span>
+        </a>
+    </li>
 
 
     <li class="nav-item">

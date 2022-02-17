@@ -4,14 +4,14 @@
 {% block title %}{% endblock %}
 
 {% block sidebar %}
-   <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link " href="{% url 'grant_list_url' %}">
             <i class="bi bi-grid"></i>
             <span>Grantlar yaratish</span>
         </a>
     </li>
 
-      <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link " href="{% url 'user_list_url' %}">
             <i class="bi bi-grid"></i>
             <span>User</span>
@@ -34,18 +34,17 @@
 {% block content %}
 
     <div class="card">
-         <div style="margin: 40px;">
-       <form method="POST" enctype="multipart/form-data">
+        <div style="margin: 40px;">
 
-                            <!-- Security token -->
-                            {% csrf_token %}
+            <form method="post">{% csrf_token %}
 
-                            <!-- Using the formset -->
-                            {{ form.as_p }}
 
-                            <input type="submit" value="Submit">
-                        </form>
-    </div>
+                <p> "{{ object }}" ushbu grantni o'chirishni xoxlaysizmi?</p>
+
+
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+        </div>
     </div>
 
 
