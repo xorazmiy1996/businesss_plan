@@ -39,6 +39,32 @@ def grant_project_for_operator(request):
     return render(request, 'myApp/interface/grant_project_for_operator.html', context)
 
 
+class BusinessPlanAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = BusinessPlan
+    # form_class = BusinessForm
+    template_name = 'myApp/admin/business_plan_add.html'
+    fields = ['image', 'name_business', 'money_min', 'profit_year', 'profit_month', 'cost', 'text_min']
+    success_url = reverse_lazy('business_admin_list_url')
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
+
+# Business Plan List
+class BusinessPlanList(ListView):
+    model = BusinessPlan
+    template_name = 'myApp/index.html'
+
+
+class BusinessPlanAdminList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
+    model = BusinessPlan
+    template_name = 'myApp/admin/business_plan_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
+
 class RegisterPage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = AdminUserCreationForm
     success_url = reverse_lazy('login')
@@ -72,8 +98,9 @@ class PetitionList(ListView):
 
 
 class OrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = Order
-    template_name = "myApp/order_list.html"
+    template_name = "myApp/operator/order_list.html"
 
     def test_func(self):
         return 'Operator' == self.request.user.role
@@ -82,40 +109,11 @@ class OrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         queryset = super().get_queryset()
         return queryset.filter(operator_field=None)
 
-    # def get(self, request, *args, **kwargs):
-    #     search_query = request.GET.get('search', '')
-    #     if search_query:
-    #         obj = Order.objects.filter(Q(name__contains=search_query))
-    #     else:
-    #         obj = Order.objects.all()
-    #
-    #     paginator = Paginator(obj, 4)
-    #     page_number = request.GET.get('page', 1)
-    #     page = paginator.get_page(page_number)
-    #
-    #     is_paginated = page.has_other_pages()
-    #
-    #     if page.has_previous():
-    #         prev_url = '?page={}'.format(page.previous_page_number())
-    #     else:
-    #         prev_url = ''
-    #     if page.has_next():
-    #         next_url = '?page={}'.format(page.next_page_number())
-    #     else:
-    #         next_url = ''
-    #     context = {
-    #         'page_object': page,
-    #         'next_url': next_url,
-    #         'prev_url': prev_url,
-    #         'is_paginated': is_paginated
-    #     }
-    #
-    #     return render(request, 'myApp/order_list.html', context=context)
-
 
 class OperatorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = Order
-    template_name = "myApp/operator_list.html"
+    template_name = "myApp/operator/operator_list.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -123,36 +121,6 @@ class OperatorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         return 'Operator' == self.request.user.role
-
-    # def get(self, request, *args, **kwargs):
-    #     search_query = request.GET.get('search', '')
-    #     if search_query:
-    #         obj = Order.objects.filter(Q(first_name__contains=search_query))
-    #     else:
-    #         obj = Order.objects.all()
-    #
-    #     paginator = Paginator(obj, 4)
-    #     page_number = request.GET.get('page', 1)
-    #     page = paginator.get_page(page_number)
-    #
-    #     is_paginated = page.has_other_pages()
-    #
-    #     if page.has_previous():
-    #         prev_url = '?page={}'.format(page.previous_page_number())
-    #     else:
-    #         prev_url = ''
-    #     if page.has_next():
-    #         next_url = '?page={}'.format(page.next_page_number())
-    #     else:
-    #         next_url = ''
-    #     context = {
-    #         'page_object': page,
-    #         'next_url': next_url,
-    #         'prev_url': prev_url,
-    #         'is_paginated': is_paginated
-    #     }
-    #
-    #     return render(request, 'myApp/operator_list.html', context=context)
 
 
 #
@@ -168,31 +136,30 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('order_list_url')
 
     def post(self, request, *args, **kwargs):
+        instance = Order.objects.get(id=kwargs['pk'])
+        instance.operator_field = request.user
+        instance.save()
+        form = OrderForm(data=request.POST, instance=instance)
 
-        if int(request.user.order_count()) < int(3):
-            instance = Order.objects.get(id=kwargs['pk'])
-            instance.operator_field = request.user
-            instance.save()
-            form = OrderForm(data=request.POST, instance=instance)
-
-            if form.is_valid():
-                form.save()
-                return redirect('/order_list/')
-            return render(request, self.template_name, {'form': form})
-        else:
-            return HttpResponse("Iloji yo'q")
+        if form.is_valid():
+            form.save()
+            return redirect('/order_list/')
+        return render(request, self.template_name, {'form': form})
 
     # def post(self, request, *args, **kwargs):
-    #     instance = Order.objects.get(id=kwargs['pk'])
-    #     print(request.user.id)
-    #     instance.operator_field = request.user
-    #     instance.save()
-    #     form = OrderForm(data=request.POST, instance=instance)
     #
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('/order_list/')
-    #     return render(request, self.template_name, {'form': form})
+    #     if int(request.user.order_count()) < int(3):
+    #         instance = Order.objects.get(id=kwargs['pk'])
+    #         instance.operator_field = request.user
+    #         instance.save()
+    #         form = OrderForm(data=request.POST, instance=instance)
+    #
+    #         if form.is_valid():
+    #             form.save()
+    #             return redirect('/order_list/')
+    #         return render(request, self.template_name, {'form': form})
+    #     else:
+    #         return HttpResponse("Iloji yo'q")
 
 
 #
@@ -205,8 +172,9 @@ class UpdateOrderInOperator(LoginRequiredMixin, UpdateView):
 
 
 class WorkerList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = Order
-    template_name = "myApp/worker_list.html"
+    template_name = "myApp/worker/worker_list.html"
 
     def test_func(self):
         return 'Worker' == self.request.user.role
@@ -216,27 +184,71 @@ class WorkerList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return queryset.filter(Q(operator_field__isnull=False) and Q(payme__isnull=False), worker_field=None)
 
 
-class WorkerUpdate(LoginRequiredMixin, UpdateView):
+class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
     form_class = OrderForm
-    template_name = 'myApp/worker_update.html'
+    template_name = 'myApp/worker/worker_update.html'
     success_url = reverse_lazy('worker_list_url')
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role
+
+    def post(self, request, *args, **kwargs):
+        if int(request.user.order_count()) < int(3):
+            instance = Order.objects.get(id=kwargs['pk'])
+            instance.worker_field = request.user
+            instance.save()
+            form = OrderForm(data=request.POST, instance=instance)
+
+            if form.is_valid():
+                form.save()
+                return redirect('/worker_list/')
+            return render(request, self.template_name, {'form': form})
+        else:
+            return render(request, 'myApp/worker/answer_worker.html')
+
+    # def post(self, request, *args, **kwargs):
+    #     instance = Order.objects.get(id=kwargs['pk'])
+    #     instance.worker_field = request.user
+    #     instance.save()
+    #     form = OrderForm(data=request.POST, instance=instance)
+    #
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('/worker_list/')
+    #     return render(request, self.template_name, {'form': form})
+
+
+class WorkerOrderUpdate(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
+    model = Order
+    form_class = WorkerOrderUpdate
+    template_name = 'myApp/worker/worker_order_update.html'
+    success_url = reverse_lazy('worker_order_list_url')
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role
 
     def post(self, request, *args, **kwargs):
         instance = Order.objects.get(id=kwargs['pk'])
-        instance.worker_field = request.user
-        instance.save()
-        form = OrderForm(data=request.POST, instance=instance)
+        if instance.status == 'bajarildi':
+            pass
+        #     request.user.worker_orders= request.user.order_count()-1
+        #     instance.save()
+        #     form = OrderForm(data=request.POST, instance=instance)
+        #     if form.is_valid():
+        #         form.save()
+        #         return redirect('/order_list/')
+        #     return render(request, self.template_name, {'form': form})
+        # else:
+        #     return HttpResponse(request.user.order_count())
 
-        if form.is_valid():
-            form.save()
-            return redirect('/worker_list/')
-        return render(request, self.template_name, {'form': form})
+
 
 
 class WorkerOrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = Order
-    template_name = "myApp/worker_list.html"
+    template_name = "myApp/worker/worker_order_listl.html"
 
     def test_func(self):
         return 'Worker' == self.request.user.role
@@ -251,7 +263,7 @@ class WorkerOrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class GrantProjectsAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = GrantProject
     form_class = GrantForm
-    template_name = 'myApp/grant_project_create.html'
+    template_name = 'myApp/admin/grant_project_create.html'
     success_url = reverse_lazy('grant_list_url')
 
     def test_func(self):
@@ -260,12 +272,13 @@ class GrantProjectsAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class GrantProjectDelete(DeleteView):
     model = GrantProject
-    template_name = 'myApp/grant_project_delete.html'
+    template_name = 'myApp/admin/grant_project_delete.html'
     success_url = reverse_lazy("grant_list_url")
 
 
 # Grant Projects List
 class GrantProjectList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = GrantProject
     template_name = "myApp/grant_project_list.html"
 
@@ -275,13 +288,12 @@ class GrantProjectList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 # User List
 class UserList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 10
     model = User
-    template_name = "myApp/user_list.html"
+    template_name = "myApp/admin/user_list.html"
 
     def test_func(self):
         return 'admin' == self.request.user.role
-
-
 
     # def get(self, request, *args, **kwargs):
     #     search_query = request.GET.get('search', '')
@@ -316,36 +328,39 @@ class UserList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 # Order Admin List
 class OrderListAdmin(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    paginate_by = 3
+    model = Order
+    template_name = "myApp/admin/order_list_admin.html"
 
-    def get(self, request, *args, **kwargs):
-        search_query = request.GET.get('search', '')
-        if search_query:
-            obj = Order.objects.filter(Q(first_name__contains=search_query))
-        else:
-            obj = Order.objects.all()
-
-        paginator = Paginator(obj, 4)
-        page_number = request.GET.get('page', 1)
-        page = paginator.get_page(page_number)
-
-        is_paginated = page.has_other_pages()
-
-        if page.has_previous():
-            prev_url = '?page={}'.format(page.previous_page_number())
-        else:
-            prev_url = ''
-        if page.has_next():
-            next_url = '?page={}'.format(page.next_page_number())
-        else:
-            next_url = ''
-        context = {
-            'page_object': page,
-            'next_url': next_url,
-            'prev_url': prev_url,
-            'is_paginated': is_paginated
-        }
-
-        return render(request, 'myApp/order_list_admin.html', context=context)
+    # def get(self, request, *args, **kwargs):
+    #     search_query = request.GET.get('search', '')
+    #     if search_query:
+    #         obj = Order.objects.filter(Q(first_name__contains=search_query))
+    #     else:
+    #         obj = Order.objects.all()
+    #
+    #     paginator = Paginator(obj, 4)
+    #     page_number = request.GET.get('page', 1)
+    #     page = paginator.get_page(page_number)
+    #
+    #     is_paginated = page.has_other_pages()
+    #
+    #     if page.has_previous():
+    #         prev_url = '?page={}'.format(page.previous_page_number())
+    #     else:
+    #         prev_url = ''
+    #     if page.has_next():
+    #         next_url = '?page={}'.format(page.next_page_number())
+    #     else:
+    #         next_url = ''
+    #     context = {
+    #         'page_object': page,
+    #         'next_url': next_url,
+    #         'prev_url': prev_url,
+    #         'is_paginated': is_paginated
+    #     }
+    #
+    #     return render(request, '', context=context)
 
     def test_func(self):
         return 'admin' == self.request.user.role

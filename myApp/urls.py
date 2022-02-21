@@ -4,8 +4,14 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('answer/', answer, name='answer_url'),
 
+    path('', BusinessPlanList.as_view(), name='home_url'),
+
+    path('business/', BusinessPlanAdd.as_view(), name='business_plan_add_url'),
+
+
+
+    path('answer/', answer, name='answer_url'),
 
     path('answer/', answer, name='answer_url'),
 
@@ -24,6 +30,8 @@ urlpatterns = [
     path('register/', RegisterPage.as_view(), name='register_url'),
 
     path('petition/', PetitiontAdd.as_view(), name='petition_add_url'),
+
+    path('business_admin_list/', BusinessPlanAdminList.as_view(), name='business_admin_list_url'),
 
     path('grant_list/', GrantProjectList.as_view(), name='grant_list_url'),
 
@@ -46,5 +54,7 @@ urlpatterns = [
     path('order/<pk>/update/', OrderUpdate.as_view(), name='order_update_url'),
 
     path('worker/<pk>/update/', WorkerUpdate.as_view(), name='worker_update_url'),
+
+    path('worker_orde_update/<pk>/update/', WorkerOrderUpdate.as_view(), name='worker_order_update_url'),
 
 ]

@@ -54,6 +54,11 @@ BOOLEAN_CHOOSE = [
     ("qiziqish yo'q", "qiziqish yo'q"),
 ]
 
+STATUS_CHOOSE = [
+    ('bajarilmoqda', "Bajarilmoqda"),
+    ('bajarildi', "Bajarildi"),
+]
+
 
 class Base(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -77,11 +82,11 @@ class User(AbstractUser, Base):
         return self.get_username()
 
     def order_count(self):
-        return self.operator_orders.all().count()
+        return self.worker_orders.all().count()
 
     @property
     def grant_count(self):  # worker_field_id=self.id  <=> worker_field=self
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='grant').count()
+        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='grand').count()
 
     @property
     def business_count(self):
@@ -112,6 +117,8 @@ class Order(Base):
 
     # price = models.PositiveIntegerField()
     price = models.PositiveIntegerField(default=0)
+
+    status = models.CharField(max_length=50, choices=STATUS_CHOOSE, null=True, blank=True)
 
     worker_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='worker_orders', blank=True,
                                      null=True)
@@ -160,3 +167,17 @@ class GrantProject(Base):
 
     def __str__(self):
         return self.project_name
+
+
+class BusinessPlan(Base):
+    # fields of the model
+    image = models.ImageField(null=True, upload_to='images/')
+    name_business = models.CharField(max_length=100)
+    money_min = models.IntegerField()
+    profit_year = models.IntegerField()
+    profit_month = models.IntegerField()
+    cost = models.IntegerField()
+    text_min = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.name_business

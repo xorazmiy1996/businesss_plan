@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     # tashqi app
     'crispy_forms',
     # O'zim yaratgan aplar
-    'web_client',
     'myApp',
 ]
 

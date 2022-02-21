@@ -1,7 +1,6 @@
 {% extends 'base_admin.html' %}
 
-
-
+{% block title %}{% endblock %}
 
 
 {% block sidebar %}
@@ -26,6 +25,7 @@
             <span>Order</span>
         </a>
     </li>
+
     <li class="nav-item">
         <a class="nav-link " href="{% url 'business_admin_list_url' %}">
             <i class="bi bi-grid"></i>
@@ -33,51 +33,45 @@
         </a>
     </li>
 
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'logout' %}">
             <i class="bi bi-box-arrow-in-right"></i>
             <span>Login</span>
         </a>
-    </li><!-- End Login Page Nav -->
+    </li>
+
+
 
 {% endblock %}
 
 
+
 {% block content %}
-
-    <a class="btn-danger" href="{% url 'grant_add_url' %}"> Grant yaratish</a>
-    <br>
-
+    <a href="{% url 'business_plan_add_url' %}"> Loyiha yaratish</a>
 
     <div class="card">
         <table class="table  table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">organization</th>
-                <th scope="col">project_name</th>
-                <th scope="col">price</th>
-                <th scope="col">end_time</th>
-                <th scope="col">link</th>
-
+                <th scope="col">name_business</th>
+                <th scope="col">money_min</th>
+                <th scope="col">profit_year</th>
+                <th scope="col">profit_month</th>
+                <th scope="col">cost</th>
 
             </tr>
             </thead>
             <tbody>
             {% for object in page_obj %}
-                <tr>
+                <tr style="cursor: pointer" onclick="window.location='#'">
                     <th scope="row">{{ object.id }}</th>
-                    <td>{{ object.organization }}</td>
-                    <td>{{ object.project_name }}</td>
-                    <td>{{ object.price }}</td>
-                    <td>{{ object.end_time }}</td>
-                    <td>
-                        <a class="btn btn-primary" href="{{ object.link }}">Ko'rish</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-danger" href="{% url 'grant_delete_url' pk=object.pk %}">Delete</a>
-                    </td>
-
+                    <td>{{ object.name_business }}</td>
+                    <td>{{ object.money_min }}</td>
+                    <td>{{ object.profit_year }}</td>
+                    <td>{{ object.profit_month }}</td>
+                    <td>{{ object.cost }}</td>
 
                 </tr>
             {% endfor %}
@@ -102,7 +96,5 @@
         {% endif %}
     </span>
     </div>
-
-
 
 {% endblock %}

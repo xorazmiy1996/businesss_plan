@@ -21,7 +21,7 @@
 
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" href="{% url 'logout' %}">
             <i class="bi bi-box-arrow-in-right"></i>
             <span>Login</span>
         </a>
@@ -53,7 +53,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for object in object_list %}
+            {% for object in page_obj %}
                 <tr style="cursor: pointer" onclick="window.location='{% url 'worker_update_url'  pk=object.pk %}'">
                     <th scope="row">{{ object.id }}</th>
                     <td>{{ object.phone_number }}</td>
@@ -74,6 +74,25 @@
             </tbody>
         </table>
     </div>
+
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 
 

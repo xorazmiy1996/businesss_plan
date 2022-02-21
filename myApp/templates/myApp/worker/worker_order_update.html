@@ -2,18 +2,16 @@
 
 {% block title %}{% endblock %}
 
-
-
 {% block sidebar %}
     <li class="nav-item">
-        <a class="nav-link " href="{% url 'order_list_url' %}">
+        <a class="nav-link " href="{% url 'worker_list_url' %}">
             <i class="bi bi-grid"></i>
             <span>Buyurtmalar</span>
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'operator_list_url' %}">
+        <a class="nav-link collapsed" href="{% url 'worker_order_list_url' %}">
             <i class="bi bi-person"></i>
             <span>Mening buyurtmalarim</span>
         </a>
@@ -37,11 +35,10 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input class="btn btn-primary" type="submit" value="band qilish">
+                <input class="btn btn-primary" type="submit" value="Saqlash">
             </form>
         </div>
     </div>
-
 
 
 

@@ -20,21 +20,22 @@
         </a>
     </li>
 
-     <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link " href="{% url 'order_admin_list_url' %}">
             <i class="bi bi-grid"></i>
             <span>Order</span>
         </a>
     </li>
 
-
-
-
-
-
+    <li class="nav-item">
+        <a class="nav-link " href="{% url 'business_admin_list_url' %}">
+            <i class="bi bi-grid"></i>
+            <span>Loyihalar</span>
+        </a>
+    </li>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{% url 'logout' %}">
             <i class="bi bi-box-arrow-in-right"></i>
             <span>Login</span>
         </a>
@@ -65,7 +66,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for object in object_list %}
+            {% for object in page_obj %}
                 <tr>
                     <th scope="row">{{ object.id }}</th>
                     <td>{{ object.last_name }}</td>
@@ -82,38 +83,23 @@
         </table>
     </div>
 
-    {% if is_paginated %}
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item {% if not prev_url %} disabled {% endif %}">
-                    <a class="page-link" href="{{ prev_url }}" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
 
-                {% for n in page_object.paginator.page_range %}
-                    {% if page_object.number == n %}
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
-                        </li>
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
 
-
-                    {% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
-                        </li>
-
-
-                    {% endif %}
-
-
-                {% endfor %}
-
-
-                <li class="page-item {% if not next_url %} disabled{% endif %}">
-                    <a class="page-link" href="{{ next_url }}">Next</a>
-                </li>
-            </ul>
-        </nav>
-    {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
 
 
 
