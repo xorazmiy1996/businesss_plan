@@ -1,7 +1,14 @@
 {% extends 'base_admin.html' %}
 
 {% block title %}{% endblock %}
-
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'operator_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
 
 {% block sidebar %}
     <li class="nav-item">
@@ -75,23 +82,27 @@
     </table>
     </div>
 
-    <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+     <nav aria-label="...">
+        <ul class="pagination">
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page=1">&laquo; birinchi</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
+            {% endif %}
+                <span class="page-link">
+                       {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
+                </span>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+
+            {% if page_obj.has_next %}
+
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
+
+
+            {% endif %}
+        </ul>
+    </nav>
 
 
 {% endblock %}

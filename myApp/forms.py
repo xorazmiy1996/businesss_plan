@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 class AdminUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role','number_of_orders']
 
 
 # class UserCreateForm(forms.ModelForm):
@@ -62,7 +62,7 @@ class WorkerOrderUpdate(forms.ModelForm):
             'business_type': forms.Select(attrs={'class': 'form-select'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'payme': forms.Select(attrs={'class': 'form-select'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
+            # 'status': forms.BooleanField(),
 
         }
 

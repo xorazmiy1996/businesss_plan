@@ -107,7 +107,8 @@ class OrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(operator_field=None)
+        # print(self.request.GET.get('search', ''))
+        return queryset.filter(Q(phone_number__contains=self.request.GET.get('search', ''), operator_field=None))
 
 
 class OperatorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -117,7 +118,8 @@ class OperatorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(operator_field=self.request.user)
+        return queryset.filter(Q(first_name__contains=self.request.GET.get('search', '')),
+                               operator_field=self.request.user)
 
     def test_func(self):
         return 'Operator' == self.request.user.role
@@ -146,23 +148,7 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
             return redirect('/order_list/')
         return render(request, self.template_name, {'form': form})
 
-    # def post(self, request, *args, **kwargs):
-    #
-    #     if int(request.user.order_count()) < int(3):
-    #         instance = Order.objects.get(id=kwargs['pk'])
-    #         instance.operator_field = request.user
-    #         instance.save()
-    #         form = OrderForm(data=request.POST, instance=instance)
-    #
-    #         if form.is_valid():
-    #             form.save()
-    #             return redirect('/order_list/')
-    #         return render(request, self.template_name, {'form': form})
-    #     else:
-    #         return HttpResponse("Iloji yo'q")
 
-
-#
 class UpdateOrderInOperator(LoginRequiredMixin, UpdateView):
     model = Order
     # specify the fields
@@ -181,7 +167,9 @@ class WorkerList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(Q(operator_field__isnull=False) and Q(payme__isnull=False), worker_field=None)
+        # return queryset.filter(Q(operator_field__isnull=False) and Q(payme__isnull=False) , worker_field=None)
+        return queryset.filter(Q(operator_field__isnull=False, payme__isnull=False),
+                               first_name__contains=self.request.GET.get('search', ''), worker_field=None)
 
 
 class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -194,7 +182,7 @@ class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return 'Worker' == self.request.user.role
 
     def post(self, request, *args, **kwargs):
-        if int(request.user.order_count()) < int(3):
+        if int(request.user.order_count()) < request.user.number_of_orders:
             instance = Order.objects.get(id=kwargs['pk'])
             instance.worker_field = request.user
             instance.save()
@@ -207,19 +195,8 @@ class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         else:
             return render(request, 'myApp/worker/answer_worker.html')
 
-    # def post(self, request, *args, **kwargs):
-    #     instance = Order.objects.get(id=kwargs['pk'])
-    #     instance.worker_field = request.user
-    #     instance.save()
-    #     form = OrderForm(data=request.POST, instance=instance)
-    #
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('/worker_list/')
-    #     return render(request, self.template_name, {'form': form})
 
-
-class WorkerOrderUpdate(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
+class WorkerOrderUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
     form_class = WorkerOrderUpdate
     template_name = 'myApp/worker/worker_order_update.html'
@@ -228,25 +205,9 @@ class WorkerOrderUpdate(LoginRequiredMixin, UserPassesTestMixin,UpdateView):
     def test_func(self):
         return 'Worker' == self.request.user.role
 
-    def post(self, request, *args, **kwargs):
-        instance = Order.objects.get(id=kwargs['pk'])
-        if instance.status == 'bajarildi':
-            pass
-        #     request.user.worker_orders= request.user.order_count()-1
-        #     instance.save()
-        #     form = OrderForm(data=request.POST, instance=instance)
-        #     if form.is_valid():
-        #         form.save()
-        #         return redirect('/order_list/')
-        #     return render(request, self.template_name, {'form': form})
-        # else:
-        #     return HttpResponse(request.user.order_count())
-
-
-
 
 class WorkerOrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    paginate_by = 10
+    paginate_by = 2
     model = Order
     template_name = "myApp/worker/worker_order_listl.html"
 
@@ -256,7 +217,8 @@ class WorkerOrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            Q(operator_field__isnull=False) and Q(payme__isnull=False) and Q(worker_field__isnull=False))
+            Q(operator_field__isnull=False, payme__isnull=False, worker_field__isnull=False),
+            Q(first_name__contains=self.request.GET.get("search",'')))
 
 
 # Grant  Projects
@@ -294,6 +256,12 @@ class UserList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         return 'admin' == self.request.user.role
+
+    def get_queryset(self):
+        # print(self.request.GET.get('search', ''))
+        queryset = super().get_queryset()
+        print(queryset)
+        return queryset.filter(first_name__contains=self.request.GET.get('search', ''))
 
     # def get(self, request, *args, **kwargs):
     #     search_query = request.GET.get('search', '')

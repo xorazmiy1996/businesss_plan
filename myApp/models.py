@@ -70,6 +70,7 @@ class User(AbstractUser, Base):
     last_name = models.CharField(max_length=50)
     role = models.CharField(max_length=100, choices=ROLE_CHOOSE)
     percentage = models.IntegerField(null=True, blank=True)
+    number_of_orders = models.IntegerField(null=True,default=3)
 
     objects = UserManager()
 
@@ -82,7 +83,7 @@ class User(AbstractUser, Base):
         return self.get_username()
 
     def order_count(self):
-        return self.worker_orders.all().count()
+        return self.worker_orders.filter(status='False').count()
 
     @property
     def grant_count(self):  # worker_field_id=self.id  <=> worker_field=self
@@ -118,7 +119,7 @@ class Order(Base):
     # price = models.PositiveIntegerField()
     price = models.PositiveIntegerField(default=0)
 
-    status = models.CharField(max_length=50, choices=STATUS_CHOOSE, null=True, blank=True)
+    status = models.BooleanField(default=False)
 
     worker_field = models.ForeignKey(User, on_delete=models.CASCADE, related_name='worker_orders', blank=True,
                                      null=True)
