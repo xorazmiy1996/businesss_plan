@@ -1,0 +1,28 @@
+#form_margin {
+
+    margin-top: 50px;
+    margin-bottom: 220px;
+
+
+}
+
+#submit_1 {
+    margin-left: 500px;
+}
+
+#p_1 {
+    margin-left: 0px;
+    color: white;
+    margin-bottom: 0px
+}
+
+
+#myDIV {
+    width: 100%;
+    padding: 50px 0;
+    text-align: center;
+    background-color: lightblue;
+    margin-top: 20px;
+}
+
+.pointer {cursor: pointer;}
