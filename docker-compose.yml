@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     volumes:
-      - static_volume:/myApp/static
+      - static_volume:/myApp/staticfiles
       - media_volume:/myApp/media
     ports:
       - "8000:8000"
@@ -31,7 +31,7 @@ services:
     container_name: nginx
     build: ./nginx
     volumes:
-      - static_volume:/myApp/static
+      - static_volume:/myApp/staticfiles
       - media_volume:/myApp/media
     ports:
       - "80:80"
