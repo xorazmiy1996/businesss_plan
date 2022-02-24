@@ -1,7 +1,10 @@
 FROM python:3.9.6-alpine3.14
 
 # set work directory
+
 WORKDIR /myApp
+
+RUN mkdir /myApp/media
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
