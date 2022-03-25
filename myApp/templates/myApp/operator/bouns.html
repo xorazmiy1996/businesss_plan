@@ -1,0 +1,88 @@
+{% extends 'operator_base.html' %}
+
+
+{% block title %}{% endblock %}
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="pagetitle">
+
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <h1>BONUS</h1>
+    <br>
+    <div>
+        <select class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option value="1">Joriy oy</option>
+            <option value="2">O'tgan oy</option>
+            <option value="3">Ikki oyniki</option>
+        </select>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+    <div class="card">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Business Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">BONUS %</th>
+                <th scope="col">BONUS</th>
+
+
+                <th scope="col">Start date</th>
+                <th scope="col">Finish date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+{% endblock %}

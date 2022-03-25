@@ -16,9 +16,11 @@
             <thead>
             <tr class="table-active">
 
-                <th scope="col">Tasshkilot nomi</th>
-                <th scope="col">Loyiha nomi</th>
-                <th scope="col">Ajratilgn summa </th>
+                <th scope="col">ID</th>
+                <th scope="col">Manba turi</th>
+                <th scope="col">Tashkilot nomi</th>
+                <th scope="col">Maqsadi</th>
+                <th scope="col">Ajratilgan summa </th>
                 <th scope="col">Tugash vaqti</th>
                 <th scope="col">link</th>
 
@@ -29,6 +31,8 @@
             {% for object in object_list %}
                 <tr>
 
+                    <td>{{ object.pk }}</td>
+                    <td>{{ object.category }}</td>
                     <td>{{ object.organization }}</td>
                     <td>{{ object.project_name }}</td>
                     <td>{{ object.price }}</td>

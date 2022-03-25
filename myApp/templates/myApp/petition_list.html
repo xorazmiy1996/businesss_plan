@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'base.html' %}
 
 
 
@@ -29,6 +29,13 @@
 
 {% endblock %}
 
+{% block dashboard %}
+        <div class="pagetitle">
+            <h1>Order</h1>
+
+        </div><!-- End Page Title -->
+    {% endblock %}
+
 
 {% block content %}
 
@@ -45,7 +52,7 @@
             <tbody>
             {% for object in object_list %}
                 <tr style="cursor: pointer" onclick="window.location='{% url 'worker_update_url'  pk=object.pk %}'">
-                    <th scope="row">{{ object.id }}</th>
+                    <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.working_phone }}</td>
 
 

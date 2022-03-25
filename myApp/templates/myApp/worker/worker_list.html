@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'worker_base.html' %}
 
 
 {% block search %}
@@ -9,32 +9,15 @@
         </form>
     </div>
 {% endblock %}
+{% block dashboard %}
+        <div class="pagetitle">
+            <h1>Order</h1>
+
+        </div><!-- End Page Title -->
+    {% endblock %}
 
 
-{% block sidebar %}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'worker_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Buyurtmalar</span>
-        </a>
-    </li>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'worker_order_list_url' %}">
-            <i class="bi bi-person"></i>
-            <span>Mening buyurtmalarim</span>
-        </a>
-    </li><!-- End Profile Page Nav -->
-
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-        </a>
-    </li><!-- End Login Page Nav -->
-
-{% endblock %}
 
 
 {% block content %}
@@ -45,6 +28,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Add hone</th>
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
                 <th scope="col">province</th>
@@ -62,8 +46,9 @@
             <tbody>
             {% for object in page_obj %}
                 <tr style="cursor: pointer" onclick="window.location='{% url 'worker_update_url'  pk=object.pk %}'">
-                    <th scope="row">{{ object.id }}</th>
+                    <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.phone_number }}</td>
+                    <td>{{ object.add_phone_number }}</td>
                     <td>{{ object.first_name }}</td>
                     <td>{{ object.last_name }}</td>
                     <td>{{ object.province }}</td>

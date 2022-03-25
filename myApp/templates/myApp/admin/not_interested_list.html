@@ -1,0 +1,98 @@
+{% extends 'admin_base.html' %}
+
+
+{% block title %}{% endblock %}
+
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Order</h1>
+
+    </div>
+    <a href="{% url 'un_seen_order_list_url' %}">Ko'rilmagan</a>
+    &nbsp;
+    &nbsp;
+    <a href="#">Barchasi</a>
+    &nbsp;
+    &nbsp;
+    <a href="{% url 'final_order_list_url' %}">Tuganlangan</a>
+    &nbsp;
+    &nbsp;
+    <a href="{% url 'un_final_order_list_url' %}">Tugallanmagan</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <table class="table  table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Phone</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Province</th>
+                <th scope="col">Region</th>
+                <th scope="col">Business name</th>
+                <th scope="col">Business type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Worker</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Status</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in page_obj %}
+                <tr style="cursor: pointer" onclick="window.location='#'">
+
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ object.phone_number }}</td>
+                    <td>{{ object.first_name }}</td>
+                    <td>{{ object.last_name }}</td>
+                    <td>{{ object.province }}</td>
+                    <td>{{ object.region }}</td>
+                    <td>{{ object.business_name }}</td>
+                    <td>{{ object.business_type }}</td>
+                    <td>{{ object.price }}</td>
+                    <td>{{ object.worker_field }}</td>
+                    <td>{{ object.operator_field }}</td>
+                    <td>{{ object.status }}</td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <nav aria-label="...">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page=1">&laquo; birinchi</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
+            {% endif %}
+            <span class="page-link">
+                       {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
+                </span>
+
+
+            {% if page_obj.has_next %}
+
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
+
+
+            {% endif %}
+        </ul>
+    </nav>
+
+
+
+
+{% endblock %}

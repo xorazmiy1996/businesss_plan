@@ -1,0 +1,148 @@
+{% extends 'admin_base.html' %}
+
+
+{% block title %}{% endblock %}
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="pagetitle">
+
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <form>
+        <div class="row">
+            <div class="col-lg-2 mb-2">
+
+                        <select name="oy" class="form-select" id="id_business_type">
+
+                            <option value="0"selected >--------</option>
+                            <option value="1">Yanvar</option>
+                            <option value="2">Fevral</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Aprel</option>
+                            <option value="5">May</option>
+                            <option value="6">Iyun</option>
+                            <option value="7">Avgust</option>
+                            <option value="8">Sentiyabr</option>
+                            <option value="9">Oktyabr</option>
+                            <option value="10">Noyabr</option>
+                            <option value="11">Dekabr</option>
+                            <option value="12">Dekabr</option>
+
+
+                        </select>
+
+            </div>
+            <div class="col-lg-2 mb-2">
+
+                        <select name="yil" class="form-select" id="id_business_type">
+
+                            <option value="0" selected>------</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+
+
+
+
+                        </select>
+
+            </div>
+            <div class="col-lg-4 mb-2">
+                   <button class="btn btn-primary">search</button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+
+
+
+
+
+    <div class="col-lg-6">
+
+
+        <div class="card">
+            <div class="card-body" style="position: relative;">
+                <h5 class="card-title">Bar Chart</h5>
+
+                <!-- Bar Chart -->
+                <div id="barChart" style="min-height: 365px;">
+                </div>
+
+                <script>
+                    const dataForTable = {
+                        series: [{
+                            data: {{ user_order_price }}
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 4,
+                                horizontal: true,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        xaxis: {
+                            categories: [],
+                        }
+                    };
+                    let names = '{{ user_names }} ';
+                    console.log(names)
+                    names = names.replace(new RegExp("&" + "#" + "x27;", "g"), "").slice(1, -2).split(',');
+                    console.log(names)
+                    dataForTable.xaxis.categories = names;
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#barChart"), dataForTable).render();
+                    });
+                </script>
+                <!-- End Bar Chart -->
+
+                <div class="resize-triggers">
+                    <div class="expand-trigger">
+                        <div style="width: 541px; height: 451px;"></div>
+                    </div>
+                    <div class="contract-trigger"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

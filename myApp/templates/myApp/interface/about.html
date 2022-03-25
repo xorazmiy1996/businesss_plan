@@ -235,13 +235,13 @@
     <div class="team-area pt-100 pb-70">
         <div class="container">
             <div class="section-title text-center">
-                <span class="sp-color2">Our Team</span>
                 <h2>Ilmiy kengash a'zolarimiz</h2>
             </div>
             <div class="row pt-45">
-                <div class="col-lg-4 col-md-6">
+                {% for object in object_list %}
+                    <div class="col-lg-4 col-md-6">
                     <div class="team-card">
-                        <a href="/petition/"><img src="/media/team-img2_DLJCfWP.jpg" alt="Team Images"></a>
+                        <a href="{% url 'team_detail_front_url' pk=object.pk %}"><img src="{{ object.image.url }}" alt="Team Images"></a>
 
                         <ul class="social-link">
                             <li>
@@ -259,68 +259,16 @@
                         </ul>
 
                         <div class="content">
-                            <p style="color: white">Коттежлар учун декоратив тошлар ишлаб чиқариш va tamirlash</p>
+                            <p style="color: white">{{ object.last_name }} {{ object.first_name }}</p>
+                            <p style="color: white">{{ object.academic_degree }}</p>
                         </div>
 
 
                     </div>
                 </div>
+                {% endfor %}
 
 
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-card">
-                        <a href="/petition/"><img src="/media/team-img4_0gFEukV.jpg" alt="Team Images"></a>
-
-                        <ul class="social-link">
-                            <li>
-                                <a href="#"><i class="bx bxl-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-instagram"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-youtube"></i></a>
-                            </li>
-                        </ul>
-
-                        <div class="content">
-                            <p style="color: white">Коттежлар учун декоратив тошлар ишлаб чиқариш</p>
-                        </div>
-
-
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="team-card">
-                        <a href="/petition/"><img src="/media/team-img3_IobAlAv.jpg" alt="Team Images"></a>
-
-                        <ul class="social-link">
-                            <li>
-                                <a href="#"><i class="bx bxl-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-instagram"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="bx bxl-youtube"></i></a>
-                            </li>
-                        </ul>
-
-                        <div class="content">
-                            <p style="color: white">v</p>
-                        </div>
-
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,252 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h3>Shaxsiy kabinet</h3>
+    </div>
+
+    <form>
+
+            <div class="col-lg-6 mb-3">
+                <label for="inputDate" class="col-sm-4 col-form-label"> Boshlang'ich sana</label>
+            </div>
+            <div class="row">
+
+                <div class="col-8 col-md-4">
+                    <input name="qalendar" type="date" class="form-control">
+                </div>
+                <div class="col-4 col-md-2">
+                    <button class="btn btn-primary" type="submit" title="Search">Search</button>
+                </div>
+
+
+            </div>
+
+
+
+    </form>
+    <br>
+
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+    <div class="col-xxl-4 col-md-6">
+        <div class="card info-card sales-card">
+
+
+            <div class="card-body">
+                <h5 class="card-title">{{ object.role }}</h5>
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="ps-6">
+                        <h6>{{ object.first_name }} &nbsp; {{ object.last_name }}</h6>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-xxl-4 col-md-6">
+        <div class="card info-card revenue-card">
+            <div class="card-body">
+                <h5 class="card-title">Foyda </h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{ total_all_profit }} mln </h6>
+                        <span class="text-success small pt-1 fw-bold">5%</span> <span
+                            class="text-muted small pt-2 ps-1">ish haqi</span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-xxl-4 col-md-6">
+
+        <div class="card info-card customers-card">
+
+
+            <div class="card-body">
+                <h5 class="card-title">Jami loyihalar </h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{ total_projects }}</h6>
+                        {#                            <span class="text-danger small pt-1 fw-bold">{{ object_list.order_count }}</span> <span#}
+                        {#                                class="text-muted small pt-2 ps-1">tugalanmagan</span>#}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <a href="{% url 'user_grant_list_url' pk=object.pk %}">
+            <div class="card info-card customers-card">
+
+
+                <div class="card-body">
+                    <h5 class="card-title">Grant </h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{ total_grant }}</h6>
+                            {#                            <span class="text-danger small pt-1 fw-bold">{{ object_list.order_count }}</span> <span#}
+                            {#                                class="text-muted small pt-2 ps-1">tugalanmagan</span>#}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <a href="{% url 'user_teo_list_url' pk=object.pk %}">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">TEO </h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{ total_teo }}</h6>
+                            {#                            <span class="text-danger small pt-1 fw-bold">{{ object_list.order_count }}</span> <span#}
+                            {#                                class="text-muted small pt-2 ps-1">tugalanmagan</span>#}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+
+    </div>
+    <div class="col-xxl-3 col-md-6">
+        <a href="{% url 'user_business_list_url' pk=object.pk %}">
+            <div class="card info-card customers-card">
+
+
+                <div class="card-body">
+                    <h5 class="card-title">Biznes Reja </h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{ total_business }}</h6>
+                            {#                            <span class="text-danger small pt-1 fw-bold">{{ object_list.order_count }}</span> <span#}
+                            {#                                class="text-muted small pt-2 ps-1">tugalanmagan</span>#}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+
+
+    </div>
+    <div class="col-xxl-3 col-xl-12">
+        <a href="{% url 'user_boshqa_list_url' pk=object.pk %}">
+            <div class="card info-card customers-card">
+                <div class="card-body">
+                    <h5 class="card-title">Boshqa </h5>
+
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{ total_boshqa }}</h6>
+                            {#                            <span class="text-danger small pt-1 fw-bold">{{ object_list.order_count }}</span> <span#}
+                            {#                                class="text-muted small pt-2 ps-1">tugalanmagan</span>#}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="card">
+        <table class="table  table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Phone</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Province</th>
+                <th scope="col">Region</th>
+                <th scope="col">Business name</th>
+                <th scope="col">Business type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Payme</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Worker</th>
+                <th scope="col">Status</th>
+                <th scope="col">Sana</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+
+                <tr style="cursor: pointer" onclick="window.location='#'">
+
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ order.phone_number }}</td>
+                    <td>{{ order.first_name }}</td>
+                    <td>{{ order.last_name }}</td>
+                    <td>{{ order.province }}</td>
+                    <td>{{ order.region }}</td>
+                    <td>{{ order.business_name }}</td>
+                    <td>{{ order.business_type }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.payme }}</td>
+                    <td>{{ order.operator_field }}</td>
+                    <td>{{ order.worker_field }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.created_at }}</td>
+                    <td>{{ order.updated_at }}</td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

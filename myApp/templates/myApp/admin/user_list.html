@@ -1,4 +1,4 @@
-{% extends 'base_admin.html' %}
+{% extends 'admin_base.html' %}
 
 
 
@@ -11,80 +11,56 @@
     </div>
 {% endblock %}
 
-{% block sidebar %}
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'grant_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Grantlar</span>
-        </a>
-    </li>
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Ishchi-xodimlar</h1>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'user_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>User</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'order_admin_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Order</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'business_admin_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Loyihalar</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-        </a>
-    </li>
-
-
-
+    </div><!-- End Page Title -->
 {% endblock %}
-
 
 {% block content %}
 
     <a href="{% url 'register_url' %}"> Foydalanuvchi yaratish</a>
+    &nbsp;
+
 
     <div class="card">
         <table class="table  table-hover">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Max order</th>
-                <th scope="col">Grant</th>
-                <th scope="col">Biznes Reja</th>
-                <th scope="col">TEO</th>
-                <th scope="col">Boshqa</th>
+                <th scope="col">ID</th>
+                <th scope="col">Login</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Position</th>
+
+{#                <th scope="col">Max Order</th>#}
+{#                <th scope="col">Grant</th>#}
+{#                <th scope="col">Biznes Reja</th>#}
+{#                <th scope="col">TEO</th>#}
+{#                <th scope="col">Boshqa</th>#}
 
             </tr>
             </thead>
             <tbody>
             {% for object in page_obj %}
-                <tr>
-                    <th scope="row">{{ object.id }}</th>
+                <tr  style="cursor: pointer"  onclick="window.location='{% url 'user_information_url' pk=object.pk  %}'" >
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.username }}</td>
                     <td>{{ object.first_name }}</td>
                     <td>{{ object.last_name }}</td>
                     <td>{{ object.role }}</td>
-                    <td>{{ object.number_of_orders }}</td>
-                    <td>{{ object.grant_count }}</td>
-                    <td>{{ object.business_count }}</td>
-                    <td>{{ object.teo_count }}</td>
-                    <td>{{ object.boshqa_count }}</td>
+
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'user_update_url' pk=object.pk %}">Yangilash</a>
+
+                    </td>
+
+{#                    <td>{{ object.grant_count }}</td>#}
+{#                    <td>{{ object.business_count }}</td>#}
+{#                    <td>{{ object.teo_count }}</td>#}
+{#                    <td>{{ object.boshqa_count }}</td>#}
 
                 </tr>
             {% endfor %}
@@ -92,14 +68,14 @@
         </table>
     </div>
 
-     <nav aria-label="...">
+    <nav aria-label="...">
         <ul class="pagination">
 
             {% if page_obj.has_previous %}
                 <a class="page-link" href="?page=1">&laquo; birinchi</a>
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
             {% endif %}
-                <span class="page-link">
+            <span class="page-link">
                        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
                 </span>
 

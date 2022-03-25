@@ -1,0 +1,56 @@
+{% extends 'admin_base.html' %}
+
+
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'user_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>User View</h1>
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <br>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Last name:</div>
+                <div class="col-lg-9 col-md-8">{{ object.last_name }}</div>
+            </div>
+             <div class="row">
+                <div class="col-lg-3 col-md-4 label ">First Name:</div>
+                <div class="col-lg-9 col-md-8">{{ object.first_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Role:</div>
+                <div class="col-lg-9 col-md-8">{{ object.role }}</div>
+            </div>
+             <div class="row">
+                <div class="col-lg-3 col-md-4 label ">Number of orders:</div>
+                <div class="col-lg-9 col-md-8">{{ object.number_of_orders }}</div>
+            </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

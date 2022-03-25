@@ -1,0 +1,81 @@
+{% extends 'admin_base.html' %}
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Moliyaviy manbalar</h1>
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+
+{% block content %}
+
+    <a href="{% url 'grant_add_url' %}"> Loyiha yaratish</a>
+    <br>
+
+
+    <div class="card" style="display: block; overflow-x: auto;white-space: nowrap">
+        <table class="table  table-hover" >
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Category</th>
+                <th scope="col">Organization</th>
+                <th scope="col">Project Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Deadline</th>
+                <th scope="col">Link</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in page_obj %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.category }}</td>
+                    <td>{{ object.organization }}</td>
+                    <td>{{ object.project_name }}</td>
+                    <td>{{ object.price }}</td>
+                    <td>{{ object.end_time }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ object.link }}" target="_blank">Ko'rish</a>
+                        <a class="btn btn-warning" href="{% url 'grant_update_url' pk=object.pk %}">Update</a>
+                        <a class="btn btn-danger" href="{% url 'grant_delete_url' pk=object.pk %}">Delete</a>
+
+
+                        {#                        <a class="btn btn-primary" href="{% url '{{ object.link }}' %}">Ko'rish</a>#}
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="...">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page=1">&laquo; birinchi</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
+            {% endif %}
+            <span class="page-link">
+                       {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
+                </span>
+
+
+            {% if page_obj.has_next %}
+
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
+
+
+            {% endif %}
+        </ul>
+    </nav>
+
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'operator_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+    <div class="card">
+        <div style="margin: 40px;">
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-primary" type="submit" value="Saqlash">
+            </form>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

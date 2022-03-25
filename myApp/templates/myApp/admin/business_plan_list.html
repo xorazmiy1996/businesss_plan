@@ -1,50 +1,14 @@
-{% extends 'base_admin.html' %}
+{% extends 'admin_base.html' %}
 
 {% block title %}{% endblock %}
 
 
-{% block sidebar %}
+{% block dashboard %}
+        <div class="pagetitle">
+            <h1>Loyihalar</h1>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'grant_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Grantlar</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'user_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>User</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'order_admin_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Order</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'business_admin_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Loyihalar</span>
-        </a>
-    </li>
-
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-        </a>
-    </li>
-
-
-
-{% endblock %}
-
+        </div><!-- End Page Title -->
+    {% endblock %}
 
 
 {% block content %}
@@ -54,24 +18,25 @@
         <table class="table  table-hover">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">name_business</th>
-                <th scope="col">money_min</th>
-                <th scope="col">profit_year</th>
-                <th scope="col">profit_month</th>
-                <th scope="col">cost</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name Business</th>
+                <th scope="col">Money Min</th>
+                <th scope="col">Profit Year</th>
+                <th scope="col">Profit Mnth</th>
+                <th scope="col">Cost</th>
 
             </tr>
             </thead>
             <tbody>
             {% for object in page_obj %}
                 <tr style="cursor: pointer" onclick="window.location='#'">
-                    <th scope="row">{{ object.id }}</th>
+                    <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.name_business }}</td>
                     <td>{{ object.money_min }}</td>
                     <td>{{ object.profit_year }}</td>
                     <td>{{ object.profit_month }}</td>
                     <td>{{ object.cost }}</td>
+                    <td><a class="btn btn-danger" href="{% url 'business_delete_url' pk=object.pk %}">delete</a></td>
 
                 </tr>
             {% endfor %}

@@ -1,0 +1,111 @@
+{% extends 'admin_base.html' %}
+
+
+{% block title %}{% endblock %}
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'final_order_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Statistika</h1>
+
+    </div>
+    <a href="{% url 'un_seen_order_list_url' %}">Saytdan kelgan buyurtmalar</a>
+    &nbsp;
+    &nbsp;
+    <a href="{% url 'accepted_orders_list_url' %}">Operator olgan buyurtmalar</a>
+    &nbsp;
+    &nbsp;
+    <a href="{% url 'final_order_list_url' %}">Tugallangan</a>
+    &nbsp;
+    &nbsp;
+    <a href="{% url 'un_final_order_list_url' %}">Tugallanmagan</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <table class="table  table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Phone</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Province</th>
+                <th scope="col">Region</th>
+                <th scope="col">Business Name</th>
+                <th scope="col">Business Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">To'langan Summa</th>
+                <th scope="col">Write</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Status</th>
+                <th scope="col">Data Update</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in page_obj %}
+                <tr style="cursor: pointer" onclick="window.location='#'">
+
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ object.phone_number }}</td>
+                    <td>{{ object.first_name }}</td>
+                    <td>{{ object.last_name }}</td>
+                    <td>{{ object.province }}</td>
+                    <td>{{ object.region }}</td>
+                    <td>{{ object.business_name }}</td>
+                    <td>{{ object.business_type }}</td>
+                    <td>{{ object.price }}</td>
+                    <td>{{ object.payme }}</td>
+                    <td>{{ object.worker_field }}</td>
+                    <td>{{ object.operator_field }}</td>
+                    <td>{{ object.status }}</td>
+                    <td>{{ object.updated_at }}</td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <nav aria-label="...">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page=1">&laquo; birinchi</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
+            {% endif %}
+            <span class="page-link">
+                       {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
+                </span>
+
+
+            {% if page_obj.has_next %}
+
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
+
+
+            {% endif %}
+        </ul>
+    </nav>
+
+
+
+
+{% endblock %}

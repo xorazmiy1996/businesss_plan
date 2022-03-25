@@ -1,0 +1,94 @@
+{% extends 'operator_base.html' %}
+
+
+{% block title %}{% endblock %}
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="pagetitle">
+
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <h1>To'lov qilingan buyurtmalar</h1>
+
+    <div class="col-xxl-4 col-md-6">
+        <div class="card info-card revenue-card">
+            <a href="{% url 'employee_order_list_url' %}">
+                <div class="card-body">
+                <h5 class="card-title">Operator olgan buyurtmalar </h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6></h6>
+                        <span class="text-success small pt-1 fw-bold"></span> <span
+                            class="text-muted small pt-2 ps-1"></span>
+
+                    </div>
+                </div>
+            </div>
+            </a>
+
+
+        </div>
+    </div>
+    <div class="col-xxl-4 col-md-6">
+        <div class="card info-card revenue-card">
+            <a href="{% url 'orders_site_list_url' %}">
+                <div class="card-body">
+                <h5 class="card-title">Saytdan olingan buyurtmalar </h5>
+
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6></h6>
+                        <span class="text-success small pt-1 fw-bold"></span> <span
+                            class="text-muted small pt-2 ps-1"></span>
+
+                    </div>
+                </div>
+            </div>
+            </a>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+            {% if page_obj.has_next %}
+
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
+
+
+            {% endif %}
+        </ul>
+    </nav>
+
+
+
+{% endblock %}

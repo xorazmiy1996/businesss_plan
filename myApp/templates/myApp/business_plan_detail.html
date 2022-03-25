@@ -1,0 +1,106 @@
+{% extends 'base_front.html' %}
+{% block title %} Phone number {% endblock %}
+
+{% block content %}
+    <br>
+    <div class="about-area ptb-100">
+        <div class="container">
+
+
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4">
+                    <div class="team-card">
+                        <a href="{% url 'business_plan_detail_url' pk=object.pk %}"><img src="{{ object.image.url }}"
+                                                                                         alt="Team Images"></a>
+
+                        <ul class="social-link">
+                            <li>
+                                <a href="#"><i class="bx bxl-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="bx bxl-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="bx bxl-instagram"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="bx bxl-youtube"></i></a>
+                            </li>
+                        </ul>
+
+                        <div class="content">
+                            <p style="color: white"> Sotib olish narhi: {{ object.cost }} ming so'm</p>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="about-content ml-25">
+                        <h5>{{ object.name_business }}</h5>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <ul class="about-list text-start">
+                                    <li><i class="bx bxs-check-circle"></i>А) Boshlash uchun kerakli summa
+                                        (minimal): {{ object.money_min }} mln. soʼm
+                                    </li>
+                                    <li><i class="bx bxs-check-circle"></i>B) Yillik daromad: {{ object.profit_year }}
+                                        mln soʼm
+                                    </li>
+                                    <li><i class="bx bxs-check-circle"></i>C) Oylik daromad: {{ object.profit_month }}
+                                        mln soʼm
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <ul class="about-list about-list-2 text-start">
+                                    <li><i class="bx bxs-check-circle"></i>D) Kerakli ishchilar soni: {{ object.number_of_workers }}</li>
+                                    <li><i class="bx bxs-check-circle"></i>E) Zarur yer maydoni: {{ object.land_area }}</li>
+                                    <li><i class="bx bxs-check-circle"></i>F) Uy sharoitida bajarsa boʼladimi? - {{ object.answer }} </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="section-title">
+
+                            <p>
+                                Mazkur biznesni boshlash uchun koʼrsatilgan miqdorda pulim yoʼq, kredit olishim uchun
+                                esa kafolatim (zalog) yoki kafillik beradigan tanishim yoʼq.
+                                <br>
+                                1. Kafolat yoki kafillarsiz imtiyozli kredit olib bilamanmi?
+                                <br>
+                                2. Ushbu ishni qilishim uchun boshqa moliyaviy manbaalar topa olamanmi? Javob: – Ha.
+                            </p>
+
+                        </div>
+
+                        <h5>
+
+                        </h5>
+
+                          <div class="section-title text-center">
+                         <h3>
+                             <a href="{% url 'grant_list_url' %}"> Dastlabki sarmoyani topish yoʼllari ></a>
+                                       &nbsp; &nbsp;
+                             <a href="{% url 'petition_add_url' %}"> Xarid qilish></a>
+                          </h3>
+            </div>
+                          <div class="section-title">
+
+                            <p>
+                                {{ object.text_min }}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}

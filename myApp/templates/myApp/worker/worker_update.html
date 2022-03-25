@@ -1,44 +1,64 @@
-{% extends 'base_admin.html' %}
+{% extends 'operator_base.html' %}
+
 
 {% block title %}{% endblock %}
 
-{% block sidebar %}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'worker_list_url' %}">
-            <i class="bi bi-grid"></i>
-            <span>Buyurtmalar</span>
-        </a>
-    </li>
 
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'worker_order_list_url' %}">
-            <i class="bi bi-person"></i>
-            <span>Mening buyurtmalarim</span>
-        </a>
-    </li><!-- End Profile Page Nav -->
-
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-        </a>
-    </li><!-- End Login Page Nav -->
-
-{% endblock %}
 
 {% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                  <form class="row g-3" method="post"  >
+                 {% csrf_token %}
+{#                      {{ form.as_p }}#}
 
-    <div class="card">
-        <div style="margin: 40px;">
+                    <div class="col-md-6">
+                        <label for="id_add_phone_number"></label>
+                        <input type="text" name="add_phone_number" value="{{ object.add_phone_number }}" class="form-control" maxlength="15"
+                               id="id_add_phone_number" placeholder="Add Phone Number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_first_name"></label>
+                        <input type="text" name="first_name" value="{{ object.first_name }}" class="form-control" maxlength="50"
+                               id="id_first_name" placeholder="First Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_last_name"></label>
+                        <input type="text" name="last_name" value="{{ object.last_name }}" class="form-control" maxlength="50"
+                               id="id_last_name" placeholder="Last Name">
+                    </div>
 
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input class="btn btn-primary" type="submit" value="Save">
+
+                    <div class="col-md-6">
+                        <label for="id_business_name"></label>
+                        <input type="text" name="business_name" value="{{ object.business_name }}"  class="form-control" maxlength="100"
+                               id="id_business_name" placeholder="Business Name">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="id_price"></label>
+                        <input type="text" name="price" value="{{ object.price }}" class="form-control" required id="id_price" placeholder="Price">
+                    </div>
+
+
+
+
+                    <div class="text-center">
+                        <input class="btn btn-primary" type="submit" value="band qilish">
+
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+
+
+
             </form>
-        </div>
+            </div>
+
     </div>
+    </div>
+
+
 
 
 

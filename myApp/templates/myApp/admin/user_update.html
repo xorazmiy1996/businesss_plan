@@ -1,0 +1,42 @@
+{% extends 'admin_base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'user_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>User update</h1>
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+{% block content %}
+
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <br>
+         <a class="btn btn-primary" href="{% url 'password_change' %}">password change</a>
+        <br>
+        <br>
+        <button class="btn btn-primary">Update</button>
+        <a class="bt" href=""></a>
+    </form>
+
+
+
+
+
+
+{% endblock %}

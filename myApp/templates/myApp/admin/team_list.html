@@ -1,0 +1,51 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block dashboard %}
+        <div class="pagetitle">
+            <h1>Team list</h1>
+
+        </div><!-- End Page Title -->
+    {% endblock %}
+
+
+{% block content %}
+    <a href="{% url 'team_add_url' %}"> Team yaratish</a>
+
+    <div class="card">
+        <table class="table  table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">List Name</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Middle Name</th>
+                <th scope="col">Academic Degree</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr style="cursor: pointer" onclick="window.location='#'">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.last_name }}</td>
+                    <td>{{ object.first_name }}</td>
+                    <td>{{ object.middle_name }}</td>
+                    <td>{{ object.academic_degree }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'team_detail_url' pk=object.pk %}">Ko'rish</a>
+                        <a class="btn btn-danger" href="{% url 'team_delete_url' pk=object.pk %}">O'chirish</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+{% endblock %}

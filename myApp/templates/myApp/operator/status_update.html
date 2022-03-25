@@ -1,0 +1,59 @@
+{% extends 'operator_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Individual Order</h1>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Order</h5>
+                <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+
+
+{#                    <div class="col-md-12">#}
+{#                        <label for="id_status">Ish tugallandimi::</label>#}
+{#                        <input type="checkbox" name="status" value="False" class="form-check-input" required id="id_status"#}
+{#                               placeholder="Price">#}
+{#                    </div>#}
+
+
+
+
+                    <div class="text-center">
+                        <input class="btn btn-primary" type="submit" value="Ishni yakulash">
+
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

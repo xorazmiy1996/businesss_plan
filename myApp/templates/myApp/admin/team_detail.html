@@ -1,0 +1,104 @@
+{% extends 'admin_base.html' %}
+
+
+
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="{% url 'user_list_url' %}">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Team View</h1>
+
+    </div><!-- End Page Title -->
+{% endblock %}
+
+{% block content %}
+
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+{#              <img src="{{ object.image.url }}" alt="Profile" class="rounded-circle">#}
+              <h2>{{ object.last_name }} {{ object.first_name }}</h2>
+              <h3>{{ object.academic_degree }}</h3>
+              <div class="social-links mt-2">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">About</h5>
+                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                    <div class="col-lg-9 col-md-8">{{ object.last_name }} {{ object.first_name }} {{ object.middle_name }}</div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Academic degree</div>
+                    <div class="col-lg-9 col-md-8">{{ object.academic_degree }}</div>
+                  </div>
+
+
+                </div>
+
+
+
+
+
+
+                </div>
+
+
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
