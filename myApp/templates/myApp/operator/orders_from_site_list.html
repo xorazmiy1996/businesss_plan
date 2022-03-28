@@ -53,7 +53,7 @@
             </thead>
             <tbody>
             {% for object in page_obj %}
-                <tr style="cursor: pointer" onclick="window.location='{% url 'worker_update_url' pk=object.pk %}'">
+                <tr style="cursor: pointer; background: #83F016" onclick="window.location='{% url 'worker_update_url' pk=object.pk %}'">
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.phone_number }}</td>
                     <td>{{ object.add_phone_number }}</td>

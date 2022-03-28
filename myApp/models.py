@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import pre_save
 from django.db.models import signals, Q
 from django.dispatch import receiver
+from datetime import datetime
 
 from django.db.models import Sum
 
@@ -47,7 +48,6 @@ POSITION_CHOICES = [
     ("ENTREPRENEURS", "ENTREPRENEURS"),
 
 ]
-
 
 QUALITY_CHOICES = [
 
@@ -224,7 +224,7 @@ class Order(Base):
 
     petition_type = models.CharField(max_length=20, blank=True, null=True)
 
-    stat_date = models.DateTimeField(default=None, blank=True, null=True)
+    stat_date = models.DateTimeField(verbose_name='Start', default=None, blank=True, null=True)
 
     end_date = models.DateTimeField(default=None, blank=True, null=True)
 
@@ -244,6 +244,20 @@ class Order(Base):
 
     def get_absolute_url(self):
         return reverse('order_detail_url', kwargs={'pk': self.pk})
+
+    # @property
+    # def get_status_color(self):
+    #     middle = (self.end_date.timestamp() - self.stat_date.timestamp()) / 3
+    #     first_interval = self.stat_date.timestamp() + middle
+    #     second_interval = self.end_date.timestamp() - middle
+    #     current_time = datetime.now().timestamp()
+    #
+    #     if current_time < first_interval:
+    #         return "green"
+    #     elif current_time >= first_interval and current_time < second_interval:
+    #         return "yellow"
+    #     else:
+    #         return "red"
 
     # @property
     # def order_count(self):

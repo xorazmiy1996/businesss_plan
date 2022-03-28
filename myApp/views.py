@@ -161,14 +161,6 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
         return render(request, self.template_name, {'form': form})
 
 
-# AJAX
-def load_cities(request):
-    province_id = request.GET.get('province_id')
-    cities = Region.objects.filter(province_id=province_id).all()
-    return render(request, 'myApp/city_dropdown_list_options.html', {'cities': cities})
-    # return JsonResponse(list(cities.values('id', 'name')), safe=False)
-
-
 class UpdateOrderInOperator(LoginRequiredMixin, UpdateView):
     model = Order
     # specify the fields
@@ -512,14 +504,9 @@ class PaidOrders(View):
 
 class IndividualOrderCreate(CreateView):
     model = Order
-    fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
-              'business_type', 'quality',
-              'price', 'stat_date', 'end_date', 'payme', 'color_type']
-    # form_class = IndividualOrderForm
-
+    form_class = IndividualOrderForm
     template_name = 'myApp/operator/individual_order_create.html'
-
-    success_url = reverse_lazy('individual_order_create_url')
+    success_url = reverse_lazy('petitions_operator_add_url')
 
     def form_valid(self, form):
         form.instance.petition_type = 'individual'
@@ -527,6 +514,14 @@ class IndividualOrderCreate(CreateView):
 
         form.save()
         return super(IndividualOrderCreate, self).form_valid(form)
+
+
+# AJAX
+def load_cities(request):
+    province_id = request.GET.get('province_id')
+    cities = Region.objects.filter(province_id=province_id)
+    return render(request, 'myApp/city_dropdown_list_options.html', {'cities': cities})
+    # return JsonResponse(list(cities.values('id', 'name')), safe=False)
 
 
 class SiteOrderUpdate(UpdateView):
@@ -550,7 +545,12 @@ class SiteOrderUpdate(UpdateView):
 class EmployeeOrdersList(ListView):
     paginate_by = 10
     model = Order
+
     template_name = 'myApp/operator/employee_orders_list.html'
+
+
+
+
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -712,6 +712,7 @@ class PreOrderUpdate(UpdateView):
     model = Order
     form_class = PreOrderUpdateForm
     template_name = 'myApp/operator/pre_order_update.html'
+    success_url = reverse_lazy('not_ordered_url')
 
 
 class OrderDetail(DetailView):

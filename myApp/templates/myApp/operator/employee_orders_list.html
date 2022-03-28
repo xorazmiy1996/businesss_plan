@@ -45,16 +45,15 @@
                 <th scope="col">Price</th>
                 <th scope="col">Payme</th>
 
-
-
-
-
             </tr>
             </thead>
             <tbody>
+
+
             {% for object in page_obj %}
                 <tr style="cursor: pointer" onclick="window.location='{% url 'worker_update_url' pk=object.pk %}'">
                     <th scope="row">{{ forloop.counter }}</th>
+                    {{ object.get_status_color }}
                     <td>{{ object.phone_number }}</td>
                     <td>{{ object.add_phone_number }}</td>
                     <td>{{ object.first_name }}</td>

@@ -21,7 +21,8 @@
                 <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
                     {% csrf_token %}
 
-{#                                        {{ form.as_p }}#}
+{#                     {{ form.as_p }}#}
+
                     <div class="col-md-6">
                         <label for="id_phone_number"></label>
                         <input type="text" name="phone_number" value="" class="form-control" maxlength="15" required
@@ -43,9 +44,9 @@
                                id="id_last_name" placeholder="Last Name">
                     </div>
                     <div class="col-md-6">
-                        <label for="id_province"></label>
+                        <label for="id_province">Choose Province</label>
                         <select name="province" class="form-select" id="id_province">
-                            <option value="" selected>---------</option>
+                            <option value selected>---------</option>
                             <option value="3">Andijon viloyati</option>
                             <option value="4">Buxoro viloyati</option>
                             <option value="5">Fargʻona viloyati</option>
@@ -64,9 +65,9 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="id_region"></label>
+                        <label for="id_region">Choose Region</label>
                         <select name="region" class="form-select" id="id_region">
-                            <option value="" selected>---------</option>
+                            <option value selected>---------</option>
 
                         </select>
                     </div>
@@ -76,7 +77,7 @@
                                id="id_business_name" placeholder="Business Name">
                     </div>
                     <div class="col-md-6">
-                        <label for="id_business_type"></label>
+                        <label for="id_business_type">Order type</label>
                         <select name="business_type" class="form-select" id="id_business_type">
                             <option value="" selected>---------</option>
 
@@ -94,8 +95,8 @@
 
                     </div>
                     <div class="col-md-12">
-                        <label for="id_quality"></label>
-                        <select name="quality" class="form-select" id="id_quality">
+                        <label for="id_quality">Client Behaviour</label>
+                        <select name="quality"  class="form-select" id="id_quality">
                             <option value="" selected>---------</option>
 
                             <option value="narx">Narx</option>
@@ -108,7 +109,7 @@
 
                     </div>
                     <div class="col-md-12">
-                        <label for="id_price"></label>
+                        <label for="id_price">Price</label>
                         <input type="text" name="price" value="0" class="form-control" required id="id_price"
                                placeholder="Price">
                     </div>
@@ -118,7 +119,7 @@
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseWidthExample" aria-expanded="false"
                                     aria-controls="collapseWidthExample">
-                                Color
+                                Payment Probability
                             </button>
                         </p>
                         <div class="collapse collapse-horizontal" id="collapseWidthExample">
@@ -142,9 +143,9 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="btn btn-outline-danger" for="id_color_type_2">
-                                                <input type="radio" name="color_type" value="red" maxlength="15"
+                                                <input type="radio" name="color_type" value="red" checked maxlength="15"
                                                        id="id_color_type_2"/>
-                                                <i class="bi bi-emoji-angry-fill" style="font-size: 4rem"></i>
+                                                <i class="bi bi-emoji-angry-fill" style="font-size: 4rem" ></i>
                                             </label>
 
                                         </div>
@@ -165,9 +166,9 @@
                         </p>
                         <div class="collapse collapse-horizontal" id="collapseWidthExample1">
                             <div class="card card-body col-sm-10">
-                                <label for="id_payme">Payme:</label>
+                                <label for="id_payme">Paid sum:</label>
                                 <input type="text" name="payme" class="form-control" maxlength="50" id="id_payme">
-                                <label for="id_stat_date">Stat date:</label>
+                                <label for="id_stat_date">Start date:</label>
                                 <input type="datetime-local" name="stat_date" value="" class="form-control"
                                        id="id_stat_date">
                                 <label for="id_end_date">End date:</label>
@@ -180,9 +181,9 @@
 
 
                     <div class="text-center">
-                        <input class="btn btn-primary" type="submit" value="band qilish">
+                        <input class="btn btn-primary" type="submit" value="Band qilish">
 
-                        <button type="reset" class="btn btn-secondary">Reset</button>
+{#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
                     </div>
                 </form>
 
@@ -198,6 +199,7 @@
                                 'province_id': provinceId       // add the country id to the GET parameters
                             },
                             success: function (data) {   // `data` is the return of the `load_cities` view function
+
                                 $("#id_region").html(data);  // replace the contents of the city input with the data that came from the server
                                 /*
 
@@ -210,6 +212,7 @@
 
                                 */
                             }
+
                         });
 
                     });

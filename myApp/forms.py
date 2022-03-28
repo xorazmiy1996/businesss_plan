@@ -38,7 +38,7 @@ class OrderForm(forms.ModelForm):
         model = Order
 
         fields = ['add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
-                  'business_type','quality',
+                  'business_type', 'quality',
                   'price', 'stat_date', 'end_date', 'payme', 'color_type']
 
         # widgets = {
@@ -84,31 +84,30 @@ class PreOrderUpdateForm(forms.ModelForm):
                   'price', 'stat_date', 'end_date', 'payme', 'color_type']
 
 
-
 class IndividualOrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
-                  'business_type',
+                  'business_type', 'quality',
                   'price', 'stat_date', 'end_date', 'payme', 'color_type']
 
-        widgets = {
-            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'add_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'province': forms.Select(attrs={'class': 'form-select'}),
-            'region': forms.Select(attrs={'class': 'form-select'}),
-
-            'business_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'business_type': forms.Select(attrs={'class': 'form-select'}),
-            'price': forms.TextInput(attrs={'class': 'form-control'}),
-            'stat_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'end_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'payme': forms.TextInput(attrs={'class': 'form-control'}),
-            'color_type': forms.RadioSelect(choices=COLOR_CHOOSE),
-
-        }
+        # widgets = {
+        #     'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'add_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'province': forms.Select(attrs={'class': 'form-select'}),
+        #     'region': forms.Select(attrs={'class': 'form-select'}),
+        #
+        #     'business_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'business_type': forms.Select(attrs={'class': 'form-select'}),
+        #     'price': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'stat_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+        #     'end_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+        #     'payme': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'color_type': forms.RadioSelect(choices=COLOR_CHOOSE),
+        #
+        # }
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
