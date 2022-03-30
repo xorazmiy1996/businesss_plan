@@ -3,14 +3,14 @@
 
 {% block title %}{% endblock %}
 
-{% block search %}
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">
-            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
-{% endblock %}
+{#{% block search %}#}
+{#    <div class="search-bar">#}
+{#        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">#}
+{#            <input type="text" name="search" placeholder="Search" title="Enter search keyword">#}
+{#            <button type="submit" title="Search"><i class="bi bi-search"></i></button>#}
+{#        </form>#}
+{#    </div>#}
+{#{% endblock %}#}
 {% block dashboard %}
     <div class="pagetitle">
 
@@ -72,8 +72,8 @@
                     <td>{{ object.business_name }}</td>
                     <td>{{ object.business_type }}</td>
                     <td>{{ object.operator_field }}</td>
-                    <td>{{ object.stat_date }}</td>
-                    <td>{{ object.end_date }}</td>
+                    <td>{{ object.stat_date|date:'d.m.Y' }}</td>
+                    <td>{{ object.end_date|date:'d.m.Y' }}</td>
                     <td>{{ object.quality }}</td>
                     <td>{{ object.price }}</td>
                     <td>{{ object.payme }}</td>
