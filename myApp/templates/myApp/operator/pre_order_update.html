@@ -83,15 +83,22 @@
                         <label for="id_business_type"></label>
                         <select name="business_type" class="form-select" id="id_business_type">
 
-                            <option value="business" {% if object.business_type == 'business' %} selected {% endif %}> Biznes Reja </option>
+                            <option value="business" {% if object.business_type == 'business' %} selected {% endif %}>
+                                Biznes Reja
+                            </option>
 
                             <option value="teo"{% if object.business_type == 'teo' %} selected {% endif %} >TEO</option>
 
-                            <option value="grand" {% if object.business_type == 'grand' %} selected {% endif %} >Grand</option>
+                            <option value="grand" {% if object.business_type == 'grand' %} selected {% endif %} >Grand
+                            </option>
 
-                            <option value="boshqa" {% if object.business_type == 'boshqa' %} selected {% endif %} >Boshqa</option>
+                            <option value="boshqa" {% if object.business_type == 'boshqa' %} selected {% endif %} >
+                                Boshqa
+                            </option>
 
-                            <option value="qiziqmadi" {% if object.business_type == 'qiziqmadi' %} selected {% endif %} >Qiziqish bo&#x27;lmadi</option>
+                            <option value="qiziqmadi" {% if object.business_type == 'qiziqmadi' %}selected {% endif %} >
+                                Qiziqish bo&#x27;lmadi
+                            </option>
 
                         </select>
 
@@ -101,11 +108,15 @@
                         <select name="quality" class="form-select" id="id_quality">
 
 
-                            <option value="narx" {% if object.business_type == 'narx' %} selected {% endif %}>Narx</option>
+                            <option value="narx" {% if object.business_type == 'narx' %} selected {% endif %}>Narx
+                            </option>
 
-                            <option value="sifat" {% if object.business_type == 'sifat' %} selected {% endif %}>Sifat</option>
+                            <option value="sifat" {% if object.business_type == 'sifat' %} selected {% endif %}>Sifat
+                            </option>
 
-                            <option value="narx+sifat" {% if object.business_type == 'narx+sifat' %} selected {% endif %}>Narx + Sifat</option>
+                            <option value="narx+sifat" {% if object.business_type == 'narx+sifat' %}
+                                    selected {% endif %}>Narx + Sifat
+                            </option>
 
                         </select>
 
@@ -116,6 +127,10 @@
                                id="id_price"
                                placeholder="Price">
                     </div>
+
+
+
+
 
                     <div class="col-md-4">
                         <p>
@@ -131,7 +146,9 @@
                                     <div class="row" style="margin-top: 3%; margin-bottom: 3%">
                                         <div class="col-sm-4">
                                             <label class="btn btn-outline-success " for="id_color_type_0">
-                                                <input type="radio" name="color_type" value="green" {% if object.color_type == "green" %} checked {% endif %} maxlength="15"
+                                                <input type="radio" name="color_type" value="green"
+                                                        {% if object.color_type == "green" %} checked {% endif %}
+                                                       maxlength="15"
                                                        id="id_color_type_0">
                                                 <i class="bi bi-emoji-smile" style="font-size: 4rem"></i>
                                             </label>
@@ -139,19 +156,24 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="btn btn-outline-warning" for="id_color_type_1">
-                                                <input type="radio" name="color_type" value="yellow" {% if object.color_type == "yellow" %} checked {% endif %}   maxlength="15"
+                                                <input type="radio" name="color_type" value="yellow"
+                                                        {% if object.color_type == "yellow" %} checked {% endif %}
+                                                       maxlength="15"
                                                        id="id_color_type_1">
                                                 <i class="bi bi-emoji-frown" style="font-size: 4rem"></i></label>
 
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="btn btn-outline-danger" for="id_color_type_2">
-                                                <input type="radio" name="color_type" value="red" {% if object.color_type == "red" %} checked {% endif %} maxlength="15"
+                                                <input type="radio" name="color_type" value="red"
+                                                        {% if object.color_type == "red" %} checked {% endif %}
+                                                       maxlength="15"
                                                        id="id_color_type_2"/>
                                                 <i class="bi bi-emoji-angry-fill" style="font-size: 4rem"></i>
                                             </label>
 
-                                        </div>x`
+                                        </div>
+                                        x`
                                     </div>
 
                                 </div>
@@ -186,11 +208,14 @@
                     <div class="text-center">
                         <input class="btn btn-primary" type="submit" value="band qilish">
 
-                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        {#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
                     </div>
                 </form>
                 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
                 <script>
+
+
+
                     $("#id_province").change(function () {
                         const url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
                         const provinceId = $(this).val();  // get the selected country ID from the HTML input
