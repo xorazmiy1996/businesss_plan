@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import pre_save
 from django.db.models import signals, Q
 from django.dispatch import receiver
+
 from datetime import datetime
 
 from django.db.models import Sum
@@ -258,6 +259,33 @@ class Order(Base):
     #         return "yellow"
     #     else:
     #         return "red"
+
+
+
+    # @property
+    # def get_timestamp_start_date(self):
+    #     return self.stat_date.strftime("%d/%m/%y %H:%M:%S")
+    # @property
+    # def get_timestamp_end_date(self):
+    #     return self.end_date.strftime("%d/%m/%y %H:%M:%S")
+
+    @property
+    def get_timestamp_start_date(self):
+        if self.stat_date not in [None, '']:
+            return self.stat_date.strftime("%d/%m/%y %H:%M:%S")
+        else:
+            return '0'
+
+    @property
+    def get_timestamp_end_date(self):
+        if self.stat_date not in [None, '']:
+            return self.end_date.strftime("%d/%m/%y %H:%M:%S")
+        else:
+            return '0'
+
+
+
+
 
     # @property
     # def order_count(self):

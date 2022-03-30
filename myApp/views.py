@@ -116,7 +116,7 @@ class OrderList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "myApp/operator/order_list.html"
 
     def test_func(self):
-        return 'Operator' == self.request.user.role
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -130,7 +130,7 @@ class OperatorList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "myApp/operator/operator_list.html"
 
     def test_func(self):
-        return 'Operator' == self.request.user.role
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -192,7 +192,7 @@ class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('operator_list_url')
 
     def test_func(self):
-        return 'Operator' == self.request.user.role
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def post(self, request, *args, **kwargs):
         instance = Order.objects.get(id=kwargs['pk'])
@@ -284,10 +284,13 @@ class BusinessPlanDelete(DeleteView):
     success_url = reverse_lazy("business_admin_list_url")
 
 
-class FinalOrdersList(ListView):
+class FinalOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/admin/final_order_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -296,10 +299,13 @@ class FinalOrdersList(ListView):
             Q(first_name__contains=self.request.GET.get("search", '')))
 
 
-class UnFinishedOrdersList(ListView):
+class UnFinishedOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/admin/unfinished_orders_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -308,10 +314,13 @@ class UnFinishedOrdersList(ListView):
             Q(first_name__contains=self.request.GET.get("search", '')))
 
 
-class UnSeenOrdersList(ListView):
+class UnSeenOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/admin/unseen_orders_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -331,10 +340,13 @@ class NotInterestedList(ListView):
             Q(operator_field__isnull=False, business_type='qiziqmadi'))
 
 
-class AcceptedOrdersList(ListView):
+class AcceptedOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/admin/accepted_orders_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -424,35 +436,47 @@ class UserBoshqa(View):
 
 
 # user detil
-class UserDetail(DetailView):
+class UserDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     template_name = "myApp/admin/user_detail.html"
 
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
 
 # user update
-class UserUpdate(UpdateView):
+class UserUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     template_name = 'myApp/admin/user_update.html'
     fields = [
         "first_name",
         "last_name",
         "role",
-        "number_of_orders",
+        # "number_of_orders",
 
     ]
 
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
 
 #
-class TeamCreate(CreateView):
+class TeamCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Team
     form_class = TeamForm
     template_name = 'myApp/admin/team_create.html'
     success_url = reverse_lazy('team_list_url')
 
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
-class TeamList(ListView):
+
+class TeamList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Team
     template_name = 'myApp/admin/team_list.html'
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
 
 
 class TeamDetail(DetailView):
@@ -479,10 +503,13 @@ class GrandUpdate(UpdateView):
     success_url = reverse_lazy("grant_list_url")
 
 
-class NotOrdered(ListView):
+class NotOrdered(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/admin/not_ordered.html'
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -490,23 +517,33 @@ class NotOrdered(ListView):
             Q(operator_field__isnull=False, worker_field__isnull=True), business_type__contains='qiziqmadi')
 
 
-class PetitionOperatorAdd(CreateView):
+class PetitionOperatorAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Petition
     form_class = PetitionForm
     template_name = 'myApp/petitions_operator_add.html'
+
     # success_url = reverse_lazy('answer_url')
 
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
-class PaidOrders(View):
+
+class PaidOrders(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         return render(request, 'myApp/operator/paid_orders.html')
 
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
-class IndividualOrderCreate(CreateView):
+
+class IndividualOrderCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Order
     form_class = IndividualOrderForm
     template_name = 'myApp/operator/individual_order_create.html'
     success_url = reverse_lazy('petitions_operator_add_url')
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def form_valid(self, form):
         form.instance.petition_type = 'individual'
@@ -542,15 +579,14 @@ class SiteOrderUpdate(UpdateView):
         return super(SiteOrderUpdate, self).form_valid(form)
 
 
-class EmployeeOrdersList(ListView):
+class EmployeeOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
 
     template_name = 'myApp/operator/employee_orders_list.html'
 
-
-
-
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -559,10 +595,13 @@ class EmployeeOrdersList(ListView):
             petition_type__contains='individual')
 
 
-class OrdersFromSiteList(ListView):
+class OrdersFromSiteList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
     model = Order
     template_name = 'myApp/operator/orders_from_site_list.html'
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -571,39 +610,57 @@ class OrdersFromSiteList(ListView):
             petition_type__contains='site')
 
 
-class PreOrderColorIndividual(View):
+class PreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
+
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='individual').filter(
             Q(payme__isnull=True))
         return render(request, 'myApp/operator/pre_order_color_individual.html', context={'page_obj': obj})
 
 
-class AdminPreOrderColorIndividual(View):
+class AdminPreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='individual').filter(
             Q(payme__isnull=True))
         return render(request, 'myApp/admin/admin_pre_order_color_individual.html', context={'page_obj': obj})
 
 
-class PreOrderColorSite(View):
+class PreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
+
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='site').filter(
             Q(payme__isnull=True))
         return render(request, 'myApp/operator/pre_order_color_site.html', context={'page_obj': obj})
 
 
-class AddminPreOrderColorSite(View):
+class AddminPreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='site').filter(
             Q(payme__isnull=True))
         return render(request, 'myApp/admin/admin_pre_order_color_site.html', context={'page_obj': obj})
 
 
-class StatusUpdates(UpdateView):
+class StatusUpdates(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
     fields = ['status']
     template_name = 'myApp/operator/status_update.html'
     success_url = reverse_lazy('operator_list_url')
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def form_valid(self, form):
         form.instance.order_finished_date = datetime.today()
@@ -617,6 +674,61 @@ class WorkerOrderSiteUpdate(UpdateView):
     model = Order
     fields = ['add_phone_number', 'first_name', 'last_name', 'business_name', 'business_type', 'price']
     template_name = 'myApp/worker/worker_order_site_update.html'
+
+
+# class AdminChart(LoginRequiredMixin, UserPassesTestMixin, View):
+#     def get(self, request):
+#         user_names = []
+#         user_order_price = []
+#         oy = request.GET.get('oy')
+#         yil = request.GET.get('yil')
+#
+#         if oy in [None, '']:
+#             try:
+#                 oy = datetime.today().month
+#             except ValueError:
+#                 raise ValidationError({"detail": "invalid params"})
+#
+#         if yil in [None, '']:
+#             try:
+#                 yil = datetime.today().year
+#             except ValueError:
+#                 raise ValidationError({"detail": "invalid params"})
+#
+#         if oy == '0' and yil != '0':
+#             for user in User.objects.all().exclude(role='admin'):
+#                 user_names.append(user.username)
+#                 sm = 0
+#
+#                 for order in user.orders.filter(order_finished_date__year=int(yil)):
+#                     sm += order.price
+#                 user_order_price.append(sm)
+#
+#         elif oy != '0' and yil == '0':
+#             for user in User.objects.all().exclude(role='admin'):
+#                 user_names.append(user.username)
+#                 sm = 0
+#
+#                 for order in user.orders.filter(order_finished_date__year=datetime.today().year).filter(
+#                         order_finished_date__month=int(oy)):
+#                     sm += order.price
+#                 user_order_price.append(sm)
+#
+#         elif oy != '0' and yil != '0':
+#             for user in User.objects.all().exclude(role='admin'):
+#                 user_names.append(user.username)
+#                 sm = 0
+#
+#                 for order in user.orders.filter(order_finished_date__year=int(yil)).filter(
+#                         order_finished_date__month=int(oy)):
+#                     sm += order.price
+#                 user_order_price.append(sm)
+#
+#         context = {
+#             'user_names': user_names,
+#             'user_order_price': user_order_price
+#         }
+#         return render(request, 'myApp/admin/admin_chart_rating.html', context)
 
 
 def admin_chart_rating(request):
@@ -674,11 +786,6 @@ def admin_chart_rating(request):
 
 
 def chart_rating(request):
-    # string1 = "19 Mar 2022  18:45:00.000"
-    # string2 = "24 Mar 2022  18:45:00.000"
-    # start = datetime.strptime(string1, "%d %b %Y  %H:%M:%S.%f")
-    # end = datetime.strptime(string2, "%d %b %Y  %H:%M:%S.%f")
-
     user_names = []
     user_order_price = []
 
@@ -708,11 +815,20 @@ def chart_rating(request):
     return render(request, 'myApp/operator/reyting.html', context)
 
 
-class PreOrderUpdate(UpdateView):
+class PreOrderUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
     form_class = PreOrderUpdateForm
     template_name = 'myApp/operator/pre_order_update.html'
     success_url = reverse_lazy('not_ordered_url')
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
+
+    def form_valid(self, form):
+        form.instance.operator_field = self.request.user
+
+        form.save()
+        return super(PreOrderUpdate, self).form_valid(form)
 
 
 class OrderDetail(DetailView):
@@ -722,6 +838,10 @@ class OrderDetail(DetailView):
     success_url = reverse_lazy('not_ordered_url')
 
 
-class AdminStatistika(View):
+class AdminStatistika(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return 'admin' == self.request.user.role
+
     def get(self, request):
         return render(request, 'myApp/admin/admin_statistika.html')

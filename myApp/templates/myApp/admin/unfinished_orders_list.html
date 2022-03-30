@@ -24,7 +24,7 @@
 {% block content %}
 
     <div class="card" style="display: block; overflow-x: auto;white-space: nowrap">
-        <table class="table  table-hover">
+        <table class="table  table-hover" id="orders_table">
             <thead>
             <tr>
                 <th scope="col">Id</th>
@@ -43,12 +43,15 @@
                 <th scope="col">Operator</th>
 
 
-
             </tr>
             </thead>
             <tbody>
             {% for object in page_obj %}
-                <tr style="cursor: pointer" onclick="window.location='#'">
+                <tr style="cursor: pointer" onclick="window.location='#'"
+                    data-time-start='{{ object.get_timestamp_start_date }}'
+                    data-time-end='{{ object.get_timestamp_end_date }}'
+                    class="table-row"
+                >
 
                     <th>{{ forloop.counter }}</th>
                     <td>{{ object.phone_number }}</td>
@@ -64,7 +67,6 @@
                     <td>{{ object.price }}</td>
                     <td>{{ object.worker_field }}</td>
                     <td>{{ object.operator_field }}</td>
-
 
 
                 </tr>
@@ -96,6 +98,45 @@
             {% endif %}
         </ul>
     </nav>
+
+    <script>
+   const listOfTr = document.querySelectorAll('#orders_table tr.table-row');
+   listOfTr.forEach((item) => {
+       let strDateStart = item.dataset.timeStart.split(' ');
+       let strDateEnd = item.dataset.timeEnd.split(' ');
+       let yearsS = strDateStart[0].split('/')
+       let yearsE =strDateEnd[0].split('/')
+       let timeStart = new Date(yearsS[1] + '/' + yearsS[0] + '/' +  yearsS[2]);
+       let timeEnd = new Date(yearsE[1] + '/' + yearsE[0] + '/' +  yearsE[2]);
+       let hourS = (strDateStart[1].split(':'));
+       let hourE = (strDateEnd[1].split(':'));
+       timeStart.setHours(+hourS[0], +hourS[1], +hourS[2] );
+       timeEnd.setHours(+hourE[0], +hourE[1], +hourE[2] );
+       let middle = (timeEnd - timeStart) / 3;
+       let firstInterval = +timeStart + middle;
+       let secondInterval = timeEnd - middle;
+       const currentElement = item  ;
+
+       if (Date.now() < firstInterval){
+               currentElement.style.backgroundColor = 'green'
+       }else if(Date.now() >= firstInterval && Date.now() < secondInterval ){
+               currentElement.style.backgroundColor = 'yellow'
+       } else{
+               currentElement.style.backgroundColor = 'red'
+       }
+       setInterval(() => {
+           if (Date.now() < firstInterval){
+               currentElement.style.backgroundColor = 'green'
+           }else if(Date.now() >= firstInterval && Date.now() < secondInterval ){
+               console.log()
+               currentElement.style.backgroundColor = 'yellow'
+           } else{
+               currentElement.style.backgroundColor = 'red'
+           }
+           console.log(Date.now(), 'now');
+       },4000)
+   })
+</script>
 
 
 

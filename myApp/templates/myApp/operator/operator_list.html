@@ -11,78 +11,82 @@
 {% endblock %}
 
 {% block dashboard %}
-        <div class="pagetitle">
-            <h1>Mening buyurtmalarim</h1>
+    <div class="pagetitle">
+        <h1>Mening buyurtmalarim</h1>
 
-        </div><!-- End Page Title -->
-    {% endblock %}
+    </div><!-- End Page Title -->
+{% endblock %}
 
 
 
 {% block content %}
 
     <div class="card" style="display: block; overflow-x: auto;white-space: nowrap">
-       <table class="table  table-hover">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Add Phone</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Province</th>
-            <th scope="col">Region</th>
-            <th scope="col">Business Name</th>
-            <th scope="col">Business Type</th>
-            <th scope="col">Price</th>
-            <th scope="col">Worker</th>
-            <th scope="col">Operator</th>
-            <th scope="col">Payme</th>
-            <th scope="col">Start date</th>
-            <th scope="col">End date</th>
-            <th scope="col">Petition Type</th>
-
-
-
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for object in page_obj %}
-            <tr style="cursor: pointer; background: #83F016" onclick="window.location='{% url 'status_update_url' pk=object.id %}'">
-                <th scope="row">{{ forloop.counter }}</th>
-                <td >{{ object.phone_number }}</td>
-                <td >{{ object.add_phone_number }}</td>
-                <td>{{ object.first_name }}</td>
-                <td>{{ object.last_name }}</td>
-                <td>{{ object.province }}</td>
-                <td>{{ object.region }}</td>
-                <td>{{ object.business_name }}</td>
-                <td>{{ object.business_type }}</td>
-                <td>{{ object.price }}</td>
-                <td>{{ object.worker_field }}</td>
-                <td>{{ object.operator_field }}</td>
-                <td>{{ object.payme }}</td>
-                <td>{{ object.stat_date |date:'d.m.Y'  }} </td>
-                <td>{{ object.end_date |date:'d.m.Y'  }} </td>
-                 <td>{{ object.petition_type }}</td>
-                 <td>{{ object.operator_income }}</td>
+        <table class="table  table-hover" id="orders_table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Add Phone</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Province</th>
+                <th scope="col">Region</th>
+                <th scope="col">Business Name</th>
+                <th scope="col">Business Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Worker</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Payme</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+                <th scope="col">Petition Type</th>
 
 
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+
+            {% for object in page_obj %}
+                <tr style="cursor: pointer"
+                    onclick="window.location='{% url 'status_update_url' pk=object.id %}'"
+                    data-time-start='{{ object.get_timestamp_start_date }}'
+                    data-time-end='{{ object.get_timestamp_end_date }}'
+                    class="table-row"
+                >
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ object.phone_number }}</td>
+                    <td>{{ object.add_phone_number }}</td>
+                    <td>{{ object.first_name }}</td>
+                    <td>{{ object.last_name }}</td>
+                    <td>{{ object.province }}</td>
+                    <td>{{ object.region }}</td>
+                    <td>{{ object.business_name }}</td>
+                    <td>{{ object.business_type }}</td>
+                    <td>{{ object.price }}</td>
+                    <td>{{ object.worker_field }}</td>
+                    <td>{{ object.operator_field }}</td>
+                    <td>{{ object.payme }}</td>
+                    <td>{{ object.stat_date |date:'d.m.Y' }} </td>
+                    <td>{{ object.end_date |date:'d.m.Y' }} </td>
+                    <td>{{ object.petition_type }}</td>
+                    <td>{{ object.operator_income }}</td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-     <nav aria-label="...">
+    <nav aria-label="...">
         <ul class="pagination">
 
             {% if page_obj.has_previous %}
                 <a class="page-link" href="?page=1">&laquo; birinchi</a>
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
             {% endif %}
-                <span class="page-link">
+            <span class="page-link">
                        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
                 </span>
 
@@ -96,6 +100,45 @@
             {% endif %}
         </ul>
     </nav>
+
+    <script>
+        const listOfTr = document.querySelectorAll('#orders_table tr.table-row');
+        listOfTr.forEach((item) => {
+            let strDateStart = item.dataset.timeStart.split(' ');
+            let strDateEnd = item.dataset.timeEnd.split(' ');
+            let yearsS = strDateStart[0].split('/')
+            let yearsE = strDateEnd[0].split('/')
+            let timeStart = new Date(yearsS[1] + '/' + yearsS[0] + '/' + yearsS[2]);
+            let timeEnd = new Date(yearsE[1] + '/' + yearsE[0] + '/' + yearsE[2]);
+            let hourS = (strDateStart[1].split(':'));
+            let hourE = (strDateEnd[1].split(':'));
+            timeStart.setHours(+hourS[0], +hourS[1], +hourS[2]);
+            timeEnd.setHours(+hourE[0], +hourE[1], +hourE[2]);
+            let middle = (timeEnd - timeStart) / 3;
+            let firstInterval = +timeStart + middle;
+            let secondInterval = timeEnd - middle;
+            const currentElement = item;
+
+            if (Date.now() < firstInterval) {
+                currentElement.style.backgroundColor = 'green'
+            } else if (Date.now() >= firstInterval && Date.now() < secondInterval) {
+                currentElement.style.backgroundColor = 'yellow'
+            } else {
+                currentElement.style.backgroundColor = 'red'
+            }
+            setInterval(() => {
+                if (Date.now() < firstInterval) {
+                    currentElement.style.backgroundColor = 'green'
+                } else if (Date.now() >= firstInterval && Date.now() < secondInterval) {
+                    console.log()
+                    currentElement.style.backgroundColor = 'yellow'
+                } else {
+                    currentElement.style.backgroundColor = 'red'
+                }
+                console.log(Date.now(), 'now');
+            }, 4000)
+        })
+    </script>
 
 
 {% endblock %}

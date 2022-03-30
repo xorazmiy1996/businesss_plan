@@ -24,7 +24,7 @@ urlpatterns = [
 
     path('bouns/', bouns, name='bouns_url'),
 
-    path('admin_reyting/', admin_reyting, name='admin_reyting_url'),
+    # path('admin_reyting/', admin_reyting, name='admin_reyting_url'),
 
     path('grant_front_list/', grant_project_front, name='grant_front_list_url'),
 
@@ -62,6 +62,8 @@ urlpatterns = [
 
     path('order_list/', OrderList.as_view(), name='order_list_url'),
 
+    # team_detail
+
     path('team_detail/<pk>/', TeamDetail.as_view(), name='team_detail_url'),
 
     path('team_detail_front/<pk>/', TeamDetailFront.as_view(), name='team_detail_front_url'),
@@ -74,7 +76,7 @@ urlpatterns = [
 
     path('operator_boshqa/<pk>', UserBoshqa.as_view(), name='user_boshqa_list_url'),
 
-    path('petition_list/', PetitionList.as_view(), name='petition_list_url'),
+    # path('petition_list/', PetitionList.as_view(), name='petition_list_url'),
 
     path('unseen_orders_list/', UnSeenOrdersList.as_view(), name='un_seen_order_list_url'),
 
@@ -86,11 +88,11 @@ urlpatterns = [
 
     path('user_list/', UserList.as_view(), name='user_list_url'),
 
-    path('worker_order_list/', WorkerOrderList.as_view(), name='worker_order_list_url'),
+    # path('worker_order_list/', WorkerOrderList.as_view(), name='worker_order_list_url'),
 
     path('operator_list/', OperatorList.as_view(), name='operator_list_url'),
 
-    path('worker_list/', WorkerList.as_view(), name='worker_list_url'),
+    # path('worker_list/', WorkerList.as_view(), name='worker_list_url'),
 
     path('user_information/<pk>/', UserInformation.as_view(), name='user_information_url'),
 
@@ -139,6 +141,8 @@ urlpatterns = [
     path('chart/', chart_rating, name='chart_raating_url'),
 
     path('admin_chart/', admin_chart_rating, name='admin_chart_rating_url'),
+
+
 
     path('statistika/', AdminStatistika.as_view(), name='statistika_url'),
 

@@ -44,8 +44,8 @@
             </tr>
             </thead>
             <tbody>
-            {% for object in page_obj %}
-                <tr  style="cursor: pointer"  onclick="window.location='{% url 'user_information_url' pk=object.pk  %}'" >
+            {% for object in page_obj %}      {#   {% url 'user_information_url' pk=object.pk  %}  #}
+                <tr  style="cursor: pointer"  onclick="window.location='#'" >
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.username }}</td>
                     <td>{{ object.first_name }}</td>

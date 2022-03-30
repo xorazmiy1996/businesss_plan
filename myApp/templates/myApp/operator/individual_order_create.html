@@ -21,7 +21,7 @@
                 <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
                     {% csrf_token %}
 
-{#                     {{ form.as_p }}#}
+                    {#                     {{ form.as_p }}#}
 
                     <div class="col-md-6">
                         <label for="id_phone_number"></label>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-md-12">
                         <label for="id_quality">Client Behaviour</label>
-                        <select name="quality"  class="form-select" id="id_quality">
+                        <select name="quality" class="form-select" id="id_quality">
                             <option value="" selected>---------</option>
 
                             <option value="narx">Narx</option>
@@ -113,6 +113,20 @@
                         <input type="text" name="price" value="0" class="form-control" required id="id_price"
                                placeholder="Price">
                     </div>
+
+                    <script>
+                        function numberWithSpaces(x) {
+                            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                        }
+
+                        let telEl = document.querySelector('#id_price');
+                        telEl.addEventListener('keyup', (e) => {
+                            let val = e.target.value.replace(/\s+/g, '');
+                            e.target.value = numberWithSpaces(val);
+                        })
+
+                    </script>
+
 
                     <div class="col-md-4">
                         <p>
@@ -145,7 +159,7 @@
                                             <label class="btn btn-outline-danger" for="id_color_type_2">
                                                 <input type="radio" name="color_type" value="red" checked maxlength="15"
                                                        id="id_color_type_2"/>
-                                                <i class="bi bi-emoji-angry-fill" style="font-size: 4rem" ></i>
+                                                <i class="bi bi-emoji-angry-fill" style="font-size: 4rem"></i>
                                             </label>
 
                                         </div>
@@ -181,14 +195,21 @@
 
 
                     <div class="text-center">
-                        <input class="btn btn-primary" type="submit" value="Band qilish">
+                        <input class="btn btn-primary" id="submitBtn" type="submit" value="Band qilish">
 
-{#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
+                        {#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
                     </div>
                 </form>
 
                 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
                 <script>
+                    const formElement = document.querySelector('#personForm');
+                    const priceField = document.querySelector('#id_price');
+                    document.querySelector('#submitBtn').addEventListener('click', (e) => {
+                        priceField.value = parseInt(priceField.value.replace(/\s/g, ''));
+                        console.log('ckeck form', priceField.value);
+                        formElement.submit()
+                    })
                     $("#id_province").change(function () {
                         const url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
                         const provinceId = $(this).val();  // get the selected country ID from the HTML input
@@ -217,6 +238,8 @@
 
                     });
                 </script>
+
+
 
             </div>
         </div>
