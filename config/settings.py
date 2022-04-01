@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 from environs import Env
 
-
 env = Env()
 env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,8 +27,7 @@ SECRET_KEY = 'django-insecure-q54+fn4!#3c@ei86^ct$xq6ixb_^z&tn)!$h1(a-@xm7iaz7hz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "localhost", "127.0.0.1", "185.204.2.252"]
-
+ALLOWED_HOSTS = ["0.0.0.0", "localhost", "127.0.0.1", "185.204.2.252", "www.narvon.biz", "narvon.biz"]
 
 # Application definition
 
@@ -151,6 +149,6 @@ AUTH_USER_MODEL = 'myApp.User'
 
 LOGIN_REDIRECT_URL = '/'
 # LOGIN_REDIRECT_URL=''
-LOGOUT_REDIRECT_URL='/order_list/'
+LOGOUT_REDIRECT_URL = '/order_list/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
