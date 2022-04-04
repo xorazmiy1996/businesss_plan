@@ -3,14 +3,14 @@
 
 {% block title %}{% endblock %}
 
-{% block search %}
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" action="{% url 'final_order_list_url' %}">
-            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
-{% endblock %}
+{#{% block search %}#}
+{#    <div class="search-bar">#}
+{#        <form class="search-form d-flex align-items-center" action="{% url 'final_order_list_url' %}">#}
+{#            <input type="text" name="search" placeholder="Search" title="Enter search keyword">#}
+{#            <button type="submit" title="Search"><i class="bi bi-search"></i></button>#}
+{#        </form>#}
+{#    </div>#}
+{#{% endblock %}#}
 
 
 
@@ -125,20 +125,20 @@
        const currentElement = item  ;
 
        if (Date.now() < firstInterval){
-               currentElement.style.backgroundColor = 'green'
+               currentElement.style.backgroundColor = '#00FF00'
        }else if(Date.now() >= firstInterval && Date.now() < secondInterval ){
                currentElement.style.backgroundColor = 'yellow'
        } else{
-               currentElement.style.backgroundColor = 'red'
+               currentElement.style.backgroundColor = '#FF0000'
        }
        setInterval(() => {
            if (Date.now() < firstInterval){
-               currentElement.style.backgroundColor = 'green'
+               currentElement.style.backgroundColor = '#00FF00'
            }else if(Date.now() >= firstInterval && Date.now() < secondInterval ){
                console.log()
                currentElement.style.backgroundColor = 'yellow'
            } else{
-               currentElement.style.backgroundColor = 'red'
+               currentElement.style.backgroundColor = '#FF0000'
            }
            console.log(Date.now(), 'now');
        },4000)

@@ -3,14 +3,14 @@
 
 {% block title %}{% endblock %}
 
-{% block search %}
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">
-            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
-{% endblock %}
+{#{% block search %}#}
+{#    <div class="search-bar">#}
+{#        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">#}
+{#            <input type="text" name="search" placeholder="Search" title="Enter search keyword">#}
+{#            <button type="submit" title="Search"><i class="bi bi-search"></i></button>#}
+{#        </form>#}
+{#    </div>#}
+{#{% endblock %}#}
 {% block dashboard %}
     <div class="pagetitle">
 
@@ -51,7 +51,7 @@
             </thead>
             <tbody>
             {% for object in page_obj %}
-                <tr style="cursor: pointer" onclick="window.location='{% url 'pre_order_update_url' pk=object.id %}'">
+                <tr style="cursor: pointer" onclick="window.location='#'">
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ object.phone_number }}</td>
                     <td>{{ object.add_phone_number }}</td>

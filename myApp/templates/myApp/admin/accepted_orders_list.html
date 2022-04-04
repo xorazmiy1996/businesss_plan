@@ -122,20 +122,20 @@
             const currentElement = item;
 
             if (Date.now() < firstInterval) {
-                currentElement.style.backgroundColor = 'green'
+                currentElement.style.backgroundColor = '#00FF00'
             } else if (Date.now() >= firstInterval && Date.now() < secondInterval) {
                 currentElement.style.backgroundColor = 'yellow'
             } else {
-                currentElement.style.backgroundColor = 'red'
+                currentElement.style.backgroundColor = '#FF0000'
             }
             setInterval(() => {
                 if (Date.now() < firstInterval) {
-                    currentElement.style.backgroundColor = 'green'
+                    currentElement.style.backgroundColor = '#00FF00'
                 } else if (Date.now() >= firstInterval && Date.now() < secondInterval) {
                     console.log()
                     currentElement.style.backgroundColor = 'yellow'
                 } else {
-                    currentElement.style.backgroundColor = 'red'
+                    currentElement.style.backgroundColor = '#FF0000'
                 }
                 console.log(Date.now(), 'now');
             }, 4000)
