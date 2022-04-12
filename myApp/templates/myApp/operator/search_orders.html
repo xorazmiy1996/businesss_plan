@@ -3,14 +3,14 @@
 
 {% block title %}{% endblock %}
 
-{#{% block search %}#}
-{#    <div class="search-bar">#}
-{#        <form class="search-form d-flex align-items-center" action="{% url 'order_list_url' %}">#}
-{#            <input type="text" name="search" placeholder="Search" title="Enter search keyword">#}
-{#            <button type="submit" title="Search"><i class="bi bi-search"></i></button>#}
-{#        </form>#}
-{#    </div>#}
-{#{% endblock %}#}
+{% block search %}
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" action="#">
+            <input type="text" name="search" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+{% endblock %}
 {% block dashboard %}
     <div class="pagetitle">
 
@@ -32,31 +32,31 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Add Phone</th>
+{#                <th scope="col">Add Phone</th>#}
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Province</th>
 {#                <th scope="col">Region</th>#}
                 <th scope="col">Business Name</th>
-                <th scope="col">Business Type</th>
+{#                <th scope="col">Business Type</th>#}
                 <th scope="col">Operator</th>
 {#                <th scope="col">Start Date</th>#}
 {#                <th scope="col">End Date</th>#}
-                <th scope="col">Quality</th>
-                <th scope="col">Price</th>
-                <th scope="col">Payme</th>
+{#                <th scope="col">Quality</th>#}
+{#                <th scope="col">Price</th>#}
+{#                <th scope="col">Payme</th>#}
 
             </tr>
             </thead>
             <tbody>
 
 
-            {% for object in page_obj %}
+            {% for object in page_object.object_list %}
 
 
 
                 <tr style="cursor: pointer"
-                    onclick="window.location='{% url 'worker_update_url' pk=object.pk %}'"
+                    onclick="window.location='#'"
                     data-time-start='{{object.get_timestamp_start_date }}'
                     data-time-end='{{object.get_timestamp_end_date }}'
                     class="table-row"
@@ -64,19 +64,19 @@
                     <th scope="row">{{ forloop.counter }}</th>
 
                     <td>{{ object.phone_number }}</td>
-                    <td>{{ object.add_phone_number }}</td>
+{#                    <td>{{ object.add_phone_number }}</td>#}
                     <td>{{ object.first_name }}</td>
                     <td>{{ object.last_name }}</td>
                     <td>{{ object.province }}</td>
 {#                    <td>{{ object.region }}</td>#}
                     <td>{{ object.business_name }}</td>
-                    <td>{{ object.business_type }}</td>
+{#                    <td>{{ object.business_type }}</td>#}
                     <td>{{ object.operator_field }}</td>
 {#                    <td>{{ object.stat_date|date:'d.m.Y' }}</td>#}
 {#                    <td>{{ object.end_date|date:'d.m.Y' }}</td>#}
-                    <td>{{ object.quality }}</td>
-                    <td>{{ object.price }}</td>
-                    <td>{{ object.payme }}</td>
+{#                    <td>{{ object.quality }}</td>#}
+{#                    <td>{{ object.price }}</td>#}
+{#                    <td>{{ object.payme }}</td>#}
 
 
 
@@ -91,28 +91,30 @@
 
     </div>
 
+        {% if is_paginated %}
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item {% if not prev_url %} disabled {% endif %}">
+                    <a class="page-link" href="{{ prev_url }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
 
-    <nav aria-label="...">
-        <ul class="pagination">
+                {% for n in page_object.paginator.page_range %}
+                    {% if page_object.number == n %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                        </li>
+                    {% elif n > page_object.number|add:-3 and n < page_object.number|add:3 %}
+                        <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not next_url %} disabled{% endif %}">
+                    <a class="page-link" href="{{ next_url }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 
-            {% if page_obj.has_previous %}
-                <a class="page-link" href="?page=1">&laquo; birinchi</a>
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">oldingi</a>
-            {% endif %}
-            <span class="page-link">
-                       {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}.
-                </span>
 
-
-            {% if page_obj.has_next %}
-
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">keyingi</a>
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">oxirgi &raquo;</a>
-
-
-            {% endif %}
-        </ul>
-    </nav>
 
 
 <script>

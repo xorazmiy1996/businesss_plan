@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import *
 from datetime import datetime, timedelta
 from django.http.response import HttpResponse, JsonResponse
+from django.core.paginator import Paginator
 
 
 def answer(request):
@@ -187,7 +188,8 @@ class WorkerList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class WorkerUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
 
-    fields = ['add_phone_number', 'first_name', 'last_name', 'business_name', 'price']
+    # fields = ['add_phone_number', 'first_name', 'last_name', 'business_name', 'price']
+    fields = '__all__'
     template_name = 'myApp/worker/worker_update.html'
     success_url = reverse_lazy('operator_list_url')
 
@@ -351,7 +353,7 @@ class AcceptedOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            Q(operator_field__isnull=False, worker_field__isnull=True))
+            Q(operator_field__isnull=False, worker_field__isnull=True)).exclude(payme__iexact=0)
 
 
 # yangi qo'shimchalar
@@ -503,26 +505,78 @@ class GrandUpdate(UpdateView):
     success_url = reverse_lazy("grant_list_url")
 
 
-class NotOrdered(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    paginate_by = 10
-    model = Order
-    template_name = 'myApp/admin/not_ordered.html'
+# class NotOrdered(LoginRequiredMixin, UserPassesTestMixin, ListView):
+#     paginate_by = 10
+#     model = Order
+#     template_name = 'myApp/admin/not_ordered.html'
+#
+#     def test_func(self):
+#         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
+#
+#     def get_queryset(self):
+#         queryset = super().get_queryset()
+#         return queryset.filter(
+#             Q(operator_field__isnull=False, worker_field__isnull=True), business_type__contains='qiziqmadi')
+
+class NotOrdered(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def get(self, request):
+        green_individual_count = Order.objects.all().filter(color_type__contains='green',
+                                                            petition_type__contains='individual').filter(
+            payme__iexact=0).count()
+        yellow_individual_count = Order.objects.all().filter(color_type__contains='yellow',
+                                                             petition_type__contains='individual').filter(
+            payme__iexact=0).count()
+        red_individual_count = Order.objects.all().filter(color_type__contains='red',
+                                                          petition_type__contains='individual').filter(
+            payme__iexact=0).count()
+
+        green_site_count = Order.objects.all().filter(color_type__contains='green',
+                                                      petition_type__contains='site').filter(payme__iexact=0).count()
+        yellow_site_count = Order.objects.all().filter(color_type__contains='yellow',
+                                                       petition_type__contains='site').filter(payme__iexact=0).count()
+        red_site_count = Order.objects.all().filter(color_type__contains='red', petition_type__contains='site').filter(
+            payme__iexact=0).count()
+
+        context = {
+            'green_individual_count': green_individual_count,
+            'yellow_individual_count': yellow_individual_count,
+            'red_individual_count': red_individual_count,
+
+            'green_site_count': green_site_count,
+            'yellow_site_count': yellow_site_count,
+            'red_site_count': red_site_count,
+        }
+
+        return render(request, 'myApp/admin/not_ordered.html', context)
 
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(
-            Q(operator_field__isnull=False, worker_field__isnull=True), business_type__contains='qiziqmadi')
 
+# class PetitionOperatorAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+#     model = Petition
+#     form_class = PetitionForm
+#     template_name = 'myApp/petitions_operator_add.html'
+#     # success_url = reverse_lazy('answer_url')
+#
+#     site_orders = Order.objects.filter(Q(operator_field__isnull=True, worker_field__isnull=True)).count()
+#
+#     extra_context = {
+#         'site_orders': site_orders
+#     }
+#
+#     def test_func(self):
+#         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
-class PetitionOperatorAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Petition
-    form_class = PetitionForm
-    template_name = 'myApp/petitions_operator_add.html'
+class PetitionOperatorAdd(LoginRequiredMixin, UserPassesTestMixin, View):
+    def get(self, request):
+        site_orders = Order.objects.filter(Q(operator_field__isnull=True, worker_field__isnull=True)).count()
 
-    # success_url = reverse_lazy('answer_url')
+        context = {
+            'site_orders': site_orders
+        }
+        return render(request, 'myApp/petitions_operator_add.html', context)
 
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
@@ -530,7 +584,19 @@ class PetitionOperatorAdd(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class PaidOrders(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
-        return render(request, 'myApp/operator/paid_orders.html')
+        individual = Order.objects.all().filter(
+            Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='individual').exclude(
+            payme__iexact=0).count()
+        site = Order.objects.all().filter(
+            Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='site').exclude(
+            payme__iexact=0).count()
+
+        context = {
+            'order_individual_count': individual,
+            'order_site_count': site,
+        }
+
+        return render(request, 'myApp/operator/paid_orders.html', context)
 
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
@@ -545,10 +611,18 @@ class IndividualOrderCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView)
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
+    # def post(self, request, *args, **kwargs):
+    #     if request.method == 'POST':
+    #         form = IndividualOrderForm(request.POST, request.FILES)
+    #         if form.is_valid():
+    #             form.save()
+    #
+    #
+    #     return super().post(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.instance.petition_type = 'individual'
         form.instance.operator_field = self.request.user
-
         form.save()
         return super(IndividualOrderCreate, self).form_valid(form)
 
@@ -591,8 +665,8 @@ class EmployeeOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            Q(operator_field__isnull=False, worker_field__isnull=True, payme__isnull=False),
-            petition_type__contains='individual')
+            Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='individual').exclude(
+            payme__iexact=0)
 
 
 class OrdersFromSiteList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -606,18 +680,49 @@ class OrdersFromSiteList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            Q(operator_field__isnull=False, worker_field__isnull=True, payme__isnull=False),
-            petition_type__contains='site')
+            Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='site').exclude(
+            payme__iexact=0)
 
 
 class PreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
+
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get(self, request, color):
-        obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='individual').filter(
-            Q(payme__isnull=True))
-        return render(request, 'myApp/operator/pre_order_color_individual.html', context={'page_obj': obj})
+        search_query = request.GET.get('search', '')
+        if search_query:
+            obj = Order.objects.filter(Q(phone_number__contains=search_query)).filter(color_type__contains=color,
+                                                                                      petition_type__contains='individual').filter(
+                payme__iexact=0)
+        else:
+            obj = Order.objects.filter(color_type__contains=color, petition_type__contains='individual').filter(
+                payme__iexact=0)
+
+        paginator = Paginator(obj, 3)
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+
+        is_paginated = page.has_other_pages()
+
+        if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+        else:
+            prev_url = ''
+        if page.has_next():
+            next_url = '?page={}'.format(page.next_page_number())
+        else:
+            next_url = ''
+        context = {
+            'page_obj': obj,
+            'color_id': color,
+            'page_object': page,
+            'next_url': next_url,
+            'prev_url': prev_url,
+            'is_paginated': is_paginated
+        }
+
+        return render(request, 'myApp/operator/pre_order_color_individual.html', context)
 
 
 class AdminPreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -627,7 +732,7 @@ class AdminPreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View
 
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='individual').filter(
-            Q(payme__isnull=True))
+            payme__iexact=0)
         return render(request, 'myApp/admin/admin_pre_order_color_individual.html', context={'page_obj': obj})
 
 
@@ -637,9 +742,41 @@ class PreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
 
     def get(self, request, color):
-        obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='site').filter(
-            Q(payme__isnull=True))
-        return render(request, 'myApp/operator/pre_order_color_site.html', context={'page_obj': obj})
+
+        search_query = request.GET.get('search', '')
+        if search_query:
+            obj = Order.objects.filter(Q(phone_number__contains=search_query)).filter(color_type__contains=color,
+                                                                                      petition_type__contains='site').filter(
+                payme__iexact=0)
+        else:
+            obj = Order.objects.filter(color_type__contains=color, petition_type__contains='site').filter(
+                payme__iexact=0)
+
+        paginator = Paginator(obj, 3)
+
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+
+        is_paginated = page.has_other_pages()
+
+        if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+        else:
+            prev_url = ''
+        if page.has_next():
+            next_url = '?page={}'.format(page.next_page_number())
+        else:
+            next_url = ''
+        context = {
+            'page_obj': obj,
+            'color_id': color,
+            'page_object': page,
+            'next_url': next_url,
+            'prev_url': prev_url,
+            'is_paginated': is_paginated
+        }
+
+        return render(request, 'myApp/operator/pre_order_color_site.html', context)
 
 
 class AddminPreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -649,7 +786,7 @@ class AddminPreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='site').filter(
-            Q(payme__isnull=True))
+            payme__iexact=0)
         return render(request, 'myApp/admin/admin_pre_order_color_site.html', context={'page_obj': obj})
 
 
@@ -664,7 +801,7 @@ class StatusUpdates(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.order_finished_date = datetime.today()
-        form.instance.operator_field = self.request.user
+        # form.instance.operator_field = self.request.user
 
         form.save()
         return super(StatusUpdates, self).form_valid(form)
@@ -785,9 +922,45 @@ def admin_chart_rating(request):
     return render(request, 'myApp/admin/admin_chart_rating.html', context)
 
 
+# def chart_rating(request):
+#     user_names = []
+#     user_order_price = []
+#
+#     string1 = request.GET.get('oy')
+#
+#     if string1 == '1':
+#         for user in User.objects.all().exclude(role='admin'):
+#             user_names.append(user.username)
+#             sm = 0
+#
+#             for order in user.orders.filter(order_finished_date__month=datetime.today().month):
+#                 sm += order.price
+#             user_order_price.append(sm)
+#     elif string1 == '2':
+#         for user in User.objects.all().exclude(role='admin'):
+#             user_names.append(user.username)
+#             sm = 0
+#             last_day_of_prev_month = datetime.today().replace(day=1) - timedelta(days=1)
+#             for order in user.orders.filter(order_finished_date__month=last_day_of_prev_month.month):
+#                 sm += order.price
+#             user_order_price.append(sm)
+#
+#     context = {
+#         'user_names': user_names,
+#         'user_order_price': user_order_price
+#     }
+#     return render(request, 'myApp/operator/reyting.html', context)
+
+
 def chart_rating(request):
     user_names = []
     user_order_price = []
+
+    user_names2 = []
+    user_order_price2 = []
+
+    # user_names3 = []
+    # user_order_price3 = []
 
     string1 = request.GET.get('oy')
 
@@ -799,6 +972,23 @@ def chart_rating(request):
             for order in user.orders.filter(order_finished_date__month=datetime.today().month):
                 sm += order.price
             user_order_price.append(sm)
+
+        for user in User.objects.all().exclude(role='admin'):
+            user_names2.append(user.username)
+            sm = 0
+
+            for order in user.operator_orders.filter(order_finished_date__month=datetime.today().month):
+                sm += order.price
+            user_order_price2.append(sm)
+
+        # for user in User.objects.all().exclude(role='admin'):
+        #     user_names3.append(user.username)
+        #     sm = 0
+        #
+        #     for order in user.operator_worker_orders.filter(order_finished_date__month=datetime.today().month):
+        #         sm += order.price
+        #     user_order_price3.append(sm)
+
     elif string1 == '2':
         for user in User.objects.all().exclude(role='admin'):
             user_names.append(user.username)
@@ -808,9 +998,35 @@ def chart_rating(request):
                 sm += order.price
             user_order_price.append(sm)
 
+        for user in User.objects.all().exclude(role='admin'):
+            user_names2.append(user.username)
+            sm = 0
+            last_day_of_prev_month = datetime.today().replace(day=1) - timedelta(days=1)
+            for order in user.operator_orders.filter(order_finished_date__month=last_day_of_prev_month.month):
+                sm += order.price
+            user_order_price2.append(sm)
+
+        # for user in User.objects.all().exclude(role='admin'):
+        #     user_names3.append(user.username)
+        #     sm = 0
+        #     last_day_of_prev_month = datetime.today().replace(day=1) - timedelta(days=1)
+        #     for order in user.operator_worker_orders.filter(order_finished_date__month=last_day_of_prev_month.month):
+        #         sm += order.price
+        #     user_order_price3.append(sm)
+
+    user_order_price3 = []
+    for i in range(0, len(user_names)):
+        user_order_price3.append(user_order_price[i] + user_order_price2[i])
+
     context = {
         'user_names': user_names,
-        'user_order_price': user_order_price
+        'user_order_price': user_order_price,
+
+        'user_names2': user_names2,
+        'user_order_price2': user_order_price2,
+
+        'user_order_price3': user_order_price3,
+
     }
     return render(request, 'myApp/operator/reyting.html', context)
 
@@ -845,3 +1061,41 @@ class AdminStatistika(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def get(self, request):
         return render(request, 'myApp/admin/admin_statistika.html')
+
+
+class OrderSearch(View):
+    def get(self, request):
+        search_query = request.GET.get('search', '')
+        if search_query:
+            obj = Order.objects.filter(Q(phone_number__contains=search_query))
+        else:
+            obj = Order.objects.all()
+
+        paginator = Paginator(obj, 3)
+
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+
+        is_paginated = page.has_other_pages()
+
+        if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+        else:
+            prev_url = ''
+        if page.has_next():
+            next_url = '?page={}'.format(page.next_page_number())
+        else:
+            next_url = ''
+        context = {
+            'page_obj': obj,
+            'page_object': page,
+            'next_url': next_url,
+            'prev_url': prev_url,
+            'is_paginated': is_paginated
+        }
+
+        return render(request, 'myApp/operator/search_orders.html', context)
+
+# class MyEndProjects(View):
+#     obj = Order.objects.all()
+

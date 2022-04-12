@@ -29,7 +29,7 @@
         <div class="card info-card revenue-card">
             <a href="{% url 'employee_order_list_url' %}">
                 <div class="card-body">
-                <h5 class="card-title">Operator olgan buyurtmalar </h5>
+                <h5 class="card-title">Operator olgan buyurtmalar [{{ order_individual_count }}] </h5>
 
                 <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -52,7 +52,7 @@
         <div class="card info-card revenue-card">
             <a href="{% url 'orders_site_list_url' %}">
                 <div class="card-body">
-                <h5 class="card-title">Saytdan olingan buyurtmalar </h5>
+                <h5 class="card-title">Saytdan olingan buyurtmalar [{{ order_site_count }}] </h5>
 
                 <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">

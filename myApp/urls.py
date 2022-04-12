@@ -78,6 +78,8 @@ urlpatterns = [
 
     # path('petition_list/', PetitionList.as_view(), name='petition_list_url'),
 
+    path('search/', OrderSearch.as_view(), name='search_list_url'),
+
     path('unseen_orders_list/', UnSeenOrdersList.as_view(), name='un_seen_order_list_url'),
 
     path('no_interested_list/', NotInterestedList.as_view(), name='no_interested_list_url'),

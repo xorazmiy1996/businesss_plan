@@ -79,7 +79,8 @@ class OrderForm(forms.ModelForm):
 class PreOrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
+        fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'comment',
+                  'business_name',
                   'business_type',
                   'price', 'stat_date', 'end_date', 'payme', 'color_type']
 
@@ -89,7 +90,7 @@ class IndividualOrderForm(forms.ModelForm):
         model = Order
         fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
                   'business_type', 'quality',
-                  'price', 'stat_date', 'end_date', 'payme', 'color_type']
+                  'price', 'stat_date', 'end_date', 'payme', 'color_type','document']
 
         # widgets = {
         #     'phone_number': forms.TextInput(attrs={'class': 'form-control'}),

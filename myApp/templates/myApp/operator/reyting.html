@@ -42,6 +42,22 @@
         </div>
     </form>
 
+    {{ user_names }}
+    {{ user_order_price }}
+    <br>
+    <br>
+    <br>
+    {{ user_names2 }}
+    {{ user_order_price2 }}
+
+    <br>
+    <br>
+    <br>
+    {{ user_names }}
+    {{ user_order_price3 }}
+
+
+
 
 
 
@@ -56,7 +72,56 @@
 
         <div class="card">
             <div class="card-body" style="position: relative;">
-                <h5 class="card-title">Bar Chart</h5>
+                <h5 class="card-title">Writer</h5>
+
+                <!-- Bar Chart -->
+                <div id="barChart" style="min-height: 365px;">
+                </div>
+
+                <script>
+                    const dataForTable = {
+                        series: [{
+                            data: {{ user_order_price }}
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 4,
+                                horizontal: true,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        xaxis: {
+                            categories: [],
+                        }
+                    };
+                    let names = '{{ user_names }} ';
+                    console.log(names)
+                    names = names.replace(new RegExp("&" + "#" + "x27;", "g"), "").slice(1, -2).split(',');
+                    console.log(names)
+                    dataForTable.xaxis.categories = names;
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#barChart"), dataForTable).render();
+                    });
+                </script>
+                <!-- End Bar Chart -->
+
+                <div class="resize-triggers">
+                    <div class="expand-trigger">
+                        <div style="width: 541px; height: 451px;"></div>
+                    </div>
+                    <div class="contract-trigger"></div>
+                </div>
+            </div>
+        </div>
+         <div class="card">
+            <div class="card-body" style="position: relative;">
+                <h5 class="card-title">Operator</h5>
 
                 <!-- Bar Chart -->
                 <div id="barChart" style="min-height: 365px;">

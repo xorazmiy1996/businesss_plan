@@ -39,7 +39,7 @@ PLANNING_CHOICES = [
     ("teo", "TEO"),
     ("grand", "Grand"),
     ("boshqa", "Boshqa"),
-    ("qiziqmadi", "Qiziqish bo'lmadi"),
+
 
 ]
 
@@ -52,6 +52,7 @@ POSITION_CHOICES = [
 
 QUALITY_CHOICES = [
 
+    ("Tez", "Tez"),
     ("narx", "Narx"),
     ("sifat", "Sifat"),
     ("narx+sifat", "Narx + Sifat"),
@@ -116,83 +117,91 @@ class User(AbstractUser, Base):
         return reverse('user_detail_url', kwargs={'pk': self.pk})
 
     @property
-    def all_profit(self, *args):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(price__isnull=False)
-        # .aggregate(
-        #     sum_price=Sum('price')
-        # )['sum_price']
+    def orders(self):
+        return Order.objects.filter(Q(worker_field=self))
 
     @property
-    def all_orders(self):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self))
+    def operator_orders(self):
+        return Order.objects.filter(Q(operator_field=self))
 
     @property
-    def order_count(self):
-        return self.worker_orders.filter(status='False')
+    def operator_worker_orders(self):
+        return Order.objects.filter(Q(operator_field=self) | Q(worker_field=self))
+
+    # @property
+    # def all_profit(self, *args):
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(price__isnull=False)
+    # .aggregate(
+    #     sum_price=Sum('price')
+    # )['sum_price']
+
+    # @property
+    # def all_orders(self):
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self))
+    #
+    # @property
+    # def order_count(self):
+    #     return self.worker_orders.filter(status='False')
 
     #
     # @property
     # def worker_order_count(self):
     #     return self.worker_orders.filter(status='False')
 
-    @property
-    def orders(self):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self))
-
-    @property
-    def grant_count(self):  # worker_field_id=self.id  <=> worker_field=self
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='grand')
-
-    @property
-    def business_count(self):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
-            business_type='business')
-
-    @property
-    def teo_count(self):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='teo')
-
-    @property
-    def boshqa_count(self):
-        return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
-            business_type='boshqa')
+    # @property
+    # def grant_count(self):  # worker_field_id=self.id  <=> worker_field=self
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='grand')
+    #
+    # @property
+    # def business_count(self):
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
+    #         business_type='business')
+    #
+    # @property
+    # def teo_count(self):
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(business_type='teo')
+    #
+    # @property
+    # def boshqa_count(self):
+    #     return Order.objects.filter(Q(worker_field=self) | Q(operator_field=self)).filter(
+    #         business_type='boshqa')
 
     # yangilari
-    @property
-    def unpaid(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="to'lanmagan")
-
-    @property
-    def payme25(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="25% to'langan")
-
-    @property
-    def payme50(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="50% to'langan")
-
-    @property
-    def payme75(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="75% to'langan")
-
-    @property
-    def payme100(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="100% to'langan")
-
-    @property
-    def grant_list(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="grand")
-
-    @property
-    def teo_list(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="teo")
-
-    @property
-    def business_list(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="business")
-
-    @property
-    def boshqa_list(self):
-        return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="boshqa")
+    # @property
+    # def unpaid(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="to'lanmagan")
+    #
+    # @property
+    # def payme25(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="25% to'langan")
+    #
+    # @property
+    # def payme50(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="50% to'langan")
+    #
+    # @property
+    # def payme75(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="75% to'langan")
+    #
+    # @property
+    # def payme100(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(payme__exact="100% to'langan")
+    #
+    # @property
+    # def grant_list(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="grand")
+    #
+    # @property
+    # def teo_list(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="teo")
+    #
+    # @property
+    # def business_list(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="business")
+    #
+    # @property
+    # def boshqa_list(self):
+    #     return Order.objects.filter(Q(operator_field=self)).filter(business_type__exact="boshqa")
 
     #
     # def price(self):
@@ -216,7 +225,7 @@ class Order(Base):
 
     quality = models.CharField(max_length=50, choices=QUALITY_CHOICES, blank=True)
     price = models.PositiveIntegerField(default=0)
-    payme = models.CharField(max_length=50, null=True, blank=True)
+    payme = models.PositiveIntegerField(default=0)
 
     order_finished_date = models.DateTimeField(default=None, blank=True, null=True)
 
@@ -224,6 +233,10 @@ class Order(Base):
     color_type = models.CharField(max_length=15, blank=True, null=True)
 
     petition_type = models.CharField(max_length=20, blank=True, null=True)
+
+    comment = models.TextField(blank=True)
+
+    document = models.FileField(upload_to='documents/', blank=True, )
 
     stat_date = models.DateTimeField(verbose_name='Start', default=None, blank=True, null=True)
 
@@ -247,6 +260,12 @@ class Order(Base):
         return reverse('order_detail_url', kwargs={'pk': self.pk})
 
     # @property
+    # def OrderCount(self):
+    #     return Order.filter(
+    #         Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='individual').exclude(
+    #         payme__iexact=0).count()
+
+    # @property
     # def get_status_color(self):
     #     middle = (self.end_date.timestamp() - self.stat_date.timestamp()) / 3
     #     first_interval = self.stat_date.timestamp() + middle
@@ -260,8 +279,6 @@ class Order(Base):
     #     else:
     #         return "red"
 
-
-
     # @property
     # def get_timestamp_start_date(self):
     #     return self.stat_date.strftime("%d/%m/%y %H:%M:%S")
@@ -271,6 +288,7 @@ class Order(Base):
 
     @property
     def get_timestamp_start_date(self):
+
         if self.stat_date not in [None, '']:
             return self.stat_date.strftime("%d/%m/%y %H:%M:%S")
         else:
@@ -278,14 +296,24 @@ class Order(Base):
 
     @property
     def get_timestamp_end_date(self):
-        if self.stat_date not in [None, '']:
+        if self.end_date not in [None, '']:
             return self.end_date.strftime("%d/%m/%y %H:%M:%S")
         else:
             return '0'
 
+    @property
+    def get_iso_start_date(self):
+        if self.stat_date not in [None, '']:
+            return self.stat_date.replace(microsecond=0).isoformat()[0:16]
+        else:
+            return '0'
 
-
-
+    @property
+    def get_iso_end_date(self):
+        if self.stat_date not in [None, '']:
+            return self.end_date.replace(microsecond=0).isoformat()[0:16]
+        else:
+            return '0'
 
     # @property
     # def order_count(self):

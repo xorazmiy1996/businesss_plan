@@ -84,7 +84,7 @@
 
                             <option value="boshqa">Boshqa</option>
 
-                            <option value="qiziqmadi">Qiziqish bo&#x27;lmadi</option>
+
 
                         </select>
 
@@ -93,6 +93,8 @@
                         <label for="id_quality"></label>
                         <select name="quality" class="form-select" id="id_quality">
                             <option value="">---------</option>
+
+                            <option value="Tez">Tez</option>
 
                             <option value="narx">Narx</option>
 
@@ -107,20 +109,6 @@
                         <label for="id_price"></label>
                         <input type="text" name="price" value="0" class="form-control" required id="id_price">
                     </div>
-
-                    <script>
-                        function numberWithSpaces(x) {
-                            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                        }
-
-                        let telEl = document.querySelector('#id_price');
-                        telEl.addEventListener('keyup', (e) => {
-                            let val = e.target.value.replace(/\s+/g, '');
-                            e.target.value = numberWithSpaces(val);
-                        })
-
-                    </script>
-
 
                     <div class="col-md-4">
                         <p>
@@ -175,7 +163,7 @@
                         <div class="collapse collapse-horizontal" id="collapseWidthExample1">
                             <div class="card card-body col-sm-10">
                                 <label for="id_payme">Payme:</label>
-                                <input type="text" name="payme" class="form-control" maxlength="50" id="id_payme">
+                                <input type="text" value="0" name="payme" class="form-control" maxlength="50" id="id_payme">
                                 <label for="id_stat_date">Stat date:</label>
                                 <input type="datetime-local" name="stat_date" value="" class="form-control"
                                        id="id_stat_date">
@@ -186,7 +174,6 @@
                         </div>
 
                     </div>
-
 
                     <div class="text-center">
                         <input class="btn btn-primary" id="submitBtn" type="submit" value="band qilish">
@@ -201,15 +188,26 @@
 
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
             <script>
+                    const formElement = document.querySelector('#personForm');
+                    const priceField = document.querySelector('#id_price');
+                    const paidField = document.querySelector('#id_payme');
+                    function numberWithSpaces(x) {
+                        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    }
+                    priceField.addEventListener('keyup', (e) => {
+                        let val = e.target.value.replace(/\s+/g, '');
+                        e.target.value = numberWithSpaces(val);
+                    });
+                    paidField.addEventListener('keyup', (e) => {
+                        let val = e.target.value.replace(/\s+/g, '');
+                        e.target.value = numberWithSpaces(val);
+                    })
+                    document.querySelector('#submitBtn').addEventListener('click', (e) => {
+                        priceField.value = parseInt(priceField.value.replace(/\s/g, ''));
+                        paidField.value = parseInt(paidField.value.replace(/\s/g, ''));
 
-                const formElement = document.querySelector('#personForm');
-                const priceField = document.querySelector('#id_price');
-                document.querySelector('#submitBtn').addEventListener('click', (e) => {
-                    priceField.value = parseInt(priceField.value.replace(/\s/g, ''));
-                    console.log('ckeck form', priceField.value);
-                    formElement.submit()
-                })
-
+                        formElement.submit()
+                    })
 
                 $("#id_province").change(function () {
                     const url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
