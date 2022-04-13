@@ -27,88 +27,41 @@
         <div class="row">
             <div class="col-lg-4 mb-2">
 
-                        <select name="oy" class="form-select" id="id_business_type">
+                <select name="oy" class="form-select" id="id_business_type">
 
-                            <option value="2">O'tgan oy</option>
+                    <option value="2">O'tgan oy</option>
 
-                            <option value="1" selected>Joriy oy</option>
+                    <option value="1" selected>Joriy oy</option>
 
-                        </select>
+                </select>
+
 
             </div>
             <div class="col-lg-4 mb-2">
-                   <button class="btn btn-primary">search</button>
+                <select name="type" class="form-select" id="chart-type">
+
+                    <option value="wrt-chart" selected>Writer</option>
+                    <option value="opr-chart">Operator</option>
+                    <option value="all-chart">All</option>
+
+                </select>
+            </div>
+            <div class="col-lg-4 mb-2">
+                <button class="btn btn-primary">search</button>
             </div>
         </div>
     </form>
-
-    {{ user_names }}
-    {{ user_order_price }}
-    <br>
-    <br>
-    <br>
-    {{ user_names2 }}
-    {{ user_order_price2 }}
-
-    <br>
-    <br>
-    <br>
-    {{ user_names }}
-    {{ user_order_price3 }}
+    <div class="col pt-4">
 
 
-
-
-
-
-
-
-
-
-
-
-    <div class="col-lg-6">
-
-
-        <div class="card">
+        <div class="card card-chart" id="wrt-chart">
             <div class="card-body" style="position: relative;">
                 <h5 class="card-title">Writer</h5>
 
                 <!-- Bar Chart -->
-                <div id="barChart" style="min-height: 365px;">
+                <div id="barChartW" style="min-height: 365px;">
                 </div>
 
-                <script>
-                    const dataForTable = {
-                        series: [{
-                            data: {{ user_order_price }}
-                        }],
-                        chart: {
-                            type: 'bar',
-                            height: 350
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 4,
-                                horizontal: true,
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        xaxis: {
-                            categories: [],
-                        }
-                    };
-                    let names = '{{ user_names }} ';
-                    console.log(names)
-                    names = names.replace(new RegExp("&" + "#" + "x27;", "g"), "").slice(1, -2).split(',');
-                    console.log(names)
-                    dataForTable.xaxis.categories = names;
-                    document.addEventListener("DOMContentLoaded", () => {
-                        new ApexCharts(document.querySelector("#barChart"), dataForTable).render();
-                    });
-                </script>
                 <!-- End Bar Chart -->
 
                 <div class="resize-triggers">
@@ -119,45 +72,32 @@
                 </div>
             </div>
         </div>
-         <div class="card">
+        <div class="card card-chart" id="opr-chart">
             <div class="card-body" style="position: relative;">
                 <h5 class="card-title">Operator</h5>
 
                 <!-- Bar Chart -->
-                <div id="barChart" style="min-height: 365px;">
+                <div id="barChartO" style="min-height: 365px;">
                 </div>
 
-                <script>
-                    const dataForTable = {
-                        series: [{
-                            data: {{ user_order_price }}
-                        }],
-                        chart: {
-                            type: 'bar',
-                            height: 350
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 4,
-                                horizontal: true,
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        xaxis: {
-                            categories: [],
-                        }
-                    };
-                    let names = '{{ user_names }} ';
-                    console.log(names)
-                    names = names.replace(new RegExp("&" + "#" + "x27;", "g"), "").slice(1, -2).split(',');
-                    console.log(names)
-                    dataForTable.xaxis.categories = names;
-                    document.addEventListener("DOMContentLoaded", () => {
-                        new ApexCharts(document.querySelector("#barChart"), dataForTable).render();
-                    });
-                </script>
+                <!-- End Bar Chart -->
+
+                <div class="resize-triggers">
+                    <div class="expand-trigger">
+                        <div style="width: 541px; height: 451px;"></div>
+                    </div>
+                    <div class="contract-trigger"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-chart" id="all-chart">
+            <div class="card-body" style="position: relative;">
+                <h5 class="card-title">All</h5>
+
+                <!-- Bar Chart -->
+                <div id="barChartAll" style="min-height: 365px;">
+                </div>
+
                 <!-- End Bar Chart -->
 
                 <div class="resize-triggers">
@@ -169,6 +109,102 @@
             </div>
         </div>
     </div>
+    <script>
+
+        let names = '{{ user_names }} ';
+        names = names.replace(new RegExp("&" + "#" + "x27;", "g"), "").slice(1, -2).split(',');
+
+        const dataForTable = {
+            series: [{
+                data: {{ user_order_price }}
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: [],
+            }
+        };
+        dataForTable.xaxis.categories = names;
+        const dataForTableO = {
+            series: [{
+                data: {{ user_order_price }}
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: [],
+            }
+        };
+        dataForTableO.xaxis.categories = names;
+        const dataForTableA = {
+            series: [{
+                data: {{ user_order_price3 }}
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: [],
+            }
+        };
+        dataForTableA.xaxis.categories = names;
+        document.addEventListener("DOMContentLoaded", () => {
+            new ApexCharts(document.querySelector("#barChartW"), dataForTable).render();
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            new ApexCharts(document.querySelector("#barChartO"), dataForTableO).render();
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            new ApexCharts(document.querySelector("#barChartAll"), dataForTableA).render();
+        });
+        const typeSelect = document.querySelector('#chart-type');
+        function checkBarChart () {
+            document.querySelectorAll('.card-chart').forEach( (item) => {
+                if( item.getAttribute('id') !== typeSelect.value) {
+                     item.style.display = 'none'
+                } else {
+                    item.style.display = 'block'
+                }
+            })
+        }
+        document.addEventListener("DOMContentLoaded", checkBarChart);
+        typeSelect.addEventListener('change', checkBarChart)
+
+    </script>
 
 
 

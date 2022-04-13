@@ -17,27 +17,25 @@
      <div class="col-xxl-4 col-md-6">
         <div class="card info-card revenue-card">
             <div class="card-body">
-                <h5 class="card-title">Operator olgan buyurtmalar  [{{ green_individual_count }}] [{{ yellow_individual_count }}] [{{ red_individual_count }}] </h5>
-
-                <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <a href="{% url 'pre_order_individual_url' color='green' %}">
-                            <i class="bi bi-emoji-smile-fill" style="font-size: 4rem; color: green"></i>
+                <h5 class="card-title">Operator olgan buyurtmalar</h5>
+                <div class="d-flex justify-content-between">
+                    <div class="smile-with-number smile-with-number--green ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ green_individual_count }}
                         </a>
-
                     </div>
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <a href="{% url 'pre_order_individual_url' color='yellow' %}">
-                           <i class="bi bi-emoji-frown-fill" style="font-size: 4rem; color: #FFD700"></i>
+
+                    <div class="smile-with-number smile-with-number--yellow ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ yellow_individual_count }}
                         </a>
-
                     </div>
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <a href="{% url 'pre_order_individual_url' color='red' %}">
-                            <i class="bi bi-emoji-angry-fill" style="font-size: 4rem; color: red"></i>
+                    <div class="smile-with-number smile-with-number--red ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ red_individual_count }}
                         </a>
-
                     </div>
+
                     <div class="ps-3">
                         <h6></h6>
                         <span class="text-success small pt-1 fw-bold"></span> <span
@@ -52,24 +50,26 @@
     <div class="col-xxl-4 col-md-6">
         <div class="card info-card revenue-card">
             <div class="card-body">
-                <h5 class="card-title">Saytdan olingan buyurtmalar [{{ green_site_count }}] [{{ yellow_site_count }}] [{{ red_site_count }}] </h5>
+                <h5 class="card-title">Saytdan olingan buyurtmalar</h5>
 
-                <div class="d-flex align-items-center">
-                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                         <a href="{% url 'pre_order_site_url' color='green' %}">
-                            <i class="bi bi-emoji-smile-fill" style="font-size: 4rem; color: green"></i>
+               <div class="d-flex justify-content-between">
+                    <div class="smile-with-number smile-with-number--green ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ green_site_count }}
                         </a>
                     </div>
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                            <a href="{% url 'pre_order_site_url' color='yellow' %}">
-                           <i class="bi bi-emoji-frown-fill" style="font-size: 4rem; color: #FFD700"></i>
-                        </a>
-                        </div>
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                       <a href="{% url 'pre_order_site_url' color='red' %}">
-                            <i class="bi bi-emoji-angry-fill" style="font-size: 4rem; color: red"></i>
+
+                    <div class="smile-with-number smile-with-number--yellow ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ yellow_site_count }}
                         </a>
                     </div>
+                    <div class="smile-with-number smile-with-number--red ">
+                        <a href="{% url 'pre_order_individual_url' color='green' %}" class="smile-number">
+                           {{ red_site_count }}
+                        </a>
+                    </div>
+
                     <div class="ps-3">
                         <h6></h6>
                         <span class="text-success small pt-1 fw-bold"></span> <span
