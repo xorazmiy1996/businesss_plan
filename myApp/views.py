@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
@@ -150,10 +150,16 @@ class OrderUpdate(LoginRequiredMixin, UpdateView):
         instance = Order.objects.get(id=kwargs['pk'])
         instance.operator_field = request.user
         instance.petition_type = 'site'
+
         instance.save()
         form = OrderForm(data=request.POST, instance=instance)
         #
-        # print(request.POST)
+        print('salom')
+        print('salom')
+        print('salom')
+        print('salom')
+        print(request.GET)
+        print(request.POST)
         # print(form.cleaned_data)
 
         if form.is_valid():
@@ -792,7 +798,7 @@ class AddminPreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
 
 class StatusUpdates(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Order
-    fields = ['status']
+    fields = ['status', 'comment_worker']
     template_name = 'myApp/operator/status_update.html'
     success_url = reverse_lazy('operator_list_url')
 
@@ -1096,6 +1102,44 @@ class OrderSearch(View):
 
         return render(request, 'myApp/operator/search_orders.html', context)
 
-# class MyEndProjects(View):
-#     obj = Order.objects.all()
 
+class MyEndProjectsList(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
+
+    def get(self, request):
+        search_query = request.GET.get('search', '')
+        if search_query:
+            obj = Order.objects.filter(
+                Q(operator_field__isnull=False, payme__isnull=False, worker_field__isnull=False, status=True,
+                  worker_field=self.request.user),
+                Q(phone_number__contains=self.request.GET.get("search", '')))
+        else:
+            obj = Order.objects.filter(
+                Q(operator_field__isnull=False, payme__isnull=False, worker_field__isnull=False, status=True,
+                  worker_field=self.request.user))
+
+        paginator = Paginator(obj, 3)
+
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+
+        is_paginated = page.has_other_pages()
+
+        if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+        else:
+            prev_url = ''
+        if page.has_next():
+            next_url = '?page={}'.format(page.next_page_number())
+        else:
+            next_url = ''
+        context = {
+            'page_obj': obj,
+            'page_object': page,
+            'next_url': next_url,
+            'prev_url': prev_url,
+            'is_paginated': is_paginated
+        }
+        return render(request, 'myApp/operator/my_end_project_list.html', context)

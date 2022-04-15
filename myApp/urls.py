@@ -86,6 +86,8 @@ urlpatterns = [
 
     path('final_order_list/', FinalOrdersList.as_view(), name='final_order_list_url'),
 
+    path('my_end_project_list/', MyEndProjectsList.as_view(), name='my_end_project_list_url'),
+
     path('unfinal_order_list/', UnFinishedOrdersList.as_view(), name='un_final_order_list_url'),
 
     path('user_list/', UserList.as_view(), name='user_list_url'),

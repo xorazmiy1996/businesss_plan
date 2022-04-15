@@ -18,9 +18,9 @@
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
-                <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
+                <form class="row g-3" method="post" id="personForm" enctype="multipart/form-data"  data-cities-url="{% url 'ajax_load_cities' %}">
                     {% csrf_token %}
-                    {#                    {{ form|crispy }}#}
+{#                                        {{ form|crispy }}#}
 
                     <div class="col-md-6">
                         <label for="id_add_phone_number"></label>
@@ -173,6 +173,11 @@
                             </div>
                         </div>
 
+                    </div>
+
+                     <div class="col-md-6">
+                        <label for="id_document">Document</label>
+                        <input type="file"value="" name="document"  id="id_document">
                     </div>
 
                     <div class="text-center">

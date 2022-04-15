@@ -39,7 +39,7 @@ class OrderForm(forms.ModelForm):
 
         fields = ['add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
                   'business_type', 'quality',
-                  'price', 'stat_date', 'end_date', 'payme', 'color_type']
+                  'price', 'stat_date', 'end_date', 'payme', 'color_type', 'document']
 
         # widgets = {
         #
@@ -90,7 +90,7 @@ class IndividualOrderForm(forms.ModelForm):
         model = Order
         fields = ['phone_number', 'add_phone_number', 'first_name', 'last_name', 'province', 'region', 'business_name',
                   'business_type', 'quality',
-                  'price', 'stat_date', 'end_date', 'payme', 'color_type','document']
+                  'price', 'stat_date', 'end_date', 'payme', 'color_type', 'document']
 
         # widgets = {
         #     'phone_number': forms.TextInput(attrs={'class': 'form-control'}),

@@ -40,8 +40,8 @@
                 <th scope="col">Payme</th>
                 <th scope="col">Start date</th>
                 <th scope="col">End date</th>
-
-
+                <th scope="col">Contract</th>
+                <th scope="col">Comment</th>
 
             </tr>
             </thead>
@@ -69,6 +69,14 @@
                     <td>{{ object.payme }}</td>
                     <td>{{ object.stat_date |date:'d.m.Y' }} </td>
                     <td>{{ object.end_date |date:'d.m.Y' }} </td>
+                    <td>{{ object.comment_worker|truncatechars:7 }} </td>
+                    <td>
+                        {% if object.document %}
+                            <a href="{{ object.document.url }}" class="btn btn-outline-primary">Viwes</a>
+                        {% else %}
+                        <span class="text-muted">No Contract</span>
+                        {% endif %}
+                    </td>
 
 
 

@@ -22,24 +22,33 @@
 
                 <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
                     {% csrf_token %}
-                    <h3>{{ form.as_p }}</h3>
+                    {#                    {{ form.as_p }}#}
+
+                    <div class="col-md-12">
+                        <label for="id_status">Ishni tugallash </label>
+                        <input type="radio" name="status" value="red" maxlength="15"
+                               id="id_status">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="id_comment_worker" >Comment</label>
+                        <div class="col-sm-10">
+                            <textarea id="id_comment_worker"  name="comment_worker" class="form-control"
+                                      style="height: auto">{{ object.comment_worker }}</textarea>
+                        </div>
+                    </div>
 
 
-
-
-{#                    <div class="col-md-12">#}
-{#                        <label for="id_status">Ish tugallandimi::</label>#}
-{#                        <input type="checkbox" name="status" value="False" class="form-check-input" required id="id_status"#}
-{#                               placeholder="Price">#}
-{#                    </div>#}
-
-
+                    {#                    <div class="col-md-12">#}
+                    {#                        <label for="id_status">Ish tugallandimi::</label>#}
+                    {#                        <input type="checkbox" name="status" value="False" class="form-check-input" required id="id_status"#}
+                    {#                               placeholder="Price">#}
+                    {#                    </div>#}
 
 
                     <div class="text-center">
                         <input class="btn btn-primary" type="submit" value="Ishni yakunlash">
 
-    {#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
+                        {#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
                     </div>
                 </form>
 

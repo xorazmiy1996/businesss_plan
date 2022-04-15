@@ -236,6 +236,8 @@ class Order(Base):
 
     comment = models.TextField(blank=True)
 
+    comment_worker = models.TextField(blank=True)
+
     document = models.FileField(upload_to='documents/', blank=True, )
 
     stat_date = models.DateTimeField(verbose_name='Start', default=None, blank=True, null=True)
