@@ -392,3 +392,4 @@ class Team(Base):
     middle_name = models.CharField(max_length=50)
     academic_degree = models.CharField(max_length=60)
     text_min = models.TextField(max_length=150)
+

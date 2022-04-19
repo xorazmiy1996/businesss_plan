@@ -30,8 +30,6 @@ urlpatterns = [
 
     path('paid_orders/', PaidOrders.as_view(), name='paid_orders_url'),
 
-
-
     path('grant/', GrantProjectsAdd.as_view(), name='grant_add_url'),
 
     path('petitions_operator_add/', PetitionOperatorAdd.as_view(), name='petitions_operator_add_url'),
@@ -102,8 +100,6 @@ urlpatterns = [
 
     path('user/<pk>/', UserDetail.as_view(), name='user_detail_url'),
 
-
-
     path('grant/<pk>', GrantProjectDelete.as_view(), name='grant_delete_url'),
 
     path('order_detail/<pk>/', OrderDetail.as_view(), name='order_detail_url'),
@@ -116,7 +112,8 @@ urlpatterns = [
 
     path('pre_order_individual/<color>/', PreOrderColorIndividual.as_view(), name='pre_order_individual_url'),
 
-    path('admin_pre_order_individual/<color>/', AdminPreOrderColorIndividual.as_view(), name='admin_pre_order_individual_url'),
+    path('admin_pre_order_individual/<color>/', AdminPreOrderColorIndividual.as_view(),
+         name='admin_pre_order_individual_url'),
 
     path('pre_order_site/<color>/', PreOrderColorSite.as_view(), name='pre_order_site_url'),
 
@@ -125,6 +122,8 @@ urlpatterns = [
     path('ajax/load-cities/', load_cities, name='ajax_load_cities'),  # AJAX
 
     path('status/<pk>/update', StatusUpdates.as_view(), name='status_update_url'),
+
+    path('my_order_update/<pk>/update', MyOrderUpdate.as_view(), name='my_order_update_url'),
 
     path('pre_order/<pk>/update', PreOrderUpdate.as_view(), name='pre_order_update_url'),
 
@@ -138,7 +137,8 @@ urlpatterns = [
 
     path('worker/<pk>/update/', WorkerUpdate.as_view(), name='worker_update_url'),
 
-    path('worker_orders_site_update/<pk>/update/', WorkerOrderSiteUpdate.as_view(), name='worker_orders_site_update_url'),
+    path('worker_orders_site_update/<pk>/update/', WorkerOrderSiteUpdate.as_view(),
+         name='worker_orders_site_update_url'),
 
     path('worker_orde_update/<pk>/update/', WorkerOrderUpdate.as_view(), name='worker_order_update_url'),
 
@@ -146,10 +146,6 @@ urlpatterns = [
 
     path('admin_chart/', admin_chart_rating, name='admin_chart_rating_url'),
 
-
-
     path('statistika/', AdminStatistika.as_view(), name='statistika_url'),
-
-
 
 ]

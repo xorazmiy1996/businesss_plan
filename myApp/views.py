@@ -359,7 +359,7 @@ class AcceptedOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            Q(operator_field__isnull=False, worker_field__isnull=True)).exclude(payme__iexact=0)
+            Q(operator_field__isnull=False, worker_field__isnull=True)).exclude(payme=0)
 
 
 # yangi qo'shimchalar
@@ -529,20 +529,20 @@ class NotOrdered(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         green_individual_count = Order.objects.all().filter(color_type__contains='green',
                                                             petition_type__contains='individual').filter(
-            payme__iexact=0).count()
+            payme=0).count()
         yellow_individual_count = Order.objects.all().filter(color_type__contains='yellow',
                                                              petition_type__contains='individual').filter(
-            payme__iexact=0).count()
+            payme=0).count()
         red_individual_count = Order.objects.all().filter(color_type__contains='red',
                                                           petition_type__contains='individual').filter(
-            payme__iexact=0).count()
+            payme=0).count()
 
         green_site_count = Order.objects.all().filter(color_type__contains='green',
-                                                      petition_type__contains='site').filter(payme__iexact=0).count()
+                                                      petition_type__contains='site').filter(payme=0).count()
         yellow_site_count = Order.objects.all().filter(color_type__contains='yellow',
-                                                       petition_type__contains='site').filter(payme__iexact=0).count()
+                                                       petition_type__contains='site').filter(payme=0).count()
         red_site_count = Order.objects.all().filter(color_type__contains='red', petition_type__contains='site').filter(
-            payme__iexact=0).count()
+            payme=0).count()
 
         context = {
             'green_individual_count': green_individual_count,
@@ -592,10 +592,10 @@ class PaidOrders(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         individual = Order.objects.all().filter(
             Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='individual').exclude(
-            payme__iexact=0).count()
+            payme=0).count()
         site = Order.objects.all().filter(
             Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='site').exclude(
-            payme__iexact=0).count()
+            payme=0).count()
 
         context = {
             'order_individual_count': individual,
@@ -660,7 +660,7 @@ class SiteOrderUpdate(UpdateView):
 
 
 class EmployeeOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    paginate_by = 10
+    paginate_by = 15
     model = Order
 
     template_name = 'myApp/operator/employee_orders_list.html'
@@ -672,7 +672,7 @@ class EmployeeOrdersList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         queryset = super().get_queryset()
         return queryset.filter(
             Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='individual').exclude(
-            payme__iexact=0)
+            payme=0)
 
 
 class OrdersFromSiteList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -687,7 +687,7 @@ class OrdersFromSiteList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         queryset = super().get_queryset()
         return queryset.filter(
             Q(operator_field__isnull=False, worker_field__isnull=True), petition_type__contains='site').exclude(
-            payme__iexact=0)
+            payme=0)
 
 
 class PreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -700,12 +700,12 @@ class PreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View):
         if search_query:
             obj = Order.objects.filter(Q(phone_number__contains=search_query)).filter(color_type__contains=color,
                                                                                       petition_type__contains='individual').filter(
-                payme__iexact=0)
+                payme=0)
         else:
             obj = Order.objects.filter(color_type__contains=color, petition_type__contains='individual').filter(
-                payme__iexact=0)
+                payme=0)
 
-        paginator = Paginator(obj, 3)
+        paginator = Paginator(obj, 15)
         page_number = request.GET.get('page', 1)
         page = paginator.get_page(page_number)
 
@@ -738,7 +738,7 @@ class AdminPreOrderColorIndividual(LoginRequiredMixin, UserPassesTestMixin, View
 
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='individual').filter(
-            payme__iexact=0)
+            payme=0)
         return render(request, 'myApp/admin/admin_pre_order_color_individual.html', context={'page_obj': obj})
 
 
@@ -753,10 +753,10 @@ class PreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
         if search_query:
             obj = Order.objects.filter(Q(phone_number__contains=search_query)).filter(color_type__contains=color,
                                                                                       petition_type__contains='site').filter(
-                payme__iexact=0)
+                payme=0)
         else:
             obj = Order.objects.filter(color_type__contains=color, petition_type__contains='site').filter(
-                payme__iexact=0)
+                payme=0)
 
         paginator = Paginator(obj, 3)
 
@@ -792,7 +792,7 @@ class AddminPreOrderColorSite(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def get(self, request, color):
         obj = Order.objects.all().filter(color_type__contains=color, petition_type__contains='site').filter(
-            payme__iexact=0)
+            payme=0)
         return render(request, 'myApp/admin/admin_pre_order_color_site.html', context={'page_obj': obj})
 
 
@@ -1143,3 +1143,25 @@ class MyEndProjectsList(LoginRequiredMixin, UserPassesTestMixin, View):
             'is_paginated': is_paginated
         }
         return render(request, 'myApp/operator/my_end_project_list.html', context)
+
+
+class MyOrderUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Order
+    form_class = MyOrderUpdateForm
+    template_name = 'myApp/operator/my_order_update.html'
+
+    # success_url = reverse_lazy('operator_list_url')
+
+    def post(self, request, *args, **kwargs):
+        instance = Order.objects.get(id=kwargs['pk'])
+        instance.document = request.FILES.get('document')
+        instance.save()
+        form = MyOrderUpdateForm(data=request.POST, instance=instance)
+
+        if form.is_valid():
+            form.save()
+            return redirect('operator_list_url')
+        return render(request, self.template_name, {'form': form})
+
+    def test_func(self):
+        return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role

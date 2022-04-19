@@ -1,0 +1,202 @@
+{% extends 'operator_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+
+
+
+{% block dashboard %}
+    <div class="pagetitle">
+        <h1>Individual Order</h1>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Order</h5>
+                <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
+                    {% csrf_token %}
+                    {#                    {{ form.as_p }}#}
+                    <div class="col-md-6">
+                        <label for="id_phone_number"></label>
+                        <input type="text" name="phone_number" value="{{ object.phone_number }}" class="form-control"
+                               maxlength="15" required
+                               id="id_phone_number" placeholder="Phone number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_add_phone_number"></label>
+                        <input type="text" name="add_phone_number" value="{{ object.add_phone_number }}"
+                               class="form-control" maxlength="15"
+                               id="id_add_phone_number" placeholder="Add Phone Number">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_first_name"></label>
+                        <input type="text" name="first_name" value="{{ object.first_name }}" class="form-control"
+                               maxlength="50"
+                               id="id_first_name" placeholder="First Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_last_name"></label>
+                        <input type="text" name="last_name" value="{{ object.last_name }}" class="form-control"
+                               maxlength="50"
+                               id="id_last_name" placeholder="Last Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_province">Province</label>
+                        <select name="province" class="form-select" id="id_province">
+                            <option value="{{ object.province.pk }}" selected>{{ object.province }}</option>
+                            <option value="1">Andijon viloyati</option>
+                            <option value="2">Buxoro viloyati</option>
+                            <option value="3">Fargʻona viloyati</option>
+                            <option value="4">Jizzax viloyati</option>
+                            <option value="5">Xorazm viloyati</option>
+                            <option value="6">Namangan viloyati</option>
+                            <option value="7">Navoiy viloyati</option>
+                            <option value="8">Qashqadaryo viloyati</option>
+                            <option value="9">Qoraqalpogʻiston Respublikasi</option>
+                            <option value="10">Samarqand viloyati</option>
+                            <option value="11">Sirdaryo viloyati</option>
+                            <option value="12">Surxondaryo viloyati</option>
+                            <option value="13">Toshkent viloyati</option>
+                            <option value="14">Toshkent Shahri</option>
+
+
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_region">Region</label>
+                        <select name="region" class="form-select" id="id_region">
+                            <option value="{{ object.region.pk }}" selected>{{ object.region }}</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_business_name">Business Name</label>
+                        <input type="text" value="{{ object.business_name }}" name="business_name" maxlength="100"
+                               class="form-control"
+                               id="id_business_name" placeholder="Business Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_business_type">Business Type</label>
+                        <select name="business_type" class="form-select" id="id_business_type">
+
+                            <option value="business" {% if object.business_type == 'business' %} selected {% endif %}>
+                                Biznes Reja
+                            </option>
+
+                            <option value="teo"{% if object.business_type == 'teo' %} selected {% endif %} >TEO</option>
+
+                            <option value="grand" {% if object.business_type == 'grand' %} selected {% endif %} >Grand
+                            </option>
+
+                            <option value="boshqa" {% if object.business_type == 'boshqa' %} selected {% endif %} >
+                                Boshqa
+                            </option>
+
+                            <option value="qiziqmadi" {% if object.business_type == 'qiziqmadi' %}selected {% endif %}>
+                                Qiziqish bo&#x27;lmadi
+                            </option>
+
+                        </select>
+
+                    </div>
+                    <div class="col-md-12">
+                        <label for="id_quality">Client Behaviour</label>
+                        <select name="quality" class="form-select" id="id_quality">
+
+
+                            <option value="narx" {% if object.business_type == 'narx' %} selected {% endif %}>Narx
+                            </option>
+
+                            <option value="sifat" {% if object.business_type == 'sifat' %} selected {% endif %}>Sifat
+                            </option>
+
+                            <option value="narx+sifat" {% if object.business_type == 'narx+sifat' %}
+                                    selected {% endif %}>Narx + Sifat
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <label for="id_price">Price</label>
+                        <input type="number" name="price" value="{{ object.price }}" class="form-control" required
+                               id="id_price"
+                               placeholder="Price">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="id_payme">Payme:</label>
+                        <input type="number" value="{{ object.payme }}" name="payme" class="form-control" maxlength="50"
+                               id="id_payme">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="id_document">{{ object.document }}</label>
+                        <input class="form-control" type="file" name="document" id="id_document" name="filename">
+                    </div>
+
+
+
+
+
+                    <div class="text-center">
+                        <input class="btn btn-primary" type="submit" value="Update">
+
+                        {#                        <button type="reset" class="btn btn-secondary">Reset</button>#}
+                    </div>
+                </form>
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script>
+
+
+                    $("#id_province").change(function () {
+                        const url = $("#personForm").attr("data-cities-url");  // get the url of the `load_cities` view
+                        const provinceId = $(this).val();  // get the selected country ID from the HTML input
+
+                        $.ajax({                       // initialize an AJAX request
+                            url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+                            data: {
+                                'province_id': provinceId       // add the country id to the GET parameters
+                            },
+                            success: function (data) {   // `data` is the return of the `load_cities` view function
+
+                                $("#id_region").html(data);  // replace the contents of the city input with the data that came from the server
+                                /*
+
+                                let html_data = '<option value="">---------</option>';
+                                data.forEach(function (city) {
+                                    html_data += `<option value="${city.id}">${city.name}</option>`
+                                });
+                                console.log(html_data);
+                                $("#id_city").html(html_data);
+
+                                */
+                            }
+
+                        });
+
+                    });
+                </script>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
