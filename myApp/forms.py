@@ -217,6 +217,7 @@ class MyOrderUpdateForm(forms.ModelForm):
                   'business_type', 'quality',
                   'price', 'payme',  'document']
 
+
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['region'].queryset = Region.objects.none()

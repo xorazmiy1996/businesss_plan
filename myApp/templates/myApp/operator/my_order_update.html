@@ -18,9 +18,10 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Add Order</h5>
-                <form class="row g-3" method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
+                <form class="row g-3" method="post" enctype="multipart/form-data" id="personForm"
+                      data-cities-url="{% url 'ajax_load_cities' %}">
                     {% csrf_token %}
-                    {#                    {{ form.as_p }}#}
+                    {#                                        {{ form.as_p }}#}
                     <div class="col-md-6">
                         <label for="id_phone_number"></label>
                         <input type="text" name="phone_number" value="{{ object.phone_number }}" class="form-control"
@@ -136,13 +137,25 @@
                                id="id_payme">
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="id_document">{{ object.document }}</label>
-                        <input class="form-control" type="file" name="document" id="id_document" name="filename">
-                    </div>
+                    {#                    <div class="col-md-6">#}
+                    {#                        <label for="id_document">{{ object.document.url }}</label>#}
+                    {#                        <input class="form-control" type="file" name="document" id="id_document" name="filename">#}
+                    {#                    </div>#}
+
+                    <p>
+                        <label for="id_document">Document:</label>
+                        {% if object.document %}
+                            Hozirda: <a href="{{ object.document.url }}">{{ object.document.url }}</a>
+                            <input type="checkbox" name="document-clear" id="document-clear_id">
+                            <label for="document-clear_id">Aniq</label><br>
+
+                        {% endif %}
 
 
+                        <input class="form-control" type="file" name="document" id="id_document">
 
+
+                    </p>
 
 
                     <div class="text-center">

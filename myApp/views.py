@@ -1077,7 +1077,7 @@ class OrderSearch(View):
         else:
             obj = Order.objects.all()
 
-        paginator = Paginator(obj, 3)
+        paginator = Paginator(obj, 15)
 
         page_number = request.GET.get('page', 1)
         page = paginator.get_page(page_number)
@@ -1150,18 +1150,14 @@ class MyOrderUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = MyOrderUpdateForm
     template_name = 'myApp/operator/my_order_update.html'
 
-    # success_url = reverse_lazy('operator_list_url')
+    success_url = reverse_lazy('operator_list_url')
 
     def post(self, request, *args, **kwargs):
-        instance = Order.objects.get(id=kwargs['pk'])
-        instance.document = request.FILES.get('document')
-        instance.save()
-        form = MyOrderUpdateForm(data=request.POST, instance=instance)
+        print('Salom')
+        print('Salom')
+        print(request)
 
-        if form.is_valid():
-            form.save()
-            return redirect('operator_list_url')
-        return render(request, self.template_name, {'form': form})
+        return super().post(request, *args, **kwargs)
 
     def test_func(self):
         return 'Worker' == self.request.user.role or 'Operator' == self.request.user.role
