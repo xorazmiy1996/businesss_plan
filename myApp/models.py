@@ -104,12 +104,12 @@ class User(AbstractUser, Base):
     phone_user = models.CharField(max_length=17)
     add_phone_user = models.CharField(max_length=17)
 
-    # objects = UserManager()
-    #
-    # class Meta(AbstractUser.Meta):
-    #     swappable = 'AUTH_USER_MODEL'
-    #     verbose_name = 'user3'
-    #     verbose_name_plural = 'users3'
+    objects = UserManager()
+
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
 
     def __str__(self):
         return self.get_username()
